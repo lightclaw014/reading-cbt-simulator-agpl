@@ -4,6 +4,19 @@ All notable changes to the IELTS Reading Simulator, newest first.
 Each version is also a **tag** on GitHub — open the repository's **"Tags"**
 page to view or restore any of them.
 
+## v0.14.1 — "A better prompt" — 2026-10-02
+
+### Changed
+- **The 🤖 Generate with AI prompt now teaches the AI every current feature**, so
+  a pasted reply loads cleanly. New: one field = one line of the file with `\n` for
+  a line break (and never `\n` in the passage); when to write `reusable: true`
+  (and that the default is false), with a classification example and a cue in
+  each word-bank section; passage formatting (`<b>`, `<u>` only); formatted
+  glossed words (`{{<b>word</b>|…}}`); the optional `E.` evidence line; and the
+  full label list (`title:`, `reusable:`, `display:`, `columns:`, `row:`, `E.`,
+  `H.`, `T.`). A self-check fails if the prompt ever stops mentioning a label the
+  parser reads.
+
 ## v0.14.0 — "Licence" — 2026-10-02
 
 ### Changed

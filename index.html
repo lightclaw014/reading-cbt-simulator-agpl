@@ -1611,7 +1611,7 @@ const DEFAULTS = { time: 20 }; // minutes, if a test omits it
 // results). Bump APP_VERSION with each release: tools/publish.py refuses to
 // publish if it differs from the newest version in CHANGELOG.md. The author's
 // mark is APP_WATERMARK; empty shows the version alone.
-const APP_VERSION = "0.14.0";
+const APP_VERSION = "0.14.1";
 const APP_WATERMARK = "lightclaw014";
 // Minutes a test runs for. 0 is a real answer — an untimed file, handed out as
 // class work or homework — so it can't go through `test.time || DEFAULTS`.
@@ -11020,16 +11020,31 @@ const AI_PROMPT_BASE = [
 "title: <OPTIONAL bold heading shown above the group's content — a flow chart, table,",
 "        notes, summary or diagram; omit it if the task has no heading>",
 "<question lines — see below>",
+"(Under any Q. line you may add  E. <the exact words from the passage that give the",
+"answer, copied word for word>  — optional, after the W. line. Never on an open question.)",
 "",
-"LINE BREAKS: in ANY text field (instructions, title, stems, options, steps, cells,",
-"summary, notes) write \\n where the text should break onto a new line. Everything",
-"stays on one line of the file. \\\\n keeps a literal backslash-n.",
+"LINE BREAKS: every field is ONE line of the file — never press Enter inside a field.",
+"To break a line INSIDE a text field (instructions, title, limit, a question, an option,",
+"a step, a table heading or cell, the summary, an H. or T. line, a W. note) write the",
+"two characters \\n where the text should break, e.g.",
+"  Q. Sam's flat is a ___ one\\nnear the station.",
+"Use it only where my text really has a line break. \\\\n keeps a literal backslash-n.",
+"In the PASSAGE, paragraphs are separated by a blank line — never use \\n there.",
 "",
-"reusable: true  — add this to a matching / labelling / summary_drag / flow_chart",
-"word-bank group when an option may be used more than once (classification and",
-"matching-features tasks: \"A, B or C — you may use any letter more than once\").",
-"Without it (the default, false) each option is used up once placed, so the key",
-"must use every letter at most once and there must be at least as many options as items.",
+"PASSAGE FORMATTING: plain text. The only markup allowed in the passage is <b>bold</b>",
+"and <u>underline</u>, exactly where my passage has bold or underlined words. No",
+"**asterisks**, no # headings, no other HTML.",
+"",
+"REUSABLE OPTIONS: matching, labelling, summary_drag and flow_chart (word-bank mode) take",
+"an optional line  reusable: true  directly under the type line. WITH it, one option can",
+"fill several slots: the same letter may repeat in the answers and there may be more",
+"items than options. WITHOUT it (the default, false) each option is used up once placed,",
+"so the answers must use each letter at most once and there must be at least as many",
+"options as items. DECIDE LIKE THIS: write  reusable: true  whenever the task says a",
+"letter/option may be used more than once (classification, \"which person / paragraph /",
+"category\", matching features), OR your answers repeat a letter, OR there are more items",
+"than options. Otherwise leave the line out. It does nothing with  display: dropdown  or",
+"with  input: type, so leave it out there.",
 "",
 '(Repeat "## Part 2", "## Part 3" for more passages. Question numbers are added',
 "automatically — do NOT number the questions yourself.)",
@@ -11107,6 +11122,21 @@ const AI_PROMPT_BASE = [
 "W. <reason>",
 '(Add a line "display: dropdown" under the type line for dropdowns instead of drag tiles.)',
 "",
+"Matching where letters repeat (classification: \"you may use any letter more than once\")",
+"  →  type is  matching  +  reusable: true",
+"reusable: true          (put this right under the type line)",
+"options:",
+"A. Bat",
+"B. Whale",
+"C. Mole",
+"",
+"Q. Uses echolocation in the air",
+"A. A",
+"Q. Lives underground",
+"A. C",
+"Q. Flies at night",
+"A. A               (the letter A is used twice — that is why reusable: true is needed)",
+"",
 "Summary completion (drag phrases into blanks)  →  type is  summary_drag",
 "options:",
 "A. <phrase>",
@@ -11117,6 +11147,8 @@ const AI_PROMPT_BASE = [
 "summary: <the summary paragraph; write ___ (three underscores) where each blank goes>",
 "answers: A | B | C     (one letter per blank, in order)",
 "IMPORTANT: the number of ___ blanks must equal the number of letters in answers.",
+"(If a phrase may fill more than one blank, or there are more blanks than options, add",
+' the line "reusable: true" under the type line.)',
 "",
 "Summary completion, TYPED (students type instead of dragging)  →  type is  summary_drag  +  input: type",
 "input: type            (put this right under the type line; do NOT add an options: block)",
@@ -11151,6 +11183,7 @@ const AI_PROMPT_BASE = [
 "at: 50, 40         (position on the image as percentages: left, top)",
 "A. A",
 "W. <reason>",
+'(If a label may be used for several points, or there are more points than labels, add "reusable: true" under the type line.)',
 "",
 "Diagram / map labelling, TYPED (students type the label instead of dragging)  →  type is  labelling  +  input: type",
 "input: type            (put this right under the type line; do NOT add an options: block)",
@@ -11171,6 +11204,7 @@ const AI_PROMPT_BASE = [
 "step: Next, ___ is carried up to the leaves.",
 "answers: A | B            (word-bank: one letter per blank; TYPED: accepted answers, alternatives with / , blanks split by | )",
 "IMPORTANT: the number of ___ blanks (across all steps) must equal the number of answers.",
+'(If a phrase may fill more than one blank, or there are more blanks than options, add "reusable: true" under the type line.)',
 "",
 "Open-ended (not graded)  →  type is  open",
 "Q. <a discussion / opinion question>",
@@ -11276,6 +11310,8 @@ function aiGlossBlock(mode, level){
       "  relies on — the passage wording that the question paraphrases or tests",
       "  (e.g. the passage says \"declined\", the question says \"fell\").",
     ]),
+    "- If a glossed word is bold or underlined in my passage, keep the <b> / <u> INSIDE the",
+    "  tag around the word: {{<b>declined</b>|giảm|became lower|key}}.",
     "- Tags go ONLY in the passage — never in questions, options, summaries or answers.",
   ].join("\n");
 }
@@ -11283,7 +11319,12 @@ function aiGlossBlock(mode, level){
 function aiRulesBlock(glossMode){
   return [
     "RULES:",
-    "- Keep the labels exactly: ### Questions:, instructions:, options:, summary:, answers:, Q., A., W., at:, limit:, count:, input:, step:, figure:",
+    "- Keep the labels exactly: ### Questions:, instructions:, title:, options:, summary:, answers:, Q., A., W., E., H., T., at:, limit:, count:, input:, reusable:, display:, step:, columns:, row:, figure:",
+    "- Every line inside a Questions block must start with one of those labels (or be an option",
+    "  line like \"A. text\" / \"A) text\", or blank). No comments, no notes, no extra text.",
+    "- Never press Enter inside a field: use \\n for a line break (see LINE BREAKS above).",
+    "- A group without reusable: true must not repeat a letter in its answers and must not have",
+    "  more items than options. If it would, add reusable: true.",
     "- Do not number the questions.",
     "- Pictures: write only the \"figure: <short name>\" line and nothing else — no image data,",
     "  no file path, no '## Assets' section. The test loads with a placeholder where the picture",
@@ -12170,6 +12211,24 @@ function selfCheckCases(){
     const plain = parseMarkdown(scMd("flow_chart", flow));
     asStudent(plain, ()=>{ if(RENDERERS.flow_chart(plain.parts[0].groups[0]).querySelector(".gtitle")) throw new Error("a heading appeared without a title:"); });
     if(testToMarkdown(plain).indexOf("title:") !== -1) throw new Error("an empty title was written out");
+  });
+
+  test("The AI prompt names every label the parser reads, and cues \\n and reusable", ()=>{
+    const p = buildAiPrompt({ glossList:true });
+    ["### Questions:", "strand:", "instructions:", "title:", "limit:", "count:", "options:", "reusable:", "display:", "input:", "figure:",
+     "summary:", "answers:", "columns:", "row:", "step:", "at:", "Q.", "A.", "W.", "E.", "H.", "T."].forEach(l=>{
+      if(p.indexOf(l) === -1) throw new Error("the prompt never mentions " + l);
+    });
+    if(p.indexOf("LINE BREAKS") === -1 || p.indexOf("\\n where the text should break") === -1) throw new Error("the line-break rule is missing");
+    if(p.indexOf("never press Enter inside a field") === -1) throw new Error("the one-line-per-field rule is missing");
+    if(p.indexOf("PASSAGE FORMATTING") === -1) throw new Error("the passage-formatting rule is missing");
+    if(p.indexOf("REUSABLE OPTIONS") === -1 || p.indexOf("the default, false") === -1) throw new Error("the reusable rule or its default is missing");
+    [["Matching where letters repeat", 500], ["Summary completion (drag", 700], ["Diagram labelling (only", 900], ["Flow-chart completion", 900]].forEach(([h, n])=>{
+      const at = p.indexOf(h);
+      if(at === -1) throw new Error("the prompt has no '" + h + "' section");
+      if(p.slice(at, at + n).indexOf("reusable") === -1) throw new Error("'" + h + "' does not mention reusable");
+    });
+    if(p.indexOf("{{<b>declined</b>") === -1) throw new Error("formatted glosses are not explained");
   });
 
   /* ---- bold / underline on glossed words ---- */
