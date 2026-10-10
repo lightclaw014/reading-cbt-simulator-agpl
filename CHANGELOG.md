@@ -4,6 +4,56 @@ All notable changes to the IELTS Reading Simulator, newest first.
 Each version is also a **tag** on GitHub — open the repository's **"Tags"**
 page to view or restore any of them.
 
+## v0.15.0 — "A calmer editor" — 2026-10-10
+
+### Added
+- **Autosaved drafts.** While a test is open in the editor, unsaved changes are
+  kept in this browser every few seconds and again as the tab closes. A line
+  beside ◀ Back says when ("Draft autosaved 09:14 · not exported yet"). Opening
+  the same test again opens the draft, under a banner with **Discard draft, open
+  the saved version**; the start screen lists every draft under **Unsaved
+  drafts**. 💾 Save to library and Export ▾ → Markdown are what make it saved.
+  Nothing is written until something actually changes, and the browser only
+  asks before you leave when a draft could not be stored.
+- **Question groups are blocks.** Each has a drag handle (an open group folds to
+  its heading as you pick it up), a visible bin, and — when closed — a **⚠** chip
+  counting the questions that still need an answer or carry an AI flag.
+- **+ Add question group** opens a window of the thirteen types as cards, sorted
+  by kind, each saying what the student does. It sits above the list (adds the
+  group first) and below it (adds it last).
+- **+ blank** under a summary, a flow-chart step and every table cell puts a gap
+  at the cursor. A gap added this way gets its own empty answer in the right
+  place, so the answers already set stay with their gaps.
+- **"Before you send it out" is a list of links.** A line that names a place
+  opens the part, the group and the question; so do the lines in the red panel
+  that stops a Preview or an Export. Each AI-flagged question has its own line,
+  and a `CHECK:` one has **Checked ✓** (there, and on an amber strip inside the
+  question), which removes the word and keeps the note. The list is no longer
+  cut at eight, each part's card counts what its questions still need, and
+  places read the way the editor shows them ("Part 2 · Q31 (Matching)").
+- **`title-align: center`** — one line near the top of a file centres every
+  passage title and sets it a size larger. In the editor it is the
+  **Left | Centre** switch at the end of the title box. Left writes nothing.
+
+### Changed
+- **The question editor says less.** Labels are a word or two ("Instructions",
+  "Word limit", "Answers") with the explanation as a tooltip; the italic hint
+  paragraphs are gone; the Title box is a **+ Title** link until a group has
+  one; the "Jump to" bar is gone, since the blocks list the groups already.
+- **Drawn icons** replace the emoji bins, picture buttons and drag handle in the
+  question editor, so they no longer come out pale on some systems.
+- **Table editor:** its size and blank count sit in one line above it with
+  **+ Column** and **+ Row**; column bins live inside the column's name box; a
+  wide table scrolls sideways in its own frame; each answer is labelled with its
+  real question number and its place ("Q26 · row 1, Frequency").
+
+### Fixed
+- **Opening a second test after viewing a part of the first copied the first
+  test's passage into Part 1 of the second.** The workbench is now cleared when
+  a test opens.
+- **`UNCONVERTED:` notes on open-ended questions were never listed** under
+  "Before you send it out" — the list looked in the wrong field.
+
 ## v0.14.1 — "A better prompt" — 2026-10-02
 
 ### Changed

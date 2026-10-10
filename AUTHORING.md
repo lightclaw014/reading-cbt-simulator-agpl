@@ -59,6 +59,7 @@ A. <answer>
 | `strand: listening` | before first `## Part` | Switches the test to the **listening** layout (default `reading`). See "Strands" below. |
 | `time: 0` | before first `## Part` | No time limit: no clock, and nothing submits itself. What **Class work / homework** sets when you export. |
 | `results: hidden` | before first `## Part` | Hides results from students (default is shown). On submit they see a confirmation + an answer code to send you; you still see full results via **View a student's answers** or a returned file. In the editor this is the **📊 Show results** checkbox. |
+| `title-align: center` | before first `## Part` | Centres every passage title and sets it a size larger, the way a printed paper does. Leave the line out for the usual left-aligned title (`centre` is read too; `left` is accepted and never written back). One setting for the whole test: in the editor it is the **Left | Centre** switch at the end of the title box when you edit a passage, and setting it on one part sets it for all. Not shown for a listening test, which has no passage on screen. |
 
 ### Strands — Reading vs Listening
 
@@ -267,7 +268,9 @@ A. chamber
 ```
 
 Any other group type accepts `title:` too and draws it the same way. In the
-visual editor it is the **Title** box on those five types.
+visual editor it is the **+ Title** link beside the picture button on those
+five types: click it and the Title box opens (a group that already has a title
+shows the box straight away).
 
 ### Reusable options (`reusable:`)
 
@@ -363,10 +366,19 @@ that begins with one of these two words when it isn't sure of itself:
   question types, so it became an ungraded `open` question instead.
 
 These aren't a format requirement — you'll never need to write them by hand —
-but if a test has any, its page lists them under "Before you send it out" with
-the question numbers, so a guessed answer doesn't quietly ship to a class.
-Check the question, then delete the word (and the colon) from the note: the
-rest of the note is what students see in the evidence window.
+but if a test has any, its page lists them under "Before you send it out", one
+line a question, so a guessed answer doesn't quietly ship to a class. Click a
+line to go to that question. For a `CHECK:` answer, read it against the
+passage and press **Checked ✓** (on the line, or on the amber strip inside the
+question): the word is removed and the rest of the note stays, because that is
+what students see in the evidence window. An `UNCONVERTED:` question has no
+such button — rewrite it as the right type, then delete the word from its note.
+
+Every other line in that list works the same way: one that names a place
+("Part 2 · Q31 (Matching): missing answer") is a link to it, and so are the
+lines in the red panel that stops a Preview or an Export. A part's card counts
+what its questions still need, and a closed group shows a **⚠** chip that opens
+it at the first problem.
 
 ### The `open` type — free-text, not IELTS-specific
 
@@ -734,6 +746,10 @@ Notes:
   lines; on export to Markdown it is flattened to a single `summary:` line.
 - In the visual editor, the number of answer selectors follows the number of
   `___` gaps you type automatically — you don't manage numbering by hand.
+  **+ blank** under the box puts a gap where the cursor is; a gap added that
+  way gets its own empty answer in the right place, and the answers you have
+  already set stay with their gaps. (A gap typed by hand ahead of the others
+  takes the last answer slot, so check the answers after it.)
 
 ### Questions: table_completion
 
@@ -782,10 +798,13 @@ Notes:
   headings break too). In the visual editor just press **Enter** — or
   Ctrl+Enter, Ctrl+Shift+Enter or Alt+Enter — inside the cell; the editor writes
   the `\n` for you.
-- In the visual editor you build the grid directly: add/remove columns and
-  rows, and **type `___` into a cell** wherever a blank should go — the accepted
-  answer boxes below follow the total blank count automatically. Numbering is
-  handled for you.
+- In the visual editor you build the grid directly: **+ Column** and **+ Row**
+  sit above the table beside its size ("3 columns × 2 rows · 5 blanks"), and
+  each column and row has its own bin. **Type `___` into a cell**, or click
+  **+ blank** under it, wherever a blank should go — the accepted answer boxes
+  below follow, each labelled with its question number and its place in the
+  table ("Q26 · row 1, Frequency"). Numbering is handled for you. **+ blank**
+  keeps the answers you have already set with their gaps, as in a summary.
 
 ### Questions: flow_chart
 
@@ -829,8 +848,9 @@ Notes:
   blank only).
 - Typed mode: `answers:` holds one accepted-answer entry per blank,
   alternatives within a blank separated by `/`; `reusable:` doesn't apply.
-- In the visual editor, steps have their own add/remove/reorder controls, and
-  the answer editors below follow the blank count automatically.
+- In the visual editor, steps have their own add/remove/reorder controls and a
+  **+ blank** under each step, and the answer editors below follow the blank
+  count automatically.
 
 ### Form vs Table completion — which to use
 
@@ -1121,6 +1141,7 @@ paragraphs and its question groups, and the pictures once at the end.
   "time": 20,
   "strand": "reading",             // or "listening"
   "showResults": true,
+  "titleAlign": "center",          // only when titles are centred; absent = left
   "parts": [
     {
       "label": "Part 1",           // the "## " heading
@@ -1310,6 +1331,27 @@ python tools/build_library.py
 That writes **`simulator.html`** — the app with every test in `library/tests`
 inside it. Open that file, and rerun the command whenever you add or change a
 test. `index.html` is never touched, and `simulator.html` isn't kept in git.
+
+### Autosaved drafts
+
+While a test is open in the editor, the app keeps a copy of your unsaved
+changes in this browser, every few seconds and again as you close the tab. A
+small line beside **◀ Back** says when: *Draft autosaved 09:14 · not exported
+yet*. Nothing is written until you actually change something.
+
+- **Open the same test again** — from your library, a file, or a paste — and it
+  opens as your draft, under a banner with **Discard draft, open the saved
+  version**.
+- **Unsaved drafts** on the start screen lists every draft, including a test
+  you built from scratch and never exported. **Open draft** carries on;
+  **Delete draft** throws it away.
+- **💾 Save to …** and **Export ▾ → Markdown** are what make it saved: the draft
+  is dropped, because a file now holds the same thing.
+- A draft lives in **this browser on this computer**. It is a safety net, not
+  the place to keep a test: clearing the browser's data removes it, and it does
+  not follow you to another machine. If the browser's storage is full (many
+  large pictures), the line reads **⚠ Not autosaved** and the browser asks
+  before you leave the page.
 
 ### Either way
 

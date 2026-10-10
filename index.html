@@ -174,6 +174,18 @@ body.previewing #results,body.reviewing #results{margin-top:38px}
   border:1px solid var(--line);border-radius:4px;background:#fafafa;color:var(--muted);cursor:pointer}
 .transcript-toggle:hover{background:#eef4fb;border-color:var(--accent);color:var(--ink)}
 .passage h3{margin:0 0 12px;font-size:18px}
+/* "title-align: center" (one setting for the whole test): the passage title is
+   centred and a size up, the way a printed paper sets it. The class sits on
+   the pane, so a passage restored from saved highlights follows it too. */
+.title-center .passage h3{text-align:center;font-size:21px;line-height:1.3;text-wrap:balance}
+.title-center .pe-title-input{text-align:center}
+/* Left | Centre, at the end of the title box it applies to. */
+.pe-title{display:flex;align-items:center;gap:8px}
+.pe-title .pe-title-input{flex:1 1 auto;min-width:0}
+.pe-align{flex:0 0 auto;display:flex;margin-right:8px;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.pe-align button{padding:4px 10px;border:0;background:#fafafa;color:var(--muted);font:inherit;font-size:12px;cursor:pointer}
+.pe-align button + button{border-left:1px solid var(--line)}
+.pe-align button.on{background:var(--accent);color:#fff;font-weight:bold}
 .passage p{margin:0 0 12px}
 mark.hl{background:var(--hl);color:inherit;cursor:pointer;border-radius:2px}
 mark.hl:hover{outline:1px solid rgba(0,0,0,.4)}
@@ -460,6 +472,33 @@ table.results tr.ev-row:focus-visible{outline:2px solid var(--accent);outline-of
   border-radius:0 4px 4px 0;margin-bottom:6px}
 .hub-check.bad{color:var(--danger);border-left-color:var(--danger)}
 .hub-check.ok{color:#1a7f37;border-left-color:#1a7f37}
+/* A line that names a place is a way to it; a reminder that names none is quieter. */
+.hub-check.has-go{display:flex;align-items:stretch;gap:8px;padding:0}
+.hub-check.note{background:transparent;border-left-color:transparent;font-style:italic}
+.hub-go{flex:1 1 auto;min-width:0;text-align:left;padding:5px 10px;border:0;background:transparent;color:inherit;font:inherit;cursor:pointer}
+.hub-go:hover,.hub-go:focus-visible{text-decoration:underline;background:#eef4fb;outline:none}
+.hub-go::after{content:" →";opacity:.6}
+.hub-done{flex:0 0 auto;align-self:center;margin-right:6px;padding:3px 9px;border:1px solid #1a7f37;border-radius:4px;
+  background:#fff;color:#1a7f37;font:inherit;font-size:12px;font-weight:bold;cursor:pointer;white-space:nowrap}
+.hub-done:hover{background:#1a7f37;color:#fff}
+.hub-h .hub-count{margin-left:6px;padding:1px 8px;border-radius:10px;background:var(--flag);color:#fff;font-size:12px}
+#editorErrpanel .hub-go,#hubErrpanel .hub-go{padding:1px 0;color:#611}
+/* The same flag inside a question, where the answer is being read anyway. */
+.eg-flag{display:flex;align-items:center;gap:8px;flex:1 1 100%;margin:0 0 6px;padding:6px 9px;font-size:13px;color:var(--ink);
+  background:#fff6e9;border:1px solid var(--flag);border-radius:5px}
+.eg-flag span{flex:1 1 auto}
+button.eg-issues{font:inherit;font-size:12px;font-weight:bold;cursor:pointer}
+button.eg-issues:hover{background:var(--flag);color:#fff}
+/* Autosaved drafts: the quiet status beside Back, and the banner over a restored one. */
+.draft-state{font-size:12px;color:var(--flag);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.draft-state:empty{display:none}
+.draft-state.failed{color:var(--danger);font-weight:bold}
+#hubDraftBanner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;padding:10px 12px;
+  font-size:13px;color:var(--ink);background:#eef4fb;border:1px solid var(--accent);border-radius:8px}
+#hubDraftBanner.hidden{display:none}
+#hubDraftBanner span{flex:1 1 260px}
+.card button.card-del{margin-top:0;padding:6px;background:transparent;color:var(--muted);border-color:var(--line)}
+.card button.card-del:hover{color:var(--danger);border-color:var(--danger)}
 .hub-card-tags{display:flex;flex-wrap:wrap;gap:6px;padding:0 6px}
 .hub-tag{font-size:12px;padding:1px 8px;border:1px solid var(--line);border-radius:10px;color:var(--muted);background:#fafafa}
 .hub-tag.on{border-color:var(--accent);color:var(--accent)}
@@ -745,10 +784,27 @@ mark.hl[data-note-id]{border-bottom:2px dotted rgba(0,0,0,.55)}
 .eg-group.open > .eg-head{padding:10px 14px;margin:0;border-bottom:1px solid #e6e6e6}
 .eg-group.open > :not(.eg-head):not(.eg-qlist){margin-left:14px;margin-right:14px}
 .eg-group.open > .eg-head + *{margin-top:12px}
-.eg-group.collapsed{border:0;padding:0;background:transparent;margin-bottom:8px}
-.eg-closed{display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;border:1px solid #d9d9d9;border-radius:8px;
-  background:#fff;color:var(--ink);text-align:left;font:inherit;cursor:pointer;min-width:0}
-.eg-closed:hover{border-color:var(--accent);background:#fafcff}
+.eg-group.collapsed{display:flex;align-items:center;gap:2px;padding:0 8px 0 4px;background:#fff;border-color:#d9d9d9;margin-bottom:8px}
+.eg-group.collapsed:hover{border-color:var(--accent);background:#fafcff}
+.eg-closed{display:flex;align-items:center;gap:10px;flex:1 1 auto;padding:11px 8px;border:0;
+  background:transparent;color:var(--ink);text-align:left;font:inherit;cursor:pointer;min-width:0}
+/* A block is moved by its handle only, so text inside it can still be selected. */
+.eg-handle{flex:0 0 auto;width:22px;height:30px;display:flex;align-items:center;justify-content:center;
+  color:#a9a9a9;font-size:15px;line-height:1;cursor:grab;border-radius:4px;user-select:none}
+.eg-handle:hover{color:var(--accent);background:#eef3f8}
+.eg-handle:active{cursor:grabbing}
+.eg-group.group-drag{opacity:.4}
+/* An open group folds to its heading the moment it is picked up, so the list
+   is short enough to see where it is going. */
+.eg-group.open.drag-folded > :not(.eg-head){display:none}
+.eg-group.open.drag-folded > .eg-head{border-bottom:0}
+.eg-group.drop-above{box-shadow:0 -3px 0 0 var(--accent)}
+.eg-group.drop-below{box-shadow:0 3px 0 0 var(--accent)}
+.eg-bin{flex:0 0 auto;width:30px;height:30px;padding:0;border:1px solid transparent;border-radius:5px;background:transparent;
+  color:var(--muted);font-size:14px;line-height:1;cursor:pointer}
+.eg-bin:hover{color:var(--danger);border-color:var(--danger);background:#fdecea}
+.eg-issues{flex:0 0 auto;font-size:12px;font-weight:bold;color:var(--flag);background:#fff6e9;border:1px solid var(--flag);
+  border-radius:10px;padding:1px 8px;white-space:nowrap}
 .eg-closed-chev{flex:0 0 auto;font-size:11px;color:var(--muted)}
 .eg-closed-type{flex:0 0 auto;font-weight:bold;font-size:14px;white-space:nowrap}
 .eg-closed-sum{flex:1 1 auto;min-width:0;font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -761,6 +817,24 @@ mark.hl[data-note-id]{border-bottom:2px dotted rgba(0,0,0,.55)}
   padding:6px 8px;border:1px solid var(--line);border-radius:4px;font-size:14px;font-family:inherit;
 }
 .eg-field.eg-inline{flex-direction:row;align-items:center;gap:6px}
+.eg-field.eg-short{max-width:340px}
+/* A label says what the field is; what it does is its tooltip, not more text. */
+.eg-field label[title],.eg-subhead[title]{cursor:help}
+/* Drawn icons (bin, picture, grip) in place of emoji: one weight, one colour. */
+.eg-ico{display:block;flex:0 0 auto}
+.fig-btn .eg-ico{display:inline-block;vertical-align:-3px;margin-right:6px}
+.eg-handle .eg-ico{width:14px;height:14px}
+/* "+ Title" and its like: a field that is rarely used stays a link until it is. */
+.eg-more{padding:4px 8px;border:0;border-radius:4px;background:transparent;color:var(--accent);font:inherit;font-size:13px;cursor:pointer}
+.eg-more:hover{background:#eef4fb;text-decoration:underline}
+.group-figure-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+/* A column's bin sits inside its name box; faint until the column is in use. */
+.eg-table th{position:relative}
+.eg-table th .eg-lines{padding-right:30px}
+.eg-table th .eg-bin{position:absolute;top:50%;right:8px;transform:translateY(-50%);width:24px;height:24px;opacity:.35}
+.eg-table th:hover .eg-bin,.eg-table th:focus-within .eg-bin,.eg-table tr:hover > td > .eg-bin,.eg-bin:focus-visible{opacity:1}
+.eg-table td > .eg-bin{opacity:.35}
+.eg-bin{display:flex;align-items:center;justify-content:center}
 .eg-hint{font-size:12px;color:var(--muted);font-style:italic;margin:2px 0 8px}
 .eg-row-inline{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
 .eg-options{border:1px dashed var(--line);border-radius:6px;padding:8px;margin-bottom:8px;background:#fff}
@@ -840,10 +914,37 @@ mark.hl[data-note-id]{border-bottom:2px dotted rgba(0,0,0,.55)}
 .eg-cell-blank{display:inline-block;font-weight:bold;color:var(--accent);font-size:13px;padding:2px 0}
 .eg-cell-toggle{display:flex;align-items:center;gap:3px;font-size:11px;color:var(--muted);margin-top:4px}
 .eg-subhead{font-weight:bold;font-size:13px;margin:12px 0 6px;color:var(--ink)}
+/* "+ blank" under a box that can hold gaps (summary, flow-chart step, table cell). */
+.eg-blank-add{display:block;margin:3px 0 0;padding:1px 5px;border:0;border-radius:3px;background:transparent;
+  color:var(--accent);font:inherit;font-size:12px;cursor:pointer}
+.eg-blank-add:hover{background:#eef4fb;text-decoration:underline}
+.eg-boxcol{flex:1 1 auto;min-width:0}
+.eg-boxcol textarea{display:block;width:100%;box-sizing:border-box}
+/* The table editor's heading line: what the table is, and the two ways to grow it. */
+.eg-table-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.eg-table-head b{font-size:13px}
+.eg-table-head .eg-table-size{font-size:12px;color:var(--muted)}
+.eg-table-head .eg-spacer{flex:1 1 auto}
+.eg-table-wrap{overflow-x:auto}
 .eg-blank-answers{border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-bottom:8px;background:#fff}
 .eg-blank-label{font-size:12px;font-weight:bold;color:var(--muted);margin-bottom:4px}
-.eg-addgroup{display:flex;gap:8px;align-items:center;justify-content:center;padding:14px;border:2px dashed var(--accent);border-radius:8px}
-.eg-addgroup select{padding:6px 8px;border:1px solid var(--line);border-radius:4px}
+.eg-addgroup{display:block;width:100%;padding:11px 14px;margin-bottom:10px;border:1px dashed var(--accent);border-radius:8px;
+  background:transparent;color:var(--accent);font:inherit;font-size:14px;font-weight:bold;cursor:pointer}
+.eg-addgroup:hover{background:#eef4fb}
+/* The "add a question group" window: the types as cards, sorted by kind. */
+.modal-overlay.add-group .modal-panel{width:min(680px,94vw);max-width:none}
+.ag-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:6px}
+.ag-head h3{margin:0;font-size:17px}
+.ag-head p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.ag-head .ag-close{margin-left:auto;flex:0 0 auto;width:30px;height:30px;padding:0;border:1px solid var(--line);border-radius:5px;
+  background:#fafafa;font-size:14px;line-height:1;cursor:pointer}
+.ag-cat{margin:16px 0 8px;font-size:12px;font-weight:bold;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ag-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+.ag-card{display:flex;flex-direction:column;gap:3px;text-align:left;padding:10px 12px;border:1px solid var(--line);border-radius:8px;
+  background:#fafafa;color:var(--ink);font:inherit;cursor:pointer}
+.ag-card:hover,.ag-card:focus-visible{border-color:var(--accent);background:#eef4fb;outline:none}
+.ag-card b{font-size:14px}
+.ag-card span{font-size:12.5px;color:var(--muted);line-height:1.35}
 .eg-diagram-edit{position:relative;display:inline-block;max-width:100%;margin-top:8px;cursor:crosshair}
 .eg-diagram-edit img{display:block;max-width:100%;height:auto;pointer-events:none}
 .eg-diagram-edit .eg-dot{
@@ -852,20 +953,7 @@ mark.hl[data-note-id]{border-bottom:2px dotted rgba(0,0,0,.55)}
   display:flex;align-items:center;justify-content:center;pointer-events:none;
 }
 .eg-diagram-edit .eg-dot.armed{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 0 0 3px rgba(58,110,165,.35)}
-/* ---- Edit-mode navigation: jump bar, collapse chevron, range badge ---- */
-.eg-jumpbar{
-  position:sticky;top:-18px;z-index:5;margin:-18px -22px 14px;padding:9px 22px;
-  background:var(--panel);border-bottom:1px solid var(--line);
-  display:flex;gap:6px;flex-wrap:nowrap;align-items:center;overflow-x:auto;scrollbar-width:thin;
-}
-.eg-jumpbar .eg-jump-label{font-size:12px;color:var(--muted);font-weight:bold;margin-right:2px;flex:0 0 auto}
-.eg-jump-chip{flex:0 0 auto}
-.eg-jump-chip.current{background:var(--accent);color:#fff;border-color:var(--accent)}
-.eg-jump-chip{
-  padding:3px 9px;border:1px solid var(--line);border-radius:12px;background:#fafafa;
-  font-size:12px;cursor:pointer;white-space:nowrap;
-}
-.eg-jump-chip:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+/* ---- Edit-mode navigation: collapse chevron, range badge ---- */
 .eg-chevron{
   flex:0 0 auto;width:24px;height:24px;padding:0;border:1px solid var(--line);border-radius:4px;
   background:#fff;font-size:11px;line-height:1;cursor:pointer;color:var(--muted);
@@ -1194,7 +1282,7 @@ tr.incorrect{background:#fdf3f2}
    ========================================================================== */
 /* Smooth out every interactive element's existing hover/state changes. */
 button, .tool-btn, .navnum, .card, .card button, .opt, .tile, .flag-btn,
-.eg-btn, .eg-jump-chip, .eg-chevron, #editorPartTabs button, .navpart-label,
+.eg-btn, .eg-chevron, #editorPartTabs button, .navpart-label,
 .match-select, .completion-input, .open-input, .title-edit, .time-edit input,
 .note-item, #hlMenu .hl-swatch, #hlMenu .hl-delete, #hlMenu .hl-note,
 #qnav button, .part-block, .tally-chip, .scorecard, .dropzone{
@@ -1203,7 +1291,7 @@ button, .tool-btn, .navnum, .card, .card button, .opt, .tile, .flag-btn,
 }
 /* Press-down feedback (tiles omitted — they're drag handles). */
 button:active, .navnum:active, .opt:active, .card button:active,
-.eg-btn:active, .eg-jump-chip:active, #qnav button:active, .tool-btn:active{
+.eg-btn:active, #qnav button:active, .tool-btn:active{
   transform:scale(.97);
 }
 /* Keyboard focus — previously invisible. Mouse clicks are unaffected. */
@@ -1286,7 +1374,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
   #namegate:not(.hidden) > .modal-panel{animation:none} /* appear without movement */
   .card:hover,.ai-gen-btn:hover{transform:none}
   button:active, .navnum:active, .opt:active, .card button:active,
-  .eg-btn:active, .eg-jump-chip:active, #qnav button:active, .tool-btn:active, .ai-gen-btn:active{transform:none}
+  .eg-btn:active, #qnav button:active, .tool-btn:active, .ai-gen-btn:active{transform:none}
 }
 
 /* ---- Responsive: stack panes below 820px ---- */
@@ -1331,6 +1419,11 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
 <div id="start">
   <h1>IELTS Reading Simulator</h1>
   <div class="sub">Computer-delivered reading practice — take a test, build your own, or review a student's work.</div>
+
+  <!-- Drafts the editor autosaved in this browser and that were never saved
+       to a file. Hidden when there are none. -->
+  <h2 class="start-section hidden" id="draftsSection">Unsaved drafts</h2>
+  <div class="cards" id="draftcards"></div>
 
   <!-- Your library: the tests in tests/, baked in by tools/build_library.py.
        Hidden when there are none (the tracked index.html has none). -->
@@ -1439,9 +1532,11 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
     <input class="title-edit" id="editorTitleInput" placeholder="Test title" title="Click to rename this test" spellcheck="false">
     <span class="title" id="editorSub"></span>
     <span class="spacer"></span>
+    <span class="draft-state" aria-live="polite"></span>
     <button class="tool-btn" id="editorBack" title="Back to the start screen / load a different test">◀ Back<span class="lbl-long"> / Load a different test</span></button>
   </div>
   <div class="hub-body">
+    <div id="hubDraftBanner" class="hidden"></div>
     <div class="hub-settings">
       <label class="time-edit" title="Time limit in minutes">⏱ <input id="editorTimeInput" type="number" min="1" max="600" step="1"> min</label>
       <label class="time-edit" title="Reading = passage on the left, questions on the right (two panes). Listening = single column, no passage pane (the passage becomes an optional hidden transcript).">🎧 <select id="editorStrandSelect"><option value="reading">Reading</option><option value="listening">Listening</option></select></label>
@@ -1475,6 +1570,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
       <button class="tool-btn" id="editorToHub" title="Back to this test's page">◀ Test overview</button>
       <span class="title" id="editorWhere"></span>
       <span class="spacer"></span>
+      <span class="draft-state" aria-live="polite"></span>
       <button class="tool-btn" id="editorGlossesToggle" title="Every gloss in this part's passage: check, edit or remove them, or add a list of words">📖 View glosses</button>
     </div>
   </div>
@@ -1611,7 +1707,7 @@ const DEFAULTS = { time: 20 }; // minutes, if a test omits it
 // results). Bump APP_VERSION with each release: tools/publish.py refuses to
 // publish if it differs from the newest version in CHANGELOG.md. The author's
 // mark is APP_WATERMARK; empty shows the version alone.
-const APP_VERSION = "0.14.1";
+const APP_VERSION = "0.15.0";
 const APP_WATERMARK = "lightclaw014";
 // Minutes a test runs for. 0 is a real answer — an untimed file, handed out as
 // class work or homework — so it can't go through `test.time || DEFAULTS`.
@@ -2160,6 +2256,12 @@ function parseMarkdown(src){
     // confirmation + answer code instead of the score/answers (the teacher still
     // sees full results). Useful for real tests/exams.
     if((m = line.match(/^results:\s*(shown|hidden|on|off)$/i)) && !part){ test.showResults = /^(shown|on)$/i.test(m[1]); continue; }
+    // Where every passage title sits: "left" (the default, never written) or
+    // "center"/"centre", which also sets it a size larger.
+    if((m = line.match(/^title-align:\s*(left|center|centre)$/i)) && !part){
+      if(/^cent/i.test(m[1])) test.titleAlign = "center"; else delete test.titleAlign;
+      continue;
+    }
 
     // --- Assets section (always last): the images every figure: refers to ---
     if(/^##\s+Assets\s*$/i.test(line)){
@@ -4132,7 +4234,216 @@ function setQuestionEdit(on){
 }
 let editorPassageSaveTimer = null; // debounced passage auto-save (see renderEditorPart)
 
-function showEditor(test){
+/* ---- Autosaved drafts ------------------------------------------------------
+   The open test lives in memory, so a closed tab used to take every edit with
+   it. Every few seconds (and as the page is hidden) the editor compares the
+   test with how it was when it was opened, or last saved to a file, and keeps
+   a copy in localStorage while the two differ:
+
+     ielts_sim_draft:<test id> → { v, id, title, file, savedAt, test }
+
+   Opening that test again opens the draft, under a banner that offers the
+   saved version instead. Saving to the library or exporting Markdown is what
+   makes a draft "saved": the copy is dropped. Nothing calls into this from the
+   editing code — it reads the model, so no edit path can forget to. -------- */
+const DRAFT_PREFIX = LS_PREFIX + "draft:";
+const DRAFT_EVERY_MS = 3000;
+const EditorDraft = { active:false, baseline:null, last:null, savedAt:0, failed:false, restored:null };
+
+// A student's file has no editor; the self-check must not leave drafts behind.
+function draftsOn(){ return !STANDALONE && !SELF_CHECK; }
+// The test without what the app works out for itself (numbering, totals):
+// those are filled in after loading, and must not read as an edit. A draft
+// opened later is numbered again by showEditor.
+function draftSnapshot(test){
+  const copy = libCleanTest(test);
+  delete copy.totalQuestions; delete copy.gradableTotal;
+  (copy.parts||[]).forEach(p=>{
+    // A hard-wrapped paragraph in a file becomes one line the first time the
+    // passage is shown in the editor (see serializeEditorPassages): same text.
+    p.paragraphs = (p.paragraphs||[]).map(t=> String(t).replace(/[ \t]*\r?\n[ \t]*/g, " "));
+    (p.groups||[]).forEach(g=>{
+      delete g.startN; delete g.endN;
+      (g.questions||[]).forEach(q=>{ delete q.n; });
+    });
+  });
+  return JSON.stringify(copy);
+}
+function draftRead(id){
+  try{
+    const d = JSON.parse(localStorage.getItem(DRAFT_PREFIX + id) || "null");
+    return (d && d.test && Array.isArray(d.test.parts)) ? d : null;
+  }catch(e){ return null; }
+}
+// `snap` is draftSnapshot(test), passed in so a large test is serialised once.
+function draftWrite(test, snap, savedAt){
+  const head = JSON.stringify({ v:1, id:test.id, title:test.title || "", file:(EditorState.source && EditorState.source.file) || "", savedAt:savedAt });
+  try{
+    localStorage.setItem(DRAFT_PREFIX + test.id, head.slice(0, -1) + ',"test":' + snap + "}");
+    return true;
+  }catch(e){ return false; } // storage full (pictures are large) or private mode
+}
+function draftRemove(id){ try{ localStorage.removeItem(DRAFT_PREFIX + id); }catch(e){} }
+function draftList(){
+  const out = [];
+  try{
+    for(let i = 0; i < localStorage.length; i++){
+      const key = localStorage.key(i);
+      if(!key || key.indexOf(DRAFT_PREFIX) !== 0) continue;
+      const d = draftRead(key.slice(DRAFT_PREFIX.length));
+      if(d) out.push(d);
+    }
+  }catch(e){}
+  return out.sort((a, b)=> (b.savedAt || 0) - (a.savedAt || 0));
+}
+// "09:14" today, "10 Oct, 09:14" on any other day.
+function draftTime(ms){
+  const d = new Date(ms), now = new Date();
+  const time = d.toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" });
+  return d.toDateString() === now.toDateString() ? time
+    : d.toLocaleDateString([], { day:"numeric", month:"short" }) + ", " + time;
+}
+function draftDirty(){ return EditorDraft.active && EditorDraft.last !== EditorDraft.baseline; }
+
+// Called at the end of showEditor. Returns true when it opened the test's
+// draft instead (by calling showEditor again), so the caller stops there.
+// opts.fresh skips the lookup; opts.draft says `test` is itself a draft.
+function draftAdopt(test, opts){
+  opts = opts || {};
+  EditorDraft.active = draftsOn();
+  EditorDraft.failed = false;
+  EditorDraft.restored = null;
+  EditorDraft.savedAt = 0;
+  EditorDraft.baseline = EditorDraft.last = EditorDraft.active ? draftSnapshot(test) : null;
+  if(!EditorDraft.active) return false;
+  if(opts.draft){
+    EditorDraft.baseline = opts.draft.baseline;
+    EditorDraft.savedAt = opts.draft.savedAt || 0;
+    if(opts.draft.original) EditorDraft.restored = { savedAt:EditorDraft.savedAt, original:opts.draft.original };
+  } else if(!opts.fresh){
+    const d = draftRead(test.id);
+    if(d){
+      const base = EditorDraft.baseline;
+      let mine = null;
+      if(JSON.stringify(d.test) !== base){
+        try{ mine = migrateTest(cloneTest(d.test)); }catch(e){ console.warn("[reading simulator] An autosaved draft could not be opened: " + (e.message || e)); }
+      }
+      if(mine){
+        showEditor(mine, { draft:{ savedAt:d.savedAt, baseline:base, original:test } });
+        return true;
+      }
+      draftRemove(test.id); // the same as the file, or unreadable: nothing to keep
+    }
+  }
+  return false;
+}
+// The timer, and the last thing done as the page is hidden (`flush`).
+function draftTick(flush){
+  const test = EditorState.test;
+  if(!EditorDraft.active || !test) return;
+  if(flush) serializeEditorPassages();
+  let snap;
+  try{ snap = draftSnapshot(test); }catch(e){ return; }
+  if(snap === EditorDraft.last && !EditorDraft.failed) return;
+  EditorDraft.last = snap;
+  if(snap === EditorDraft.baseline){
+    // Edited back to how the file has it: there is no draft any more.
+    draftRemove(test.id);
+    EditorDraft.savedAt = 0; EditorDraft.failed = false; EditorDraft.restored = null;
+  } else {
+    const at = Date.now();
+    EditorDraft.failed = !draftWrite(test, snap, at);
+    if(!EditorDraft.failed) EditorDraft.savedAt = at;
+  }
+  renderDraftState();
+}
+// The test on screen is now what a file holds (library save, Markdown export).
+function draftMarkSaved(){
+  const test = EditorState.test;
+  if(!EditorDraft.active || !test) return;
+  EditorDraft.baseline = EditorDraft.last = draftSnapshot(test);
+  EditorDraft.savedAt = 0; EditorDraft.failed = false; EditorDraft.restored = null;
+  draftRemove(test.id);
+  renderDraftState();
+}
+function draftDiscard(){
+  const r = EditorDraft.restored;
+  if(!r || !r.original) return;
+  confirmAction("Discard the draft autosaved at " + draftTime(r.savedAt) + " and open the saved version? The changes in the draft can't be brought back.", ()=>{
+    const src = EditorState.source;
+    draftRemove(EditorState.test.id);
+    showEditor(r.original, { fresh:true });
+    EditorState.source = src;
+    updateLibrarySaveButton();
+  });
+}
+function renderDraftState(){
+  const hasLib = !!(LibState.dir && !LibState.needsPermission);
+  let text = "", title = "";
+  if(EditorDraft.failed){
+    text = "⚠ Not autosaved";
+    title = "This browser's storage is full or switched off, so your changes are only in this tab. Use Export ▾ → Markdown to keep them.";
+  } else if(draftDirty() && EditorDraft.savedAt){
+    text = "Draft autosaved " + draftTime(EditorDraft.savedAt) + " · " + (hasLib ? "not saved to your library yet" : "not exported yet");
+    title = "Your changes are kept in this browser. " + (hasLib ? "💾 Save writes them to the file." : "Export ▾ → Markdown gives you a file to keep.");
+  }
+  document.querySelectorAll(".draft-state").forEach(el=>{
+    el.textContent = text; el.title = title;
+    el.classList.toggle("failed", EditorDraft.failed);
+  });
+  const banner = $("#hubDraftBanner");
+  const r = EditorDraft.restored;
+  banner.classList.toggle("hidden", !r);
+  banner.innerHTML = "";
+  if(!r) return;
+  const msg = document.createElement("span");
+  msg.textContent = "↺ This is your draft, autosaved at " + draftTime(r.savedAt) + ". It has changes that were never saved to a file.";
+  const btn = document.createElement("button");
+  btn.type = "button"; btn.className = "tool-btn"; btn.textContent = "Discard draft, open the saved version";
+  btn.onclick = draftDiscard;
+  banner.appendChild(msg); banner.appendChild(btn);
+}
+// Start screen: the drafts that were never saved, newest first.
+function renderDrafts(){
+  const head = $("#draftsSection"), wrap = $("#draftcards");
+  if(!head || !wrap) return;
+  const list = draftsOn() ? draftList() : [];
+  head.classList.toggle("hidden", !list.length);
+  wrap.innerHTML = "";
+  list.forEach(d=>{
+    const c = document.createElement("div");
+    c.className = "card";
+    c.innerHTML = "<h3></h3><div class='meta'></div>";
+    c.querySelector("h3").textContent = d.title || "Untitled test";
+    c.querySelector(".meta").textContent = "Autosaved " + draftTime(d.savedAt || 0) + " · never saved to a file";
+    if(d.file){ const f = document.createElement("div"); f.className = "card-file"; f.textContent = d.file; c.appendChild(f); }
+    const open = document.createElement("button");
+    open.textContent = "Open draft";
+    open.onclick = ()=> openDraft(d);
+    const del = document.createElement("button");
+    del.className = "card-del"; del.textContent = "Delete draft";
+    del.onclick = ()=> confirmAction("Delete the draft of “" + (d.title || "Untitled test") + "”? This can't be undone.", ()=>{ draftRemove(d.id); renderDrafts(); });
+    c.appendChild(open); c.appendChild(del);
+    wrap.appendChild(c);
+  });
+}
+function openDraft(d){
+  // A draft of a library file opens through that file, so 💾 Save writes back to it.
+  const item = d.file && LibState.tests.find(t=> t.file === d.file && t.test && t.test.id === d.id);
+  if(item){ openLibraryTest(item); return; }
+  let test;
+  try{ test = migrateTest(cloneTest(d.test)); }
+  catch(e){ showError("This draft could not be opened", e.message || String(e)); return; }
+  clearError();
+  sourceName = d.file || "";
+  showEditor(test, { draft:{ savedAt:d.savedAt, baseline:null } });
+}
+
+function showEditor(test, opts){
+  // The workbench still holds the last test's passage. Left there, the first
+  // serializeEditorPassages() below would write it into this test's Part 1.
+  $("#editorLeftpane").innerHTML = "";
+  $("#editorRightpane").innerHTML = "";
   // Glosses show in the editor and its preview. An export with Glosses off
   // marks its copy (glossesOff); a test coming back from one starts clean.
   (test.parts||[]).forEach(p=>{ delete p.glossesOff; delete p.glosses; });
@@ -4164,7 +4475,11 @@ function showEditor(test){
   $("#editorLeftpane").style.flexBasis = "50%";
   clearEditorError();
 
+  // The hub first: drawing it settles the test (numbering, defaults), and the
+  // draft's "as opened" copy has to be taken after that.
   showEditorHub();
+  if(draftAdopt(test, opts)) return; // it opened this test's autosaved draft instead
+  renderDraftState();
 }
 
 /* ---- The two screens: the test's page, and one part's workbench ----------
@@ -4194,6 +4509,119 @@ function openEditorPart(pi){
   $("#editorWhere").textContent = EditorState.test.title || "";
   renderEditorPart(pi);
 }
+/* ---- What needs the teacher before a test goes out -------------------------
+   One list, read by the test's page, the part cards, the group chips and the
+   panel that stops a Preview or an Export. An item is
+     { text, bad, note, target, flag, q }
+   bad = it blocks Preview/Export; note = a reminder with nothing to fix;
+   target = where it is, so a click can go there; flag/q = an AI-wizard note
+   (CHECK: / UNCONVERTED:) and the question that carries it.
+
+   validateTest() says where a problem is in words ("Part 2, group 3
+   (matching), Q2: …"), and import, the library and the self-check all rely on
+   that text, so the place is read back out of it here rather than changing
+   what the validator returns. A message naming no place is simply not a link. */
+const AI_FLAG_RE = /^(CHECK|UNCONVERTED):\s*/i;
+function aiFlag(q){ const m = String((q && (q.why || q.note)) || "").match(AI_FLAG_RE); return m ? m[1].toUpperCase() : null; }
+// "Checked": drop the word, keep the note — it is what students read as evidence.
+function clearAiFlag(q){
+  const key = AI_FLAG_RE.test(q.why || "") ? "why" : "note";
+  const rest = String(q[key] || "").replace(AI_FLAG_RE, "");
+  if(rest) q[key] = rest; else delete q[key];
+}
+function issueTarget(text, test){
+  if(/^Asset '/.test(text)) return { window:"pictures" };
+  const m = String(text).match(/\bPart (\d+)(?:, group (\d+) \([^)]*\))?(?:, Q(\d+))?/);
+  if(!m) return null;
+  const pi = +m[1] - 1, part = test && test.parts && test.parts[pi];
+  if(!part) return null;
+  const t = { pi };
+  if(m[2]){
+    const group = (part.groups || [])[+m[2] - 1];
+    if(!group) return t;
+    t.gi = +m[2] - 1;
+    if(m[3] && (group.questions || [])[+m[3] - 1]) t.qi = +m[3] - 1; // Q is counted within its group
+  } else if(/gloss\(es\)/.test(text)) t.window = "glosses";
+  else if(/has no passage text/.test(text)) t.passage = true;
+  return t;
+}
+function editorIssues(test){
+  let items = [];
+  try{
+    const v = validateTest(test);
+    items = v.errors.map(t=> ({ bad:true, text:t })).concat(v.warnings.map(t=> ({ text:t })));
+  }catch(e){ items = [{ bad:true, text:"This test could not be checked: " + (e.message || e) }]; }
+  items.forEach(it=>{ it.target = issueTarget(it.text, test); });
+
+  // A test converted or written by the AI wizard marks the answers it guessed
+  // rather than pretend to be sure — CHECK: where it worked one out itself,
+  // UNCONVERTED: where a pasted question fit no type. Not validateTest
+  // warnings, so they don't pop an alert on every load. One line a question,
+  // so each can be opened, and a checked one ticked off, by itself.
+  (test.parts || []).forEach((p, pi)=> (p.groups || []).forEach((g, gi)=> (g.questions || []).forEach((q, qi)=>{
+    const flag = aiFlag(q);
+    if(!flag) return;
+    const label = "Q" + (g.type === "mcq_multi" ? (g.startN + "–" + g.endN) : q.n);
+    items.push({ flag, q, target:{ pi, gi, qi }, text: label + " · " + (flag === "CHECK"
+      ? "the AI worked this answer out itself — check it against the passage"
+      : "this fitted no question type and became open-ended — rewrite it, then delete “UNCONVERTED:” from its note") });
+  })));
+
+  const open = (test.parts || []).reduce((n,p)=> n + (p.groups||[]).filter(g=> g.type === "open").length, 0);
+  if(open) items.push({ note:true, text: open + " written-answer group" + (open === 1 ? "" : "s") + " — not scored, you mark them yourself." });
+  if(test.showResults === false) items.push({ note:true, text: "Results are hidden: students get an answer code to send you instead of a score." });
+  return items;
+}
+// Go to where an issue is: the part, its questions in edit mode, the group
+// open and the question under the cursor — or the window that fixes it.
+function goToIssue(target){
+  const test = EditorState.test;
+  if(!target || !test) return;
+  clearEditorError();
+  if(target.window === "pictures" && target.pi == null){ openEditorWindow("pictures"); return; }
+  const part = test.parts[target.pi];
+  if(!part) return;
+  serializeEditorPassages();
+  const group = target.gi != null ? part.groups[target.gi] : null;
+  if(group){ EditorState.mode = "edit"; openGroup(group); }
+  openEditorPart(target.pi);
+  if(target.window === "glosses"){ openEditorWindow("glosses"); return; }
+  if(target.passage){ setPassageEdit(true); return; }
+  if(!group) return;
+  const q = target.qi != null ? group.questions[target.qi] : null;
+  const find = id=> document.querySelector('#editorRightpane [data-edit-id="' + CSS.escape(id) + '"]');
+  // Summary, table and flow-chart blanks have no row of their own: the group is the place.
+  const el = (q && find(q._editId)) || find(group._editId);
+  if(!el) return;
+  el.scrollIntoView({ block: el.classList.contains("eg-group") ? "start" : "center" });
+  const field = el.querySelector("textarea, input[type=text]");
+  if(field && q && el.dataset.editId === q._editId) field.focus({ preventScroll:true });
+}
+// The validator counts as a file does — "Part 2, group 5 (matching), Q1" is the
+// first question of the fifth group. On screen that question is Q31, so the
+// place is reworded the way the editor shows it: "Part 2 · Q31 (Matching)".
+function issueText(text, target){
+  const test = EditorState.test;
+  const part = target && target.gi != null && test && test.parts[target.pi];
+  const group = part && part.groups[target.gi];
+  if(!group) return text;
+  const q = target.qi != null ? group.questions[target.qi] : null;
+  const num = (q && q.n != null && group.type !== "mcq_multi") ? "Q" + q.n : groupRangeLabel(group);
+  return String(text).replace(/\bPart \d+, group \d+ \([^)]*\)(?:, Q\d+)?/,
+    (part.label || ("Part " + (target.pi + 1))) + " · " + num + " (" + typeLabel(group.type) + ")");
+}
+// One line of the list: a link when it names a place, plain text when not.
+function issueLine(text, target){
+  text = issueText(text, target);
+  if(!target){ const s = document.createElement("span"); s.textContent = text; return s; }
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "hub-go";
+  b.textContent = text;
+  b.title = "Go to it";
+  b.onclick = ()=> goToIssue(target);
+  return b;
+}
+
 // One card per part: what it holds, and the three things you do to a part
 // — open it, rename it, get rid of it. Dragging a card reorders the test.
 function renderEditorHub(){
@@ -4202,6 +4630,7 @@ function renderEditorHub(){
   const el = (tag, cls, text, parent)=>{ const e = document.createElement(tag); if(cls) e.className = cls; if(text!=null) e.textContent = text; if(parent) parent.appendChild(e); return e; };
   const host = $("#hubParts");
   host.innerHTML = "";
+  const issues = editorIssues(test);
   test.parts.forEach((part, pi)=>{
     const card = document.createElement("div");
     card.className = "hub-card";
@@ -4263,6 +4692,10 @@ function renderEditorHub(){
     if(part.figure && part.figure.id) el("li", null, "📷 A picture at the top", list);
     if(gm.items.length) el("li", null, "📖 " + gm.items.length + " gloss" + (gm.items.length === 1 ? "" : "es"), list);
     if(gm.broken) el("li", "warn", "⚠ " + gm.broken + " unfinished gloss" + (gm.broken === 1 ? "" : "es"), list);
+    // What the list below holds for this part's questions (glosses and a
+    // missing passage have their own lines above).
+    const toCheck = issues.filter(it=> it.target && it.target.pi === pi && it.target.gi != null).length;
+    if(toCheck) el("li", "warn", "⚠ " + toCheck + " to check in the questions", list);
 
     const bin = document.createElement("button");
     bin.type = "button"; bin.className = "hub-card-del"; bin.textContent = "🗑";
@@ -4290,62 +4723,37 @@ function renderEditorHub(){
     " · " + (test.strand === "listening" ? "Listening" : "Reading") +
     " · " + timedText(test);
 
-  // The things worth knowing before this goes out to a class. The validator
-  // already has most of them; the rest are reminders, not faults.
+  // The things worth knowing before this goes out to a class: what stops it
+  // (red), what to look at (amber), and reminders (quiet, last). All of them —
+  // a list cut at eight hid the ninth problem behind "…and 1 more".
   const checks = $("#hubChecks");
   checks.innerHTML = "";
-  let items = [];
-  try{
-    const v = validateTest(test);
-    items = v.errors.map(t=> ({ bad:true, text:t })).concat(v.warnings.map(t=> ({ text:t })));
-  }catch(e){ items = [{ bad:true, text:"This test could not be checked: " + (e.message || e) }]; }
-  const open = test.parts.reduce((n,p)=> n + (p.groups||[]).filter(g=> g.type === "open").length, 0);
-  if(open) items.push({ text: open + " written-answer group" + (open === 1 ? "" : "s") + " — not scored, you mark them yourself." });
-  if(test.showResults === false) items.push({ text: "Results are hidden: students get an answer code to send you instead of a score." });
-
-  // A test converted or written by the AI wizard marks the answers it guessed
-  // rather than pretend to be sure — CHECK: where it worked one out itself,
-  // UNCONVERTED: where a pasted question fit no type. A hub-only reminder
-  // (not a validateTest warning) so it doesn't pop an alert on every load.
-  const checkNs = [], unconvNs = [];
-  test.parts.forEach(p=> (p.groups||[]).forEach(g=>{
-    (g.questions||[]).forEach(q=>{
-      if(!q.why) return;
-      const label = g.type === "mcq_multi" ? (g.startN + "–" + g.endN) : String(q.n);
-      if(/^CHECK:/i.test(q.why)) checkNs.push(label);
-      else if(/^UNCONVERTED:/i.test(q.why)) unconvNs.push(label);
-    });
-  }));
-  if(checkNs.length) items.push({ text: "The AI worked out " + checkNs.length + " answer" + (checkNs.length === 1 ? "" : "s") +
-    " itself (Q" + checkNs.join(", Q") + "). Check " + (checkNs.length === 1 ? "it" : "them") +
-    ", then delete \"CHECK:\" from each note: students see these notes in the evidence window." });
-  if(unconvNs.length) items.push({ text: unconvNs.length + " question" + (unconvNs.length === 1 ? "" : "s") +
-    " didn't fit any type and became open-ended (Q" + unconvNs.join(", Q") + "). Rewrite " +
-    (unconvNs.length === 1 ? "it" : "them") + " as the right type, then delete \"UNCONVERTED:\" from the note." });
-
   const head = document.createElement("div");
   head.className = "hub-h";
   head.textContent = "Before you send it out";
+  const toFix = issues.filter(it=> !it.note).length;
+  if(toFix){ const n = document.createElement("span"); n.className = "hub-count"; n.textContent = toFix; head.appendChild(n); }
   checks.appendChild(head);
-  if(!items.length){
+  if(!toFix){
     const ok = document.createElement("div");
     ok.className = "hub-check ok";
     ok.textContent = "✓ Nothing to fix — every part has its passage, its questions and its answers.";
     checks.appendChild(ok);
-  } else {
-    items.slice(0, 8).forEach(it=>{
-      const row = document.createElement("div");
-      row.className = "hub-check" + (it.bad ? " bad" : "");
-      row.textContent = (it.bad ? "✕ " : "⚠ ") + it.text;
-      checks.appendChild(row);
-    });
-    if(items.length > 8){
-      const more = document.createElement("div");
-      more.className = "hub-check";
-      more.textContent = "…and " + (items.length - 8) + " more.";
-      checks.appendChild(more);
-    }
   }
+  issues.forEach(it=>{
+    const row = document.createElement("div");
+    row.className = "hub-check" + (it.bad ? " bad" : "") + (it.note ? " note" : "") + (it.target ? " has-go" : "");
+    row.appendChild(issueLine((it.note ? "" : it.bad ? "✕ " : "⚠ ") + it.text, it.target));
+    if(it.flag === "CHECK"){
+      const done = document.createElement("button");
+      done.type = "button"; done.className = "hub-done";
+      done.textContent = "Checked ✓";
+      done.title = "You have checked this answer: remove “CHECK:” and keep the rest of the note";
+      done.onclick = ()=>{ clearAiFlag(it.q); renderEditorHub(); };
+      row.appendChild(done);
+    }
+    checks.appendChild(row);
+  });
 }
 
 // Light the segment of the "Preview | Edit questions | Glosses" switch that
@@ -4405,8 +4813,8 @@ function movePartTo(from, to){
    dragging has no keyboard or touch equivalent. --------------------------- */
 let _partDrag = null;
 function clearDropHints(){
-  document.querySelectorAll(".drop-left, .drop-right")
-    .forEach(e=> e.classList.remove("drop-left", "drop-right"));
+  document.querySelectorAll(".drop-left, .drop-right, .drop-above, .drop-below")
+    .forEach(e=> e.classList.remove("drop-left", "drop-right", "drop-above", "drop-below"));
 }
 function wirePartCardDrag(card, pi){
   card.draggable = true;
@@ -4521,6 +4929,7 @@ function renderEditorPart(pi){
 
   // Part banner — same text format as the real test screen.
   updateEditorPartBanner(part, pi);
+  $("#editorLeftpane").classList.toggle("title-center", test.titleAlign === "center");
 
   // Left pane: passage (single contenteditable block with rich-text toolbar)
   const left = $("#editorLeftpane");
@@ -4613,6 +5022,38 @@ function renderEditorPart(pi){
     titleInput.placeholder = elistening ? "Track or recording, e.g. “CD1 Track 3”" : "Passage title";
     titleInput.setAttribute("aria-label", elistening ? "Title of this transcript" : "Title of this passage");
     titleWrap.appendChild(titleInput);
+    // Where the title sits, set beside the title itself. It is one setting for
+    // the whole test (a paper doesn't centre one passage's title and not the
+    // next), so the tooltip says so. Left is the absence of the setting. A
+    // listening test shows no passage, so it has no title to place.
+    if(!elistening){
+      const seg = document.createElement("div");
+      seg.className = "pe-align";
+      seg.setAttribute("role", "group");
+      seg.setAttribute("aria-label", "Passage title alignment");
+      const mk = (value, label, tip)=>{
+        const b = document.createElement("button");
+        b.type = "button"; b.textContent = label; b.title = tip;
+        b.onclick = ()=>{
+          if(value === "center") test.titleAlign = "center"; else delete test.titleAlign;
+          left.classList.toggle("title-center", value === "center");
+          draw();
+        };
+        seg.appendChild(b);
+        return { b, value };
+      };
+      const btns = [
+        mk("left", "Left", "Title on the left. Applies to every passage in this test."),
+        mk("center", "Centre", "Title centred and a size larger. Applies to every passage in this test.")
+      ];
+      const draw = ()=> btns.forEach(x=>{
+        const on = (test.titleAlign === "center") === (x.value === "center");
+        x.b.classList.toggle("on", on);
+        x.b.setAttribute("aria-pressed", String(on));
+      });
+      draw();
+      titleWrap.appendChild(seg);
+    }
     passageBox.appendChild(titleWrap);
   }
   if(editing) passageDiv.classList.add("pe-section");
@@ -6032,11 +6473,42 @@ function smallBtn(label, onClick, danger){
   return b;
 }
 function spacerEl(){ const s = document.createElement("span"); s.className = "eg-spacer"; return s; }
-function egField(labelText, inputEl){
+/* ---- Drawn icons ------------------------------------------------------------
+   Emoji draw differently on every system (the bin came out pale grey on
+   Windows, heavy on a Mac) and can't take a colour. These are inline SVG in
+   the text colour, so a hover or a "danger" state can tint them. ---------- */
+const EG_ICONS = {
+  bin: '<path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/>',
+  picture: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5L5 19"/>',
+  grip: '<g fill="currentColor" stroke="none"><circle cx="9" cy="5" r="1.7"/><circle cx="15" cy="5" r="1.7"/><circle cx="9" cy="12" r="1.7"/><circle cx="15" cy="12" r="1.7"/><circle cx="9" cy="19" r="1.7"/><circle cx="15" cy="19" r="1.7"/></g>'
+};
+function egIcon(name){
+  const t = document.createElement("template");
+  t.innerHTML = '<svg class="eg-ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + EG_ICONS[name] + "</svg>";
+  return t.content.firstChild;
+}
+// An icon-only bin. `label` is its tooltip and its name for a screen reader.
+function binBtn(label, onClick){
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "eg-bin";
+  b.title = label; b.setAttribute("aria-label", label);
+  b.appendChild(egIcon("bin"));
+  b.onclick = onClick;
+  return b;
+}
+// A picture button's label: the drawn icon, then the words.
+function figBtnLabel(btn, text){
+  btn.textContent = "";
+  btn.appendChild(egIcon("picture"));
+  btn.appendChild(document.createTextNode(String(text).replace(/^📷\s*/, "")));
+}
+// `tip` is the longer explanation, kept off the page as the label's tooltip.
+function egField(labelText, inputEl, tip){
   const wrap = document.createElement("div");
   wrap.className = "eg-field";
   const lbl = document.createElement("label");
   lbl.textContent = labelText;
+  if(tip){ lbl.title = tip; inputEl.title = inputEl.title || tip; }
   wrap.appendChild(lbl);
   wrap.appendChild(inputEl);
   return wrap;
@@ -6109,10 +6581,10 @@ function optionsEditor(options, onStructuralChange){
       letter.className = "eg-letter";
       letter.textContent = o.letter + ".";
       const text = lineInput(o.text, v=>{ o.text = v; });
-      const del = smallBtn("🗑", ()=>{
+      const del = binBtn("Remove this option", ()=>{
         options.splice(idx,1); relLetterOptions(options); build();
         onStructuralChange && onStructuralChange();
-      }, true);
+      });
       row.appendChild(letter); row.appendChild(text); row.appendChild(del);
       wrap.appendChild(row);
     });
@@ -6142,22 +6614,23 @@ function acceptedEditor(q){
       const input = document.createElement("input");
       input.type = "text"; input.value = val;
       input.oninput = ()=>{ q.accepted[idx] = input.value; };
-      const del = smallBtn("🗑", ()=>{
+      const del = binBtn("Remove this answer", ()=>{
         q.accepted.splice(idx,1);
         if(!q.accepted.length) q.accepted.push("");
         build();
-      }, true);
+      });
       row.appendChild(input); row.appendChild(del);
       wrap.appendChild(row);
     });
     const addBtn = document.createElement("button");
     addBtn.className = "eg-btn small";
-    addBtn.textContent = "+ Add alternative";
+    addBtn.textContent = "+ alternative";
+    addBtn.title = "Another answer that is also accepted";
     addBtn.onclick = ()=>{ q.accepted.push(""); build(); };
     wrap.appendChild(addBtn);
   }
   build();
-  return egField("Accepted answers (any one matches)", wrap);
+  return wrap;
 }
 
 /* ---- Compact question-row controls (edit mode) ----------------------------
@@ -6272,6 +6745,29 @@ function acceptedChips(q){
   };
   build();
   return wrap;
+}
+
+// A question the AI wizard flagged says so where its answer is read, with the
+// same "Checked" as the test's page. null when the question carries no flag.
+function aiFlagStrip(q){
+  const flag = aiFlag(q);
+  if(!flag) return null;
+  const strip = document.createElement("div");
+  strip.className = "eg-flag";
+  const msg = document.createElement("span");
+  msg.textContent = flag === "CHECK"
+    ? "⚠ The AI worked this answer out itself. Check it against the passage."
+    : "⚠ This fitted no question type, so it became open-ended. Rewrite it as the right type, then delete “UNCONVERTED:” from the note.";
+  strip.appendChild(msg);
+  if(flag === "CHECK"){
+    const done = document.createElement("button");
+    done.type = "button"; done.className = "hub-done";
+    done.textContent = "Checked ✓";
+    done.title = "Remove “CHECK:” and keep the rest of the note";
+    done.onclick = ()=>{ clearAiFlag(q); rerenderEdit(); };
+    strip.appendChild(done);
+  }
+  return strip;
 }
 
 // The evidence note (or an "open" question's marking note) as one line:
@@ -6411,7 +6907,8 @@ function renderQuestionEditor(q, qi, group, onArm, armed){
   num.textContent = q.n != null ? q.n : (qi+1);
   const stem = document.createElement("textarea");
   lineBox(stem, q.stem, v=>{ q.stem = v; });
-  stem.placeholder = "Question text";
+  stem.placeholder = isCompletionType(group.type) ? "Sentence, with ___ where the answer goes" : "Question text";
+  if(isCompletionType(group.type)) stem.title = "Type ___ (three underscores) where the answer box should appear. Leave it out and the box goes at the end.";
   stem.setAttribute("aria-label", "Question " + num.textContent);
   const last = group.questions.length - 1;
   const menuItems = [];
@@ -6424,6 +6921,8 @@ function renderQuestionEditor(q, qi, group, onArm, armed){
 
   const body = document.createElement("div");
   body.className = "eg-qbody";
+  const flagStrip = aiFlagStrip(q);
+  if(flagStrip) body.appendChild(flagStrip);
   if(group.type !== "open") body.appendChild(answerFieldFor(q, group, onArm, armed));
   body.appendChild(group.type === "open" ? evidenceLine(q, "note", "Marking note") : evidenceLine(q, "why", "Evidence"));
   box.appendChild(body);
@@ -6454,6 +6953,8 @@ function renderMcqMultiEditor(group){
   // Correct letters: toggles (several on), with a live "n of N chosen" count.
   const body = document.createElement("div");
   body.className = "eg-qbody";
+  const flagStrip = aiFlagStrip(q);
+  if(flagStrip) body.appendChild(flagStrip);
   const answer = document.createElement("div");
   answer.className = "eg-answer";
   const need = group.count || 2;
@@ -6549,6 +7050,59 @@ function syncNoteLayout(g){
   if(!g.layout.some(it=> it && (it.heading!==undefined || it.text!==undefined))) g.layout = undefined;
 }
 
+/* ---- "+ blank": put a gap at the caret, and its answer where it belongs ----
+   Typing ___ by hand works as it always has, but the answer keys only follow
+   the blanks by position: a new one typed before the others is given the slot
+   at the END, and every answer after it slides onto the wrong blank. A click
+   knows which blank is the new one, so its empty answer goes in at that place
+   and the rest stay with theirs.
+
+   `box` is the textarea; opts:
+     group    the group being edited
+     sync     the group's own "answers == blanks" guard (run first, so blanks
+              typed by hand a moment ago are counted before this one)
+     count    text -> how many blanks it holds (a table cell has \___ literals)
+     before   () -> blanks in the boxes ahead of this one, in reading order
+     make     () -> a new, empty answer for this group
+     key      names the box, so the caret can be put back after the redraw */
+function blankBoxCount(text){ const m = String(text).match(/_{3,}/g); return m ? m.length : 0; }
+function blankAddButton(box, opts){
+  box.dataset.blankBox = opts.key;
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "eg-blank-add";
+  b.textContent = "+ blank";
+  b.title = "Put a gap where the cursor is in this box (or at the end of it)";
+  b.onmousedown = e=> e.preventDefault(); // the box keeps its caret
+  b.onclick = ()=>{
+    const group = opts.group;
+    opts.sync(group);
+    const v = box.value;
+    // A box never clicked into has its caret at the end, so that is where it goes.
+    let from = box.selectionStart, to = box.selectionEnd;
+    // Inside an existing ___ the new one would cut it in two: go after it.
+    while(to < v.length && v[to] === "_" && to > 0 && v[to - 1] === "_") to++;
+    if(to > from && /^_+$/.test(v.slice(from, to))) from = to;
+    const head = v.slice(0, from), tail = v.slice(to);
+    const text = (head && !/\s$/.test(head) ? " " : "") + "___" + (tail && !/^[\s.,;:!?)]/.test(tail) ? " " : "");
+    const at = opts.before() + opts.count(head);
+    box.onblur = null;                       // one redraw, below, not two
+    box.setRangeText(text, from, to, "end");
+    const caret = box.selectionStart;
+    box.dispatchEvent(new Event("input"));   // the box's own handler updates the model
+    group.questions.splice(Math.min(at, group.questions.length), 0, opts.make());
+    opts.sync(group);
+    rerenderEdit();
+    const again = document.querySelector('#editorRightpane [data-edit-id="' + CSS.escape(group._editId) + '"] [data-blank-box="' + opts.key + '"]');
+    if(again){
+      again.focus({ preventScroll:true });
+      try{ again.setSelectionRange(caret, caret); }catch(e){}
+    }
+  };
+  return b;
+}
+// The label of one blank's answer: its real question number once numbered.
+function blankLabel(q, k){ return q && q.n != null ? "Q" + q.n : "Blank " + (k + 1); }
+
 // summary_drag has no per-question stems: one summary paragraph with ___ gaps,
 // a shared lettered option bank (edited by the generic options editor above),
 // and one answer letter per gap. The set of answer selectors is driven by the
@@ -6583,13 +7137,13 @@ function renderSummaryDragEditor(group){
 
   const ta = lineInput(group.summary, v=>{ group.summary = v; updateCount(); });
   ta.style.minHeight = "7.5em";
-  ta.placeholder = "Type the summary. Mark each gap with ___ (three underscores).";
+  ta.placeholder = "Type the summary, with ___ for each gap";
   const count = document.createElement("div");
   count.className = "eg-hint";
   function updateCount(){
     const found = (group.summary||"").match(/_{3,}/g);
     const n = found ? found.length : 0;
-    count.textContent = n + " blank" + (n===1?"":"s") + " detected — each ___ becomes a " + (typed ? "text box." : "drop zone.");
+    count.textContent = n + " blank" + (n===1?"":"s");
   }
   function blankCount(){ const f = (group.summary||"").match(/_{3,}/g); return f ? f.length : 0; }
   let blanksAtFocus = blankCount();
@@ -6597,7 +7151,12 @@ function renderSummaryDragEditor(group){
   // Only rebuild (to resync answer keys + numbering) when the number of blanks
   // actually changed — otherwise a plain typo fix would swallow the next click.
   ta.onblur = ()=>{ if(blankCount() !== blanksAtFocus) rerenderEdit(); };
-  holder.appendChild(egField("Summary text (use ___ for each blank)", ta));
+  const summaryField = egField("Summary", ta, "Mark each gap with ___ (three underscores), or click “+ blank”. Each becomes a " + (typed ? "text box." : "drop zone."));
+  summaryField.appendChild(blankAddButton(ta, {
+    group, key:"summary", sync:syncSummaryQuestions, count:blankBoxCount, before:()=> 0,
+    make:()=> typed ? { accepted:[""], _editId:newEditId() } : { answer:"", _editId:newEditId() }
+  }));
+  holder.appendChild(summaryField);
   holder.appendChild(count);
   updateCount();
 
@@ -6612,7 +7171,7 @@ function renderSummaryDragEditor(group){
       block.className = "eg-blank-answers";
       const lbl = document.createElement("div");
       lbl.className = "eg-blank-label";
-      lbl.textContent = "Blank " + (k + 1);
+      lbl.textContent = blankLabel(q, k);
       block.appendChild(lbl);
       block.appendChild(acceptedEditor(q));
       holder.appendChild(block);
@@ -6620,7 +7179,7 @@ function renderSummaryDragEditor(group){
   } else {
     const letters = (group.options||[]).map(o=>o.letter);
     group.questions.forEach((q, k)=>{
-      holder.appendChild(egField("Blank " + (k+1) + " — correct option",
+      holder.appendChild(egField(blankLabel(q, k) + " — correct option",
         selectInput([""].concat(letters), q.answer || "", v=>{ q.answer = v; })));
     });
   }
@@ -6635,10 +7194,28 @@ function renderTableCompletionEditor(group){
   syncTableQuestions(group); // guard: keeps group.questions length == blank count
   const holder = document.createElement("div");
 
-  const hint = document.createElement("div");
-  hint.className = "eg-hint";
-  hint.textContent = "Build the table. Type each cell's text and mark every gap students must fill with ___ (three underscores) — anywhere in the cell, as many as you like. Press Enter for a new line inside a cell. Set the accepted answers underneath.";
-  holder.appendChild(hint);
+
+  // What the table is, and the two ways to grow it, in one line above it.
+  const nb = tableBlankCount(group);
+  const plural = (n, word)=> n + " " + word + (n === 1 ? "" : "s");
+  const headLine = document.createElement("div");
+  headLine.className = "eg-table-head";
+  const headName = document.createElement("b"); headName.textContent = "Table";
+  headLine.title = "Type each cell's text. Mark a gap with ___ (three underscores) or “+ blank”: anywhere in a cell, as many as you like. Enter starts a new line inside a cell.";
+  const headSize = document.createElement("span");
+  headSize.className = "eg-table-size";
+  headSize.textContent = plural(group.columns.length, "column") + " × " + plural(group.rows.length, "row") + " · " + plural(nb, "blank");
+  headLine.appendChild(headName); headLine.appendChild(headSize); headLine.appendChild(spacerEl());
+  headLine.appendChild(smallBtn("+ Column", ()=>{
+    group.columns.push("");
+    group.rows.forEach(r=> r.push(toCell(""))); // new cells are plain text
+    rerenderEdit();
+  }));
+  headLine.appendChild(smallBtn("+ Row", ()=>{
+    group.rows.push(group.columns.map(()=> toCell("")));
+    rerenderEdit();
+  }));
+  holder.appendChild(headLine);
 
   const table = document.createElement("table");
   table.className = "eg-table";
@@ -6651,21 +7228,15 @@ function renderTableCompletionEditor(group){
     const inp = lineInput(col, v=>{ group.columns[ci] = v; });
     inp.placeholder = "Column name";
     th.appendChild(inp);
-    th.appendChild(smallBtn("🗑", ()=>{
+    th.appendChild(binBtn("Delete this column", ()=>{
       group.columns.splice(ci,1);
       group.rows.forEach(r=> r.splice(ci,1));
       syncTableQuestions(group); // any blanks in that column are gone
       rerenderEdit();
-    }, true));
+    }));
     htr.appendChild(th);
   });
-  const addColTh = document.createElement("th");
-  addColTh.appendChild(smallBtn("+ col", ()=>{
-    group.columns.push("");
-    group.rows.forEach(r=> r.push(toCell(""))); // new cells are plain text
-    rerenderEdit();
-  }));
-  htr.appendChild(addColTh);
+  htr.appendChild(document.createElement("th")); // above the rows' bins
   thead.appendChild(htr);
   table.appendChild(thead);
 
@@ -6684,7 +7255,7 @@ function renderTableCompletionEditor(group){
       // The file's text, but with a real line break where the file writes \n.
       inp.value = cellToText(cell).replace(/\\\\n|\\n/g, m=> m.length === 3 ? m : "\n");
       inp.rows = inp.value.split("\n").length;
-      inp.placeholder = "cell text (use ___ for a blank)";
+      inp.placeholder = "Cell text";
       const grow = ()=>{ inp.style.height = "auto"; inp.style.height = inp.scrollHeight + 2 + "px"; };
       requestAnimationFrame(grow);
       inp.onkeydown = e=>{
@@ -6705,44 +7276,45 @@ function renderTableCompletionEditor(group){
         if(/\s$/.test(inp.value)){ inp.value = inp.value.replace(/\s+$/, ""); group.rows[ri][ci] = stored(inp.value); grow(); }
         if(cellBlankCount(group.rows[ri][ci]) !== blanksAtFocus){ syncTableQuestions(group); rerenderEdit(); } };
       td.appendChild(inp);
+      td.appendChild(blankAddButton(inp, {
+        group, key:"cell" + ri + "-" + ci, sync:syncTableQuestions,
+        count:text=> cellBlankCount(stored(text)),
+        before:()=>{
+          let n = 0;
+          group.rows.forEach((r, rj)=> r.forEach((c, cj)=>{ if(rj < ri || (rj === ri && cj < ci)) n += cellBlankCount(c); }));
+          return n;
+        },
+        make:()=> Object.assign(blankQuestion("table_completion"), { _editId:newEditId() })
+      }));
       tr.appendChild(td);
     });
     const delTd = document.createElement("td");
-    delTd.appendChild(smallBtn("🗑", ()=>{
+    delTd.appendChild(binBtn("Delete this row", ()=>{
       group.rows.splice(ri, 1);
       syncTableQuestions(group);
       rerenderEdit();
-    }, true));
+    }));
     tr.appendChild(delTd);
     tbody.appendChild(tr);
   });
   table.appendChild(tbody);
-  holder.appendChild(table);
-
-  const addRowBar = document.createElement("div");
-  addRowBar.className = "eg-addbar";
-  addRowBar.appendChild(smallBtn("+ Add row", ()=>{
-    group.rows.push(group.columns.map(()=> toCell("")));
-    rerenderEdit();
-  }));
-  holder.appendChild(addRowBar);
+  // A wide table scrolls sideways in its own frame rather than widening the pane.
+  const tableWrap = document.createElement("div");
+  tableWrap.className = "eg-table-wrap";
+  tableWrap.appendChild(table);
+  holder.appendChild(tableWrap);
 
   // Accepted answers, one editor per blank in reading order.
-  const nb = tableBlankCount(group);
-  const count = document.createElement("div");
-  count.className = "eg-hint";
-  count.textContent = nb + " blank" + (nb===1?"":"s") + " detected — each ___ becomes a numbered answer box.";
-  holder.appendChild(count);
-
   if(nb === 0){
     const empty = document.createElement("div");
     empty.className = "eg-hint";
-    empty.textContent = "Type ___ in a cell above to add a fill-in question.";
+    empty.textContent = "Type ___ in a cell above, or click “+ blank” under it, to add a fill-in question.";
     holder.appendChild(empty);
   } else {
     const sub = document.createElement("div");
     sub.className = "eg-subhead";
-    sub.textContent = "Accepted answers (per blank)";
+    sub.textContent = "Answers";
+    sub.title = "Any one of a blank's answers is accepted. Add an alternative for another spelling or wording.";
     holder.appendChild(sub);
     let k = 0;
     group.rows.forEach((row, ri)=> row.forEach((cell, ci)=>{
@@ -6754,7 +7326,7 @@ function renderTableCompletionEditor(group){
         block.className = "eg-blank-answers";
         const lbl = document.createElement("div");
         lbl.className = "eg-blank-label";
-        lbl.textContent = "Blank " + (k + 1) + "  ·  row " + (ri + 1) + ", " + (group.columns[ci] || ("column " + (ci + 1)));
+        lbl.textContent = blankLabel(q, k) + "  ·  row " + (ri + 1) + ", " + (group.columns[ci] || ("column " + (ci + 1)));
         block.appendChild(lbl);
         block.appendChild(acceptedEditor(q));
         holder.appendChild(block);
@@ -6793,10 +7365,11 @@ function renderFlowChartEditor(group){
   modeRow.appendChild(modeLbl); modeRow.appendChild(modeSel);
   holder.appendChild(modeRow);
 
-  const hint = document.createElement("div");
-  hint.className = "eg-hint";
-  hint.textContent = "Each step is a box in the chain (joined by ↓). Mark a gap with ___ (three underscores) — each becomes a " + (typed ? "text box." : "drop zone.");
-  holder.appendChild(hint);
+  const stepsHead = document.createElement("div");
+  stepsHead.className = "eg-subhead";
+  stepsHead.textContent = "Steps";
+  stepsHead.title = "Each step is a box in the chain, joined by ↓. Mark a gap with ___ (three underscores) or click “+ blank”: each becomes a " + (typed ? "text box." : "drop zone.");
+  holder.appendChild(stepsHead);
 
   // Ordered step textareas. A blank-count change on blur resyncs answer keys.
   function blankCount(){ return flowBlankCount(group); }
@@ -6806,7 +7379,7 @@ function renderFlowChartEditor(group){
     row.className = "eg-flow-step";
     const ta = lineInput(step, v=>{ group.steps[si] = v; });
     ta.style.minHeight = "3.2em";
-    ta.placeholder = "Step text — use ___ for a blank";
+    ta.placeholder = "Step text, with ___ for a gap";
     let blanksAtFocus = blankCount();
     ta.onfocus = ()=>{ blanksAtFocus = blankCount(); };
     ta.onblur = ()=>{ if(blankCount() !== blanksAtFocus) rerenderEdit(); };
@@ -6816,12 +7389,20 @@ function renderFlowChartEditor(group){
     // slide doesn't apply here — just move and rerender.
     actions.appendChild(smallBtn("▲", ()=>{ moveInArray(group.steps, si, -1); rerenderEdit(); }));
     actions.appendChild(smallBtn("▼", ()=>{ moveInArray(group.steps, si, 1); rerenderEdit(); }));
-    actions.appendChild(smallBtn("🗑", ()=>{
+    actions.appendChild(binBtn("Delete this step", ()=>{
       group.steps.splice(si, 1);
       if(!group.steps.length) group.steps.push("");
       rerenderEdit();
-    }, true));
-    row.appendChild(ta); row.appendChild(actions);
+    }));
+    const col = document.createElement("div");
+    col.className = "eg-boxcol";
+    col.appendChild(ta);
+    col.appendChild(blankAddButton(ta, {
+      group, key:"step" + si, sync:syncFlowQuestions, count:blankBoxCount,
+      before:()=> (group.steps || []).slice(0, si).reduce((n, t)=> n + blankBoxCount(t), 0),
+      make:()=> typed ? { accepted:[""], _editId:newEditId() } : { answer:"", _editId:newEditId() }
+    }));
+    row.appendChild(col); row.appendChild(actions);
     stepsWrap.appendChild(row);
   });
   holder.appendChild(stepsWrap);
@@ -6841,14 +7422,15 @@ function renderFlowChartEditor(group){
   } else if(typed){
     const sub = document.createElement("div");
     sub.className = "eg-subhead";
-    sub.textContent = "Accepted answers (per blank)";
+    sub.textContent = "Answers";
+    sub.title = "Any one of a blank's answers is accepted. Add an alternative for another spelling or wording.";
     holder.appendChild(sub);
     group.questions.forEach((q, k)=>{
       const block = document.createElement("div");
       block.className = "eg-blank-answers";
       const lbl = document.createElement("div");
       lbl.className = "eg-blank-label";
-      lbl.textContent = "Blank " + (k + 1);
+      lbl.textContent = blankLabel(q, k);
       block.appendChild(lbl);
       block.appendChild(acceptedEditor(q));
       holder.appendChild(block);
@@ -6856,7 +7438,7 @@ function renderFlowChartEditor(group){
   } else {
     const letters = (group.options||[]).map(o=>o.letter);
     group.questions.forEach((q, k)=>{
-      holder.appendChild(egField("Blank " + (k+1) + " — correct option",
+      holder.appendChild(egField(blankLabel(q, k) + " — correct option",
         selectInput([""].concat(letters), q.answer || "", v=>{ q.answer = v; })));
     });
   }
@@ -7061,7 +7643,7 @@ function renderFigureField(owner, labelText, onChange, opts){
         btn.appendChild(document.createTextNode("Picture"));
         btn.title = "Picture: " + fig.id + (fig.caption ? " — " + fig.caption : "") + ". Click to change or remove it.";
       } else {
-        btn.textContent = fig ? "📷 Picture missing" : (opts.addLabel || "📷 Add picture");
+        figBtnLabel(btn, fig ? "Picture missing" : (opts.addLabel || "Add picture"));
         btn.title = fig
           ? "This part points at “" + fig.id + "”, which isn't in the test yet."
           : "A picture for this part: paste, drop or choose one";
@@ -7086,8 +7668,8 @@ function renderFigureField(owner, labelText, onChange, opts){
     const fig = owner.figure;
     const asset = fig && assetById(test, fig.id);
     // Colour alone shouldn't carry "this one is required", so the label says it.
-    btn.textContent = fig ? "📷 Change picture"
-                          : (opts.addLabel || "📷 Add picture") + (opts.required ? " — needed" : "");
+    figBtnLabel(btn, fig ? "Change picture"
+                         : (opts.addLabel || "Add picture") + (opts.required ? " — needed" : ""));
     btn.title = fig ? "Change or remove this picture" : "Paste, drop or choose a picture";
     btn.classList.toggle("need", !!opts.required && !fig);
     chipHost.innerHTML = "";
@@ -7270,14 +7852,196 @@ function pickExistingAsset(test, onPick){
 function isOpenGroup(group){ return EditorState.openGroupId === group._editId; }
 function openGroup(group){ EditorState.openGroupId = group._editId; EditorState.typeEditId = null; }
 
+/* ---- Dragging a group by its handle to reorder -----------------------------
+   The same idea as the part cards on the test's page (wirePartCardDrag), but
+   only the ⠿ handle starts a drag: a group is full of text boxes, and
+   dragging from anywhere would fight with selecting text in them. Any group
+   is a drop target; the line shows which side of it the block will land. -- */
+let _groupDrag = null;
+let _groupDragFolded = false; // the dragged group was open, and was folded for the drag
+let _groupDragMoved = false;  // the drop moved it (and so redrew the list)
+// Returns true when the group actually changed place (and the list was redrawn).
+function moveGroupTo(part, from, to){
+  if(from < 0 || from >= part.groups.length) return false;
+  to = Math.max(0, Math.min(part.groups.length - 1, to));
+  if(from === to) return false;
+  withFlipAnimation("#editorRightpane", ".eg-group", ()=>{
+    part.groups.splice(to, 0, part.groups.splice(from, 1)[0]);
+    rerenderEdit();
+  });
+  return true;
+}
+function wireGroupDrag(wrap, handle, gi, part){
+  handle.draggable = true;
+  handle.ondragstart = e=>{
+    _groupDrag = gi;
+    _groupDragMoved = false;
+    _groupDragFolded = wrap.classList.contains("open");
+    wrap.classList.add("group-drag");
+    e.dataTransfer.effectAllowed = "move";
+    try{ e.dataTransfer.setData("text/plain", String(gi)); }catch(err){ /* Firefox needs the call, not the value */ }
+    // An open group is dragged by its heading, not as a screen-tall picture of itself.
+    const ghost = (_groupDragFolded && wrap.querySelector(".eg-head")) || wrap;
+    try{ e.dataTransfer.setDragImage(ghost, 16, 16); }catch(err){ /* the handle alone is dragged instead */ }
+    if(_groupDragFolded){
+      // The group is closed for good (it stays closed where it lands), but the
+      // list is NOT redrawn here: replacing the element being dragged ends the
+      // drag. It is folded with a class, a moment later, once the browser has
+      // taken its picture of the heading.
+      EditorState.openGroupId = null;
+      setTimeout(()=> wrap.classList.add("drag-folded"), 0);
+    }
+  };
+  handle.ondragend = ()=>{
+    wrap.classList.remove("group-drag");
+    clearDropHints();
+    _groupDrag = null;
+    // Dropped where it started, or let go outside the list: nothing redrew, so
+    // draw the folded group as the closed block it now is.
+    if(_groupDragFolded && !_groupDragMoved) rerenderEdit();
+    _groupDragFolded = false;
+  };
+  const below = e=>{ const r = wrap.getBoundingClientRect(); return e.clientY > r.top + r.height / 2; };
+  wrap.ondragover = e=>{
+    if(_groupDrag === null || _groupDrag === gi) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    clearDropHints();
+    wrap.classList.add(below(e) ? "drop-below" : "drop-above");
+  };
+  wrap.ondragleave = e=>{ if(!wrap.contains(e.relatedTarget)) wrap.classList.remove("drop-above", "drop-below"); };
+  wrap.ondrop = e=>{
+    if(_groupDrag === null) return;
+    e.preventDefault();
+    let to = gi + (below(e) ? 1 : 0);
+    if(_groupDrag < to) to--;
+    const from = _groupDrag;
+    _groupDrag = null;
+    clearDropHints();
+    _groupDragMoved = moveGroupTo(part, from, to);
+  };
+}
+
+// What still needs the teacher's eye in one group, a line each: questions
+// with no answer yet, and the notes the AI wizard marked CHECK: / UNCONVERTED:.
+function groupIssues(group){
+  const out = [];
+  (group.questions||[]).forEach((q, qi)=>{
+    const label = "Q" + (group.type === "mcq_multi" ? (group.startN + "–" + group.endN) : (q.n != null ? q.n : qi + 1));
+    if(group.type !== "open"){
+      const empty = q.accepted ? !q.accepted.some(a=> String(a||"").trim())
+        : Array.isArray(q.answer) ? q.answer.length !== (group.count || q.answer.length || 1)
+        : !q.answer;
+      if(empty) out.push({ q, text: label + ": no answer yet" });
+    }
+    const flag = aiFlag(q);
+    if(flag) out.push({ q, text: label + ": the AI marked this " + flag });
+  });
+  return out;
+}
+
+/* ---- "+ Add question group": the types as cards, sorted by kind -----------
+   Thirteen types in one dropdown read as a list of names; here each says what
+   the student does. `at` is where the new group goes in part.groups. ------- */
+const GROUP_PICKER = [
+  { name:"Choice", types:[
+    ["mcq", "One question, four options, one correct answer."],
+    ["mcq_multi", "One shared list of options; students choose two or more letters."] ]},
+  { name:"True / False", types:[
+    ["tfng", "Does each statement agree with the facts in the passage?"],
+    ["ynng", "Does each statement agree with the writer's views or claims?"] ]},
+  { name:"Matching", types:[
+    ["matching", "Match each item to a lettered option — headings, paragraphs, people, features. Tiles to drag, or a dropdown."] ]},
+  { name:"Completion", types:[
+    ["completion", "Sentences with a gap; students type words from the passage."],
+    ["summary_drag", "A paragraph with gaps, filled from a word bank or by typing."],
+    ["note", "Notes with headings, plain lines and typed gaps."],
+    ["form", "A form: each field's label with a typed answer under it."],
+    ["table_completion", "A table with typed gaps anywhere in its cells."],
+    ["flow_chart", "A chain of steps with gaps, from a word bank or typed."] ]},
+  { name:"Diagram", types:[
+    ["labelling", "Answer boxes placed on a picture — a diagram, map or plan."] ]},
+  { name:"Written", types:[
+    ["open", "A free-text answer. Not scored: you mark it yourself."] ]}
+];
+function openAddGroupDialog(part, at){
+  const overlay = document.createElement("div");
+  overlay.className = "modal-overlay asset-picker add-group";
+  const panel = document.createElement("div");
+  panel.className = "modal-panel";
+  panel.setAttribute("role", "dialog"); panel.setAttribute("aria-label", "Add a question group");
+  overlay.appendChild(panel);
+  const onKey = e=>{ if(e.key === "Escape"){ e.stopPropagation(); close(); } };
+  const close = ()=>{ document.removeEventListener("keydown", onKey, true); closeOverlay(overlay); };
+
+  const head = document.createElement("div");
+  head.className = "ag-head";
+  head.innerHTML = "<div><h3>Add a question group</h3><p>Choose the kind of question. You can change it later.</p></div>";
+  const x = document.createElement("button");
+  x.type = "button"; x.className = "ag-close"; x.textContent = "✕"; x.setAttribute("aria-label", "Close");
+  x.onclick = close;
+  head.appendChild(x);
+  panel.appendChild(head);
+
+  const listed = new Set();
+  const section = (name, types)=>{
+    const cat = document.createElement("div");
+    cat.className = "ag-cat"; cat.textContent = name;
+    panel.appendChild(cat);
+    const grid = document.createElement("div");
+    grid.className = "ag-grid";
+    types.forEach(pair=>{
+      const type = pair[0];
+      listed.add(type);
+      const card = document.createElement("button");
+      card.type = "button"; card.className = "ag-card";
+      const b = document.createElement("b"); b.textContent = typeLabel(type);
+      const d = document.createElement("span"); d.textContent = pair[1];
+      card.appendChild(b); card.appendChild(d);
+      card.onclick = ()=>{
+        close();
+        const g = blankGroup(type);
+        part.groups.splice(Math.max(0, Math.min(part.groups.length, at)), 0, g);
+        ensureEditIds(EditorState.test);
+        openGroup(g); // the new group opens (and the others close)
+        rerenderEdit();
+        focusEditId(g._editId); // jump to the new group's first field
+      };
+      grid.appendChild(card);
+    });
+    panel.appendChild(grid);
+  };
+  GROUP_PICKER.forEach(c=> section(c.name, c.types.filter(p=> RENDERERS[p[0]])));
+  // A type added later and not yet sorted into a kind is still offered.
+  const rest = Object.keys(RENDERERS).filter(t=> !listed.has(t)).map(t=> [t, ""]);
+  if(rest.length) section("Other", rest);
+
+  overlay.addEventListener("mousedown", e=>{ if(e.target === overlay) close(); });
+  document.addEventListener("keydown", onKey, true);
+  document.body.appendChild(overlay);
+  const first = panel.querySelector(".ag-card");
+  if(first) first.focus();
+}
+
 function renderGroupEditor(group, gi, part){
   const wrap = document.createElement("div");
   const open = isOpenGroup(group);
   wrap.className = "eg-group" + (open ? " open" : " collapsed");
   wrap.dataset.editId = group._editId;
 
-  // Closed: one clickable summary line — "Q6–8 · Matching · 3 questions · B, A, C".
+  const handle = document.createElement("span");
+  handle.className = "eg-handle";
+  handle.appendChild(egIcon("grip"));
+  handle.title = "Drag to move this group";
+  handle.setAttribute("aria-hidden", "true"); // keyboard: Move up / down in the ⋯ menu
+  wireGroupDrag(wrap, handle, gi, part);
+  const bin = binBtn("Delete this group and all its questions", ()=> confirmAction("Delete this entire question group and all its questions? This can't be undone.",
+    ()=>{ part.groups.splice(gi,1); rerenderEdit(); }));
+
+  // Closed: a block — handle, then one clickable summary line
+  // ("Q6–8 · Matching · 3 questions · B, A, C"), then the bin.
   if(!open){
+    wrap.appendChild(handle);
     const row = document.createElement("button");
     row.type = "button";
     row.className = "eg-closed";
@@ -7289,11 +8053,26 @@ function renderGroupEditor(group, gi, part){
     row.appendChild(chev); row.appendChild(range); row.appendChild(type); row.appendChild(sum);
     row.onclick = ()=>{ openGroup(group); rerenderEdit(); scrollToEditId(group._editId); };
     wrap.appendChild(row);
+    const issues = groupIssues(group);
+    if(issues.length){
+      const chip = document.createElement("button");
+      chip.type = "button"; chip.className = "eg-issues";
+      chip.textContent = "⚠ " + issues.length;
+      chip.title = issues.map(i=> i.text).join("\n") + "\nClick to open the first one.";
+      chip.onclick = ()=>{
+        openGroup(group); rerenderEdit();
+        const row = document.querySelector('#editorRightpane [data-edit-id="' + CSS.escape(issues[0].q._editId) + '"]');
+        if(row) focusEditId(issues[0].q._editId); else scrollToEditId(group._editId);
+      };
+      wrap.appendChild(chip);
+    }
+    wrap.appendChild(bin);
     return wrap;
   }
 
   const head = document.createElement("div");
   head.className = "eg-head";
+  head.appendChild(handle);
   const chevron = document.createElement("button");
   chevron.className = "eg-chevron";
   chevron.textContent = "▼";
@@ -7345,9 +8124,8 @@ function renderGroupEditor(group, gi, part){
   if(gi > 0) gItems.push({ label:"Move group up", act:()=> withFlipAnimation("#editorRightpane", ".eg-group", ()=>{ moveInArray(part.groups, gi, -1); rerenderEdit(); }) });
   if(gi < part.groups.length - 1) gItems.push({ label:"Move group down", act:()=> withFlipAnimation("#editorRightpane", ".eg-group", ()=>{ moveInArray(part.groups, gi, 1); rerenderEdit(); }) });
   gItems.push({ label:"Change question type…", act:()=>{ EditorState.typeEditId = group._editId; rerenderEdit(); } });
-  gItems.push({ label:"Delete group", danger:true, act:()=>
-    confirmAction("Delete this entire question group and all its questions? This can't be undone.", ()=>{ part.groups.splice(gi,1); rerenderEdit(); }) });
   head.appendChild(egMenu(gItems, "Group options"));
+  head.appendChild(bin);
   wrap.appendChild(head);
 
   // Transient "answer keys were reset" notice — only on the group whose type
@@ -7361,26 +8139,33 @@ function renderGroupEditor(group, gi, part){
     setTimeout(()=>{ hint.remove(); if(EditorState._typeChangedId===group._editId) EditorState._typeChangedId=null; }, 6000);
   }
 
-  wrap.appendChild(egField("Instructions (shown to students above the questions)", lineInput(group.instructions, v=>{ group.instructions=v; })));
-  if(["flow_chart","table_completion","note","summary_drag","labelling"].includes(group.type)){
-    wrap.appendChild(egField("Title (optional bold heading above the content)", lineInput(group.title, v=>{ group.title = v.trim() ? v : undefined; })));
+  wrap.appendChild(egField("Instructions", lineInput(group.instructions, v=>{ group.instructions=v; }),
+    "Shown to students above the questions"));
+  // A title is the exception, so it is a "+ Title" link (beside the picture
+  // button, below) until a group has one or the teacher asks for the box.
+  const canTitle = ["flow_chart","table_completion","note","summary_drag","labelling"].includes(group.type);
+  const titleShown = canTitle && (!!group.title || EditorState.titleOpenId === group._editId);
+  if(titleShown){
+    const titleBox = lineInput(group.title, v=>{ group.title = v.trim() ? v : undefined; });
+    titleBox.dataset.titleBox = "1";
+    wrap.appendChild(egField("Title", titleBox, "An optional bold heading above the " +
+      ({ flow_chart:"flow chart", table_completion:"table", note:"notes", summary_drag:"summary", labelling:"diagram" })[group.type]));
   }
 
   if(isCompletionType(group.type) || group.type === "table_completion" || isTypedMode(group)){
-    wrap.appendChild(egField('Word limit (shown to student, e.g. "NO MORE THAN TWO WORDS")', lineInput(group.limit, v=>{ group.limit=v; })));
-  }
-  if(isCompletionType(group.type)){
-    const tip = document.createElement("div");
-    tip.className = "eg-hint";
-    tip.textContent = "In each sentence, type ______ (three or more underscores) where the answer box should appear. Leave it out and the box goes at the end. The word limit above applies to every blank.";
-    wrap.appendChild(tip);
+    const limitBox = lineInput(group.limit, v=>{ group.limit=v; });
+    limitBox.placeholder = "e.g. NO MORE THAN TWO WORDS";
+    const limitField = egField("Word limit", limitBox, "Shown to students, and applied to every blank when marking");
+    limitField.classList.add("eg-short");
+    wrap.appendChild(limitField);
   }
   if(group.type === "matching"){
     const reusableRow = document.createElement("div");
     reusableRow.className = "eg-field eg-inline";
     const cb = document.createElement("input"); cb.type="checkbox"; cb.checked = !!group.reusable;
     cb.onchange = ()=>{ group.reusable = cb.checked; };
-    const clbl = document.createElement("label"); clbl.textContent = "Reusable (a placed tile stays available in the bank)";
+    const clbl = document.createElement("label"); clbl.textContent = "Options can be used more than once";
+    clbl.title = cb.title = "On: a placed tile stays in the bank, so the same letter can answer several questions";
     reusableRow.appendChild(cb); reusableRow.appendChild(clbl);
     wrap.appendChild(reusableRow);
 
@@ -7388,7 +8173,8 @@ function renderGroupEditor(group, gi, part){
     dispRow.className = "eg-field eg-inline";
     const dcb = document.createElement("input"); dcb.type="checkbox"; dcb.checked = group.display==="dropdown";
     dcb.onchange = ()=>{ group.display = dcb.checked ? "dropdown" : undefined; };
-    const dlbl = document.createElement("label"); dlbl.textContent = "Render as a dropdown instead of drag-and-drop tiles";
+    const dlbl = document.createElement("label"); dlbl.textContent = "Show as a dropdown";
+    dlbl.title = dcb.title = "Each question gets a dropdown list instead of tiles to drag";
     dispRow.appendChild(dcb); dispRow.appendChild(dlbl);
     wrap.appendChild(dispRow);
   }
@@ -7400,7 +8186,8 @@ function renderGroupEditor(group, gi, part){
     reusableRow.className = "eg-field eg-inline";
     const cb = document.createElement("input"); cb.type="checkbox"; cb.checked = !!group.reusable;
     cb.onchange = ()=>{ group.reusable = cb.checked; };
-    const clbl = document.createElement("label"); clbl.textContent = "Reusable (a dragged phrase stays available for other blanks)";
+    const clbl = document.createElement("label"); clbl.textContent = "Options can be used more than once";
+    clbl.title = cb.title = "On: a dragged phrase stays in the bank, so it can fill several blanks";
     reusableRow.appendChild(cb); reusableRow.appendChild(clbl);
     wrap.appendChild(reusableRow);
   }
@@ -7449,6 +8236,19 @@ function renderGroupEditor(group, gi, part){
   }, isLabelling
     ? { addLabel:"📷 Add the diagram", required:true, hint:"The answer boxes are placed on this picture." }
     : { hint:"Shown between the instructions and the questions." }));
+  if(canTitle && !titleShown){
+    const more = document.createElement("button");
+    more.type = "button"; more.className = "eg-more";
+    more.textContent = "+ Title";
+    more.title = "Add a bold heading above this group's content";
+    more.onclick = ()=>{
+      EditorState.titleOpenId = group._editId;
+      rerenderEdit();
+      const box = document.querySelector('#editorRightpane [data-edit-id="' + CSS.escape(group._editId) + '"] [data-title-box]');
+      if(box) box.focus();
+    };
+    figRow.appendChild(more);
+  }
   wrap.appendChild(figRow);
   if(group.type === "labelling") wrap.appendChild(diagramHolder);
 
@@ -7583,56 +8383,22 @@ function renderEditorRightEdit(pi){
     EditorState.openGroupId = part.groups.length ? part.groups[0]._editId : null;
   }
 
-  // Jump bar: one sticky row of chips (scrolls sideways), one per group.
-  // A chip opens that group and scrolls to it; the open group's chip is lit.
-  if(part.groups.length > 1){
-    const nav = document.createElement("div");
-    nav.className = "eg-jumpbar";
-    const lbl = document.createElement("span");
-    lbl.className = "eg-jump-label";
-    lbl.textContent = "Jump to";
-    nav.appendChild(lbl);
-    part.groups.forEach(group=>{
-      const chip = document.createElement("button");
-      chip.className = "eg-jump-chip" + (isOpenGroup(group) ? " current" : "");
-      chip.textContent = groupRangeLabel(group) + " · " + typeShort(group.type);
-      chip.onclick = ()=>{
-        openGroup(group);
-        rerenderEdit();
-        scrollToEditId(group._editId);
-      };
-      nav.appendChild(chip);
-    });
-    right.appendChild(nav);
-  }
-
+  // "+ Add question group" above the list and below it: the one above puts
+  // the new group first, the one below last. A single button when there is
+  // nothing between them.
+  const addButton = (at, where)=>{
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "eg-addgroup";
+    b.textContent = "+ Add question group";
+    b.title = "Choose a question type and add a group " + where;
+    b.onclick = ()=> openAddGroupDialog(part, at());
+    return b;
+  };
+  if(part.groups.length) right.appendChild(addButton(()=> 0, "at the top of this part"));
   part.groups.forEach((group, gi)=>{
     right.appendChild(renderGroupEditor(group, gi, part));
   });
-
-  const addBar = document.createElement("div");
-  addBar.className = "eg-addgroup";
-  const label = document.createElement("span");
-  label.textContent = "Add a new question group: ";
-  const typeSelect = document.createElement("select");
-  Object.keys(RENDERERS).forEach(t=>{
-    const opt = document.createElement("option");
-    opt.value = t; opt.textContent = typeLabel(t);
-    typeSelect.appendChild(opt);
-  });
-  const addBtn = document.createElement("button");
-  addBtn.className = "eg-btn";
-  addBtn.textContent = "+ Add group";
-  addBtn.onclick = ()=>{
-    const g = blankGroup(typeSelect.value);
-    part.groups.push(g);
-    ensureEditIds(EditorState.test);
-    openGroup(g); // the new group opens (and the others close)
-    rerenderEdit();
-    focusEditId(g._editId); // jump to the new group's first field
-  };
-  addBar.appendChild(label); addBar.appendChild(typeSelect); addBar.appendChild(addBtn);
-  right.appendChild(addBar);
+  right.appendChild(addButton(()=> part.groups.length, "at the end of this part"));
 }
 
 // The panel on whichever screen is in front: Preview and Export sit on both,
@@ -7644,7 +8410,11 @@ function showEditorError(title, list){
   p.innerHTML = "<h4></h4>";
   p.querySelector("h4").textContent = title;
   const ul = document.createElement("ul");
-  list.forEach(e=>{ const li=document.createElement("li"); li.textContent=e; ul.appendChild(li); });
+  list.forEach(e=>{
+    const li = document.createElement("li");
+    li.appendChild(issueLine(e, EditorState.test ? issueTarget(e, EditorState.test) : null));
+    ul.appendChild(li);
+  });
   p.appendChild(ul);
   p.scrollIntoView({behavior:"smooth", block:"nearest"});
 }
@@ -7715,11 +8485,24 @@ function wireEditorEvents(){
     closeGlossForm(true); // an unsaved NEW gloss is discarded
     closeEditorWindow();
     serializeEditorPassages();
+    draftTick();                 // keep the last few seconds of edits
+    EditorDraft.active = false;
+    renderDrafts();
     EDITOR_PREVIEW = false;
     leaveEditorScreens();
     $("#start").classList.remove("hidden");
     clearError();
   };
+  // Autosave: on a timer, and once more as the tab is hidden or closed. The
+  // browser's "leave this page?" question is kept for the one case where the
+  // draft could not be written, since otherwise nothing would be lost.
+  setInterval(()=> draftTick(), DRAFT_EVERY_MS);
+  window.addEventListener("pagehide", ()=> draftTick(true));
+  document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState === "hidden") draftTick(true); });
+  window.addEventListener("beforeunload", e=>{
+    draftTick(true);
+    if(EditorDraft.active && EditorDraft.failed && draftDirty()){ e.preventDefault(); e.returnValue = ""; }
+  });
   $("#editorSaveLibrary").onclick = saveTestToLibrary;
   $("#editorPreviewStudent").onclick = previewAsStudent;
   $("#editorExportHtml").onclick = ()=>{
@@ -7732,6 +8515,7 @@ function wireEditorEvents(){
     if(!validateBeforeProceed()) return;
     const md = testToMarkdown(EditorState.test);
     downloadText(md, (EditorState.test.id||"test") + ".md");
+    draftMarkSaved();
   };
   setupDivider("#editorDivider","#editorPanes","#editorLeftpane", pct=>{
     if(EditorState.mode === "edit") EditorState.splitEdit = pct; else EditorState.splitOther = pct;
@@ -7781,6 +8565,7 @@ function testToMarkdown(test){
   lines.push("time: " + testMinutes(test));
   if(test.strand === "listening") lines.push("strand: listening");
   if(test.showResults === false) lines.push("results: hidden");
+  if(test.titleAlign === "center") lines.push("title-align: center");
   lines.push("");
 
   test.parts.forEach(part=>{
@@ -8219,6 +9004,7 @@ function libSaved(name){
     btn.textContent = "✓ Saved to " + name;
     setTimeout(()=> updateLibrarySaveButton(), 2500);
   }
+  draftMarkSaved();
   libLoad(); // the list picks up the new/changed file
 }
 function updateLibrarySaveButton(){
@@ -8391,6 +9177,7 @@ function renderLibraryToolbar(){
 
 /* ---- Start screen / picker ---- */
 function buildPicker(){
+  renderDrafts();
   renderLibrary("");
   const search = $("#librarySearch");
   if(search) search.oninput = ()=> renderLibrary(search.value);
@@ -8648,6 +9435,7 @@ function renderPart(pi){
 
   // Layout mode: listening drops the passage pane (single column).
   $("#panes").classList.toggle("listening", listening);
+  $("#leftpane").classList.toggle("title-center", State.test.titleAlign === "center");
 
   // Part banner — reading tells the student to read the text; listening doesn't.
   const nums = partQuestionRange(part);
@@ -11010,6 +11798,8 @@ const AI_PROMPT_BASE = [
 "                          reading test. In a listening test the ### Passage:",
 "                          block is optional and, if present, is a hidden",
 "                          transcript the student never sees.)",
+"title-align: center      (OPTIONAL — centres every passage title and sets it a",
+"                          size larger. Omit it for the usual left-aligned title.)",
 "",
 "## Part 1",
 "### Passage: <passage title>",
@@ -11681,6 +12471,67 @@ function selfCheckCases(){
     if(b.parts[0].groups[0].figure.id !== "pic2") throw new Error("the group figure was lost");
   });
 
+  test("An autosaved draft keeps the test, and numbering or a re-wrapped paragraph is not an edit", ()=>{
+    const a = parseMarkdown(SC_MD);
+    a.id = "selfcheck-draft-" + Date.now();
+    const snap = draftSnapshot(a);
+    const b = cloneTest(a);
+    assignUids(b); numberQuestions(b); ensureEditIds(b);
+    if(draftSnapshot(b) !== snap) throw new Error("numbering a test made it look edited");
+    b.parts[0].paragraphs[0] = String(a.parts[0].paragraphs[0]).replace(" ", "\n  ");
+    if(draftSnapshot(b) !== snap) throw new Error("a hard-wrapped paragraph looked edited");
+    b.title = "Changed";
+    if(draftSnapshot(b) === snap) throw new Error("a changed title did not look edited");
+    if(!draftWrite(a, snap, 5)) return; // no localStorage here (private mode): nothing more to check
+    try{
+      const d = draftRead(a.id);
+      if(!d || JSON.stringify(d.test) !== snap) throw new Error("the draft read back differs from the one written");
+      if(d.savedAt !== 5 || d.id !== a.id) throw new Error("the draft lost its id or its time");
+      if(!draftList().some(x=> x.id === a.id)) throw new Error("the draft is missing from the list");
+    } finally { draftRemove(a.id); }
+    if(draftRead(a.id)) throw new Error("the draft was not removed");
+  });
+
+  test("An issue's place is read from its message, and Checked keeps the note", ()=>{
+    const t = parseMarkdown(SC_MD);
+    assignUids(t); numberQuestions(t);
+    const g = t.parts[0].groups[0];
+    const where = "Part 1, group 1 (" + g.type + ")";
+    const a = issueTarget(where + ", Q1: missing answer.", t);
+    if(!a || a.pi !== 0 || a.gi !== 0 || a.qi !== 0) throw new Error("a question's place was not found: " + JSON.stringify(a));
+    const b = issueTarget("my-file.md, " + where + ": 'reusable: false' (the default), but…", t);
+    if(!b || b.gi !== 0 || b.qi != null) throw new Error("a group's place was not found behind a file name");
+    if(issueTarget("Part 1: 2 gloss(es) are unfinished", t).window !== "glosses") throw new Error("a gloss warning should open Glosses");
+    if(!issueTarget("Part 1 has no passage text.", t).passage) throw new Error("a missing passage should open the passage");
+    if(issueTarget("Asset 'x' is never used", t).window !== "pictures") throw new Error("an asset warning should open Pictures");
+    if(issueTarget("Test has no title.", t) !== null) throw new Error("a message naming no place became a link");
+    if(issueTarget("Part 9, group 1 (tfng), Q1: missing answer.", t) !== null) throw new Error("a part that isn't there became a link");
+    const q = g.questions[0];
+    q.why = "CHECK: Para 2 says so.";
+    if(!editorIssues(t).some(i=> i.flag === "CHECK" && i.q === q && i.target.qi === 0)) throw new Error("a CHECK: note is missing from the list");
+    clearAiFlag(q);
+    if(q.why !== "Para 2 says so.") throw new Error("Checked changed the note to: " + q.why);
+    if(editorIssues(t).some(i=> i.flag)) throw new Error("the flag is still listed after Checked");
+    q.why = "check:";
+    clearAiFlag(q);
+    if("why" in q) throw new Error("an empty note was left behind");
+  });
+
+  test("title-align: center round-trips, and left is never written", ()=>{
+    const plain = parseMarkdown(SC_MD);
+    if("titleAlign" in plain) throw new Error("a test with no title-align line has one in its model");
+    if(/title-align/.test(testToMarkdown(plain))) throw new Error("left was written to the file");
+    ["center", "centre", "CENTER"].forEach(word=>{
+      const t = parseMarkdown(SC_MD.replace(/^(time: .*)$/m, "$1\ntitle-align: " + word));
+      if(t.titleAlign !== "center") throw new Error("title-align: " + word + " was read as " + t.titleAlign);
+      const md = testToMarkdown(t);
+      if(!/^title-align: center$/m.test(md)) throw new Error("title-align: center was not written back");
+      if(parseMarkdown(md).titleAlign !== "center") throw new Error("it did not survive the round trip");
+    });
+    const left = parseMarkdown(SC_MD.replace(/^(time: .*)$/m, "$1\ntitle-align: left"));
+    if("titleAlign" in left) throw new Error("title-align: left should leave the model as it is");
+  });
+
   test("A picture used in three places is stored once", ()=>{
     const t = parseMarkdown(SC_MD);
     const used = assetUsage(t);   // part figure + inline paragraph + group figure
@@ -12215,7 +13066,7 @@ function selfCheckCases(){
 
   test("The AI prompt names every label the parser reads, and cues \\n and reusable", ()=>{
     const p = buildAiPrompt({ glossList:true });
-    ["### Questions:", "strand:", "instructions:", "title:", "limit:", "count:", "options:", "reusable:", "display:", "input:", "figure:",
+    ["### Questions:", "strand:", "title-align:", "instructions:", "title:", "limit:", "count:", "options:", "reusable:", "display:", "input:", "figure:",
      "summary:", "answers:", "columns:", "row:", "step:", "at:", "Q.", "A.", "W.", "E.", "H.", "T."].forEach(l=>{
       if(p.indexOf(l) === -1) throw new Error("the prompt never mentions " + l);
     });
