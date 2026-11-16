@@ -1,7 +1,7 @@
 # Reading CBT Simulator
 
-A computer-delivered reading test that runs in one HTML file — no install, no
-account, no server. Teachers write a test in a plain text file, students take it
+A computer-delivered reading and listening test that runs in one HTML file — no
+install, no account, no server. Teachers write a test in a plain text file, students take it
 in their browser exactly as they would in the real computer-delivered exam, and
 everything is marked on the spot.
 
@@ -9,6 +9,19 @@ everything is marked on the spot.
 
 Nothing is uploaded. Tests, answers and progress stay in the browser on the
 computer they were typed on.
+
+## What's new
+
+**v0.16.1 — "Smoother"** (16 Nov 2026)
+- Listening tests carry their own recordings, with an optional play limit and
+  a transcript timed sentence by sentence.
+- After a listening test, students retry what they got wrong: the transcript
+  stays blurred, ▶ Listen replays the answer with its lead-in, and **Show
+  location** brings out just the right sentences. The first try is the score.
+- Calmer, smoother screens: soft colours, one focus frame at a time, gentle
+  transitions.
+
+Every version and what changed: **[CHANGELOG.md](CHANGELOG.md)**.
 
 ## What it does
 
@@ -23,6 +36,9 @@ computer they were typed on.
   refresh.
 - On submit: a score, an estimated band, and a question-by-question review with
   the evidence for each answer.
+- **Listening:** the recording plays inside the test. Afterwards the timed
+  transcript can be tapped sentence by sentence, and wrong answers can be tried
+  again after listening once more.
 
 **For teachers**
 - **Write tests in Markdown** (see [AUTHORING.md](AUTHORING.md)) or build them
@@ -42,7 +58,9 @@ computer they were typed on.
   use a one-command build step.
 - **Give a test to students** as a single file that works offline, and read
   their work back from a file or a short answer code.
-- **Listening layout** for a single-column, no-passage test.
+- **Listening tests** with the recording inside the file, a play limit
+  (`plays: 1 | 2 | unlimited`), and a hidden transcript that becomes the
+  answer review. Helper scripts embed a track and time each sentence.
 
 ## Getting started
 
