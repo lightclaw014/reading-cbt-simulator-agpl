@@ -4,6 +4,41 @@ All notable changes to the IELTS Reading Simulator, newest first.
 Each version is also a **tag** on GitHub — open the repository's **"Tags"**
 page to view or restore any of them.
 
+## v0.16.0 — "Listen again" — 2026-11-16
+
+### Added
+- **Recordings inside a listening test.** A part can carry its own recording
+  (`audio:` line, stored in `## Assets`), played from a player above the
+  questions. `plays: 1 | 2 | unlimited` limits how often each part can be heard
+  before submitting; the export window has the same choice. A play can be
+  paused and resumed, also after a refresh. `tools/add_audio.py` converts and
+  embeds a track.
+- **Timed transcripts.** `tools/align.py` times each transcript sentence against
+  its recording and writes hidden time stamps. The editor has a Sync check to
+  play and nudge each sentence.
+- **Listening review.** After submitting, the screen is the transcript (40%) and
+  the questions (60%), with the player docked under the transcript. Tap a
+  sentence to hear exactly that sentence; whatever is playing is lit in soft
+  green and kept in view.
+- **Re-listen before reveal** (the default; `review: reveal` turns it off). A
+  wrong or skipped answer keeps its own box open to try again, with ▶ Listen,
+  Check and Show location. The transcript stays blurred until the part is
+  settled; **Show location** brings out the answer sentence (lit) and one
+  sentence either side, and **Show full script / Blur script** toggles the rest.
+  The first try is always the score; the retries are kept for the teacher.
+- **▶ Listen and ▶ Play start one sentence early**, so the lead-in is heard
+  as well as the answer.
+- **`evidence:` lines** give each blank in a table, summary or flow chart its
+  words in the passage or transcript; Evidence with AI fills them too.
+
+### Changed
+- Right and wrong are shown by soft green and red alone — the number, the
+  answer box and the number strip. No ✓ ✗ marks and no instructions on screen.
+- In review the bottom bar shows every part with its numbers, and a number
+  turns green once a retry is right. Flag buttons are hidden after submitting.
+- In the answer key a question still waiting for a retry shows only what was
+  written, in red, with **Listen again**.
+
 ## v0.15.0 — "A calmer editor" — 2026-10-10
 
 ### Added

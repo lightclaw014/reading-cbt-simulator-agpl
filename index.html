@@ -294,13 +294,14 @@ mark.hl.hl-pink{background:#f7b6d2}
 /* The bubble carries the verdict, so the shape of a test reads before a word of it does. */
 .akey-n{flex:0 0 auto;min-width:30px;height:28px;padding:0 7px;display:inline-flex;align-items:center;justify-content:center;
   border-radius:14px;font-size:13px;font-weight:bold;background:#e9edf2;color:#4a5a6b}
-.akey-item.ok .akey-n{background:#dcf0e2;color:#15702f}
-.akey-item.bad .akey-n{background:#fadedb;color:#a3281c}
+.akey-item.ok .akey-n{background:#e3f1e8;color:#2d6a41}
+.akey-item.bad .akey-n{background:#f8e6e3;color:#94433a}
 .akey-item.skip .akey-n{background:#ededed;color:#6b6b6b}
 .akey-ans{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .akey-ans b{font-weight:bold;color:var(--ink)}
 .akey-ans i{font-style:italic;color:var(--muted)}
 .akey-ans i.wrong{text-decoration:line-through}
+.akey-ans i.akey-wait{font-style:normal;color:#94433a}
 .akey-mark{flex:0 0 auto;font-weight:bold;font-size:16px}
 .akey-item.ok .akey-mark{color:#1a7f37}
 .akey-item.bad .akey-mark{color:var(--danger)}
@@ -325,33 +326,97 @@ mark.hl.hl-pink{background:#f7b6d2}
 .evw-go{margin-top:auto;align-self:flex-start}
 @media (max-width:760px){ .evw-body{grid-template-columns:1fr} .evw-passage{border-right:0;border-bottom:1px solid var(--line);max-height:38vh} }
 /* ---- Reviewing a finished test: the verdict under each question ---- */
-.rev-strip{width:100%;flex:0 0 100%;box-sizing:border-box;display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;margin-top:8px;padding:6px 10px;
-  border-radius:6px;font-size:13px;background:#f4f6f8;border-left:3px solid var(--line)}
-.rev-strip.ok{background:#eef8f0;border-left-color:#1a7f37}
-.rev-strip.bad{background:#fdf1f0;border-left-color:var(--danger)}
-.rev-strip.skip{background:#f6f6f6;border-left-color:var(--muted)}
-.rev-strip .rev-n{font-weight:bold;color:var(--muted);min-width:28px}
-.rev-strip .rev-mark{font-weight:bold}
-.rev-strip.ok .rev-mark{color:#1a7f37}
-.rev-strip.bad .rev-mark{color:var(--danger)}
-.rev-strip.skip .rev-mark{color:var(--muted)}
-.rev-strip .rev-said{color:var(--muted)}
-.rev-strip .rev-key{color:var(--ink);font-weight:bold}
-.rev-strip .rev-ev{margin-left:auto;padding:3px 10px;font-size:12px;border:1px solid var(--accent);border-radius:12px;
-  background:var(--panel);color:var(--accent);cursor:pointer;white-space:nowrap}
+.rev-strip{width:100%;flex:0 0 100%;box-sizing:border-box;display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin-top:8px;padding:2px 0 0;font-size:14px}
+.rev-strip .rev-n{font-weight:bold;color:#a3281c;min-width:34px}
+.rev-strip .rev-key{font-weight:bold;color:#15702f}
+.rev-strip .rev-ev{padding:0 14px;min-height:36px;font-size:13px;border:1px solid var(--accent);border-radius:18px;background:var(--panel);color:var(--accent);cursor:pointer;white-space:nowrap}
 .rev-strip .rev-ev:hover{background:#eef4fb}
+.rev-strip .rev-tools{margin-left:auto;display:flex;gap:8px}
+.rev-strip .rev-second{font-size:13px;color:var(--muted)}
+/* Right and wrong, by colour alone: the number badge and the answer box.
+   Soft, low-saturation tones: the colour should inform, not shout. */
+.qnum.rv-ok{background:#5aa572!important;color:#fff!important}
+.qnum.rv-bad{background:#c96a5f!important;color:#fff!important}
+input.rv-ok, textarea.rv-ok{border:2px solid #a8d5b5!important;background:#eef7f1!important;color:#2d6a41!important;opacity:1!important;-webkit-text-fill-color:#2d6a41}
+input.rv-bad, textarea.rv-bad, select.rv-bad{border:2px solid #e8b4ad!important;background:#fbf1ef!important;color:#94433a!important;opacity:1!important;-webkit-text-fill-color:#94433a}
+input.rv-edit, textarea.rv-edit{border:2px solid var(--accent)!important;background:#fff!important;color:var(--ink)!important;-webkit-text-fill-color:var(--ink)}
+/* The "type again" hint stays grey whatever colour the box is. */
+.rv-ok::placeholder,.rv-bad::placeholder,.rv-edit::placeholder,.rl-box::placeholder{color:#9aa3ad!important;-webkit-text-fill-color:#9aa3ad!important;opacity:1}
+input.rl-live:focus, .rev-strip .rl-box:focus{outline:none;box-shadow:0 0 0 3px #d7e5f6}
+/* Re-listen: one row of small pill controls under a red question. */
+.rl-listen{min-height:34px;padding:0 14px;font-size:13px;font-weight:bold;border:1px solid var(--accent);border-radius:17px;background:var(--accent);color:#fff;cursor:pointer;white-space:nowrap}
+.rl-listen:hover{filter:brightness(1.08)}
+.rev-strip .rl-box{font:inherit;font-size:15px;min-height:36px;box-sizing:border-box;padding:4px 10px;border:2px solid var(--line);border-radius:8px;flex:1 1 160px;min-width:0;max-width:300px;background:#fff;color:var(--ink)}
+.rl-check,.rl-show{min-height:34px;padding:0 14px;font-size:13px;font-weight:bold;border:1px solid var(--accent);border-radius:17px;background:#fff;color:var(--accent);cursor:pointer;white-space:nowrap}
+.rl-check:disabled{border-color:#d3d8df;color:#a7afb9;cursor:default}
+.rl-check:not(:disabled):hover,.rl-show:hover{background:#eef4fb}
+.rl-show{font-weight:normal;border-color:var(--line);color:var(--ink)}
+.rl-show[aria-pressed="true"]{border-color:#a8d5b5;background:#eef7f1;color:#2d6a41}
+@keyframes rlNudge{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.rl-nudge{animation:rlNudge .25s ease-in-out 2}
+@media (prefers-reduced-motion:reduce){ .rl-nudge{animation:none} }
+/* ---- The transcript in review: sentences you can tap to hear ---- */
+#leftpane.ts-ready .ts[role="button"], #leftpane.ts-ready .ts{cursor:pointer;border-radius:3px;transition:background-color .15s}
+#leftpane.ts-ready .ts:hover{text-decoration:underline dotted #8fb79b;text-underline-offset:3px}
+#leftpane.ts-ready .ts:focus{outline:none}
+#leftpane.ts-ready .ts:focus-visible{outline:2px solid #a8d5b5}
+@media (hover:none){ #leftpane.ts-ready .ts{text-decoration:underline dotted #d3e3d8;text-underline-offset:3px} }
+#leftpane .ts.ts-on{background:#e6f4ea}
+#leftpane .ts.ts-hit{background:#e6f4ea}
+#leftpane .ts-hit .ev-hit{background:#cbe8d4;box-shadow:none;animation:none;border-radius:2px}
+/* Held (answers still open): the whole script, blurred. Only a sentence whose
+   location has been shown comes clear. The text is there but can't be read,
+   picked or tapped. */
+#leftpane.ts-held{position:relative}
+#leftpane.ts-held .passage p{color:transparent;text-shadow:0 0 8px rgba(40,40,40,.55);user-select:none;-webkit-user-select:none}
+#leftpane.ts-held .passage p .ts{cursor:default;text-decoration:none}
+#leftpane.ts-held .passage p.ts-shown-para,
+#leftpane.ts-held .passage p .ts-shown{color:var(--ink);text-shadow:none;user-select:text;-webkit-user-select:text;cursor:pointer}
+#leftpane.ts-held .passage p .ts-shown:hover{text-decoration:underline dotted #8fb79b;text-underline-offset:3px}
+/* The location itself is lit; the sentences round it are only clear. */
+#leftpane.ts-held .passage p .ts-core{background:#e6f4ea}
+/* Playing or marking a sentence that is still blurred lights nothing. */
+#leftpane.ts-held .ts:not(.ts-shown).ts-on,#leftpane.ts-held .ts:not(.ts-shown).ts-hit{background:none}
+/* Blurring and un-blurring fade rather than jump. */
+@keyframes tsFromBlur{from{color:transparent;text-shadow:0 0 8px rgba(40,40,40,.55)}}
+@keyframes tsFromClear{from{color:var(--ink);text-shadow:0 0 0 rgba(40,40,40,0)}}
+#leftpane.ts-anim-clear .passage p,#leftpane .ts.ts-anim-clear{animation:tsFromBlur .45s ease-out}
+#leftpane.ts-anim-blur.ts-held .passage p{animation:tsFromClear .45s ease-in}
+@media (prefers-reduced-motion:reduce){ #leftpane .passage p,#leftpane .ts{animation:none!important} }
+/* Review of a listening test: script 40, questions 60, no divider to drag,
+   and the player docked under the script. */
+#panes.ts-review #divider{display:none}
+#panes.ts-review #leftpane{flex:0 0 40%!important;border-right:1px solid var(--line);display:flex;flex-direction:column}
+#panes.ts-review #leftpane > .passage{flex:1 0 auto}
+@media (max-width:820px){ #panes.ts-review #leftpane{border-right:0;border-bottom:1px solid var(--line)} }
+.figure-panel.ts-dock{position:sticky;top:auto;bottom:-18px;z-index:6;margin:12px -22px -18px;padding:8px 14px 10px;border-top:1px solid var(--line)}
+.figure-panel.ts-dock::after{top:-13px;bottom:auto;background:linear-gradient(rgba(255,255,255,0),var(--panel))}
+.figure-panel.ts-dock .ap-card{box-shadow:none}
+.rl-answer{font-weight:bold;color:#2d6a41;font-size:14px}
+.ts-unblur{position:sticky;top:-18px;z-index:5;display:flex;justify-content:flex-end;margin:-18px 0 6px;padding:10px 0 8px;pointer-events:none}
+.ts-unblur button{pointer-events:auto;min-height:34px;padding:0 16px;font-size:13px;font-weight:bold;border:1px solid var(--accent);border-radius:17px;background:#fff;color:var(--accent);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.10)}
+.ts-unblur button:hover{background:#eef4fb}
+.ts-unblur button[aria-pressed="true"]{border-color:var(--line);color:var(--ink);font-weight:normal}
+/* Put right on a retry: Show location waits until the question is pointed at. */
+.rev-strip.rl-fixed{opacity:0;transition:opacity .15s}
+.question:hover > .rl-fixed, .rev-loose > .rl-fixed:hover, .rl-fixed:focus-within{opacity:1}
+@media (hover:none){ .rev-strip.rl-fixed{opacity:.7} }
+/* After Submit the Flag buttons have nothing left to do. */
+#rightpane.reviewing .flag-btn{display:none}
 .rev-loose{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.akey-hidden{font-weight:normal!important;color:var(--muted)!important;font-style:normal}
+.akey-second{font-size:12px;color:var(--muted)}
+.akey-second.ok{color:#15702f}
+.akey-second.bad{color:#a3281c}
+.akey-ev.akey-try{border-color:var(--accent);color:var(--accent)}
+/* Colour carries right and wrong in the key too: no ✓ ✗ column. */
+.akey-mark{display:none}
+.akey-item.skip .akey-n{background:#f8e6e3;color:#94433a}
 /* A matching row is a flex row: let it wrap so the strip drops underneath. */
 .question.match-row{flex-wrap:wrap}
-.rev-tally{margin-left:10px;display:inline-flex;gap:10px;font-size:13px}
-.rev-tally b{font-weight:bold}
-.rev-tally .ok{color:#1a7f37}
-.rev-tally .bad{color:var(--danger)}
-.rev-tally .skip{color:var(--muted)}
 .rev-table-btn{margin-left:8px}
-.navnum.rev-ok{border-bottom-color:#1a7f37;color:#1a7f37}
-.navnum.rev-bad{border-bottom-color:var(--danger);color:var(--danger)}
-.navnum.rev-skip{border-bottom-color:var(--muted);color:var(--muted)}
+.navnum.rev-ok,.navnum.rev-fixed{border-bottom-color:#5aa572;color:#2d6a41;background:#eef7f1;font-weight:bold}
+.navnum.rev-bad,.navnum.rev-skip{border-bottom-color:#c96a5f;color:#94433a;background:#fbf1ef;font-weight:bold}
 /* ---- Evidence review: the words a question was answered from ---- */
 .ev-hit{background:#fff3a3;box-shadow:0 0 0 2px #fff3a3, 0 1px 0 #d9b400;border-radius:2px;
   animation:ev-in .5s ease-out}
@@ -392,6 +457,7 @@ table.results tr.ev-row:focus-visible{outline:2px solid var(--accent);outline-of
 .export-shape .xs-btn{padding:9px 18px;font-size:14px;border-radius:6px}
 .export-shape .xs-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:bold}
 .export-shape .xs-btn.primary:hover{filter:brightness(1.08)}
+.xs-plays{margin-left:auto;padding:4px 6px;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:4px;background:#fff}
 .xs-mins{width:62px;padding:4px 6px;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:4px;margin-right:4px}
 .xs-note{margin-right:auto;font-size:12px;color:var(--muted)}
 /* ---- "Generate with AI" wizard ---------------------------------------------
@@ -615,7 +681,9 @@ button.eg-issues:hover{background:var(--flag);color:#fff}
    A sticky box stops inside its scroller's padding, so the panel hangs 18px
    (the pane's padding) below the top and the questions would scroll through
    that strip: the wrapper reaches up over it and paints the background. */
-.figure-panel{position:sticky;top:-18px;z-index:40;margin:-18px 0 14px;padding-top:18px;background:var(--panel)}
+/* Pinned: solid all round, with room below, so nothing scrolls into view under it. */
+.figure-panel{position:sticky;top:-18px;z-index:40;margin:-18px -4px 6px;padding:18px 4px 8px;background:var(--panel)}
+.figure-panel::after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:12px;pointer-events:none;background:linear-gradient(var(--panel),rgba(255,255,255,0))}
 .figure-panel .fp-card{border:1px solid var(--line);border-radius:8px;background:var(--panel);box-shadow:0 2px 8px rgba(0,0,0,.06);overflow:hidden}
 .figure-panel .fp-bar{display:flex;align-items:center;gap:6px;padding:6px 8px;border-bottom:1px solid var(--line);background:#fafafa}
 .figure-panel.collapsed .fp-bar{border-bottom:0}
@@ -630,6 +698,44 @@ button.eg-issues:hover{background:var(--flag);color:#fff}
   .figure-panel .fp-body{max-height:34vh}
   .figure-panel .fp-title{font-size:12px}
 }
+/* Listening: the part's recording, pinned in the same sticky wrapper (above the
+   figure when there is one). Targets are finger-sized: this is used on tablets. */
+.figure-panel .ap-card{border:1px solid var(--line);border-radius:8px;background:var(--panel);box-shadow:0 2px 8px rgba(0,0,0,.06);
+  display:flex;align-items:center;gap:8px;padding:8px 10px;flex-wrap:wrap}
+.figure-panel .ap-card + .fp-card{margin-top:8px}
+.figure-panel .ap-btn{min-width:48px;height:48px;padding:0 10px;font:inherit;font-size:14px;border:1px solid var(--line);border-radius:8px;
+  background:#fff;color:var(--ink);cursor:pointer;touch-action:manipulation}
+.figure-panel .ap-btn:hover:not(:disabled){background:#eef3f8;border-color:var(--accent)}
+.figure-panel .ap-btn:disabled{opacity:.45;cursor:default}
+.figure-panel .ap-play{min-width:56px;font-size:20px;background:var(--accent);border-color:var(--accent);color:#fff}
+.figure-panel .ap-play:hover:not(:disabled){background:var(--accent);filter:brightness(1.08)}
+.figure-panel .ap-seek{flex:1 1 140px;min-width:100px;height:32px;margin:0;accent-color:var(--accent)}
+.figure-panel .ap-time{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.figure-panel .ap-note{flex:1 0 100%;font-size:12px;color:var(--muted)}
+.figure-panel .ap-note.warn{color:#a15c00}
+.figure-panel .ap-note:empty{display:none}
+/* Sync check: every timed sentence of a transcript, to play and to nudge. */
+.modal-overlay.sync-check .modal-panel{width:min(760px,96vw);max-width:none;max-height:88vh;display:flex;flex-direction:column;padding:16px 18px}
+.sync-check h3{margin:0 0 4px}
+.sync-check .sc-help{font-size:12px;color:var(--muted);margin-bottom:10px}
+.sync-check .sc-list{overflow:auto;flex:1 1 auto;border:1px solid var(--line);border-radius:6px}
+.sync-check .sc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 8px;border-bottom:1px solid var(--line)}
+.sync-check .sc-row:last-child{border-bottom:0}
+.sync-check .sc-row.weak{background:#fff6e0}
+.sync-check .sc-row.playing{background:#e8f1fb}
+.sync-check .sc-play{flex:0 0 auto;width:38px;height:38px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;font-size:15px}
+.sync-check .sc-play:hover{border-color:var(--accent);background:#eef3f8}
+.sync-check .sc-times{flex:0 0 auto;display:flex;flex-direction:column;gap:3px;font-size:12px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.sync-check .sc-time{display:flex;align-items:center;gap:3px;white-space:nowrap}
+.sync-check .sc-time b{display:inline-block;min-width:46px;text-align:right;font-weight:normal;color:var(--ink)}
+.sync-check .sc-nudge{width:26px;height:22px;padding:0;border:1px solid var(--line);border-radius:4px;background:#fff;cursor:pointer;font-size:13px;line-height:1}
+.sync-check .sc-nudge:hover{border-color:var(--accent);background:#eef3f8}
+.sync-check .sc-text{flex:1 1 auto;font-size:13px;line-height:1.4;padding-top:2px}
+.sync-check .sc-flag{display:block;font-size:11px;color:#a15c00;margin-top:2px}
+.sync-check .sc-ok{flex:0 0 auto;font-size:11px;padding:3px 7px;border:1px solid #d9a441;border-radius:4px;background:#fff;color:#7a4a00;cursor:pointer}
+.sync-check .sc-foot{display:flex;align-items:center;gap:10px;margin-top:12px}
+.sync-check .sc-foot small{flex:1 1 auto;color:var(--muted);font-size:12px}
+.audio-field{display:inline-flex;align-items:center;gap:6px;margin-left:8px;font-size:12px;color:var(--muted)}
 
 /* ---- Floating highlight menu (appears on text selection / highlight click) ---- */
 #hlMenu{
@@ -888,6 +994,54 @@ mark.hl[data-note-id]{border-bottom:2px dotted rgba(0,0,0,.55)}
 .eg-ev-preview b{color:var(--muted)}
 .eg-ev-add{font-size:13px;padding:6px 8px;border:1px dashed #b5bcc4;border-radius:5px;background:#fff;color:#2f5c8a;cursor:pointer}
 .eg-evidence input,.eg-evidence textarea{flex:1 1 auto;min-width:0;font-size:13px;padding:6px 8px;border:1px solid var(--accent);border-radius:5px}
+/* The evidence panel: the one-line strip, opened into its two boxes. */
+.eg-evidence.open{flex:1 1 100%;flex-direction:column;gap:8px;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:#fafbfc}
+.eg-evidence.open .eg-field{margin:0}
+.eg-evidence.open textarea{border-color:var(--line)}
+.eg-evidence.open textarea:focus{border-color:var(--accent);outline:none}
+.eg-ev-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.eg-ev-state{font-size:12px;color:var(--muted)}
+.eg-ev-state.ok{color:#1a7f37}
+.eg-ev-state.bad{color:var(--danger);font-weight:bold}
+.eg-ev-mark{flex:0 0 auto;align-self:center;font-size:12px;font-weight:bold}
+.eg-ev-mark.ok{color:#1a7f37}
+.eg-ev-mark.bad{color:var(--danger)}
+.eg-ev-preview .eg-ev-quote{color:var(--muted);font-style:italic}
+/* The question editor's own bar: what the pane is doing, and its two actions.
+   It is a row of the pane (stuck to its top while you scroll), not a button
+   floating over it — a floating Done sat on top of whatever the first row was. */
+.eg-bar{position:sticky;top:-18px;z-index:12;display:flex;align-items:center;gap:8px;
+  margin:-18px -22px 14px;padding:8px 22px;background:var(--panel);border-bottom:1px solid var(--line)}
+.eg-bar-title{font-size:13px;font-weight:bold;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.eg-bar .eg-spacer{flex:1 1 auto}
+.eg-bar button{flex:0 0 auto;padding:5px 12px;border:1px solid var(--accent);border-radius:5px;font:inherit;font-size:13px;
+  font-weight:bold;cursor:pointer;white-space:nowrap}
+.eg-bar .eg-aibtn{background:var(--panel);color:var(--accent)}
+.eg-bar .eg-aibtn:hover{background:#eef4fb}
+.eg-bar .eg-donebtn{background:var(--accent);color:#fff}
+.eg-bar .eg-donebtn:hover{filter:brightness(1.08)}
+/* The evidence wizard: the prompt out, the reply in, and what would change. */
+.modal-overlay.ev-wizard .modal-panel{width:min(640px,94vw);max-width:none}
+.ev-wizard h3{margin:0 0 4px;font-size:17px}
+.ev-wizard .evz-step{margin:14px 0 6px;font-size:13px;font-weight:bold}
+.ev-wizard .evz-sub{margin:0 0 8px;font-size:13px;color:var(--muted)}
+.ev-wizard textarea{width:100%;box-sizing:border-box;height:130px;font-family:Consolas,monospace;font-size:12px;padding:8px;
+  border:1px solid var(--line);border-radius:6px;resize:vertical}
+.ev-wizard .evz-summary{margin:10px 0 0;padding:8px 10px;font-size:13px;border-left:3px solid var(--line);background:var(--panel)}
+.ev-wizard .evz-summary.ok{border-left-color:#1a7f37}
+.ev-wizard .evz-summary.bad{border-left-color:var(--danger);color:var(--danger)}
+.ev-wizard .evz-summary div + div{margin-top:3px}
+.ev-wizard .evz-info{margin:10px 0 0;padding:8px 10px;font-size:13px;color:var(--ink);background:#eef4fb;border:1px solid var(--accent);border-radius:6px}
+.ev-wizard .evz-done{margin:14px 0 4px;padding:12px;font-size:14px;border-left:3px solid #1a7f37;background:var(--panel)}
+.ev-wizard .evz-done div + div{margin-top:6px;font-size:13px;color:var(--muted)}
+.ev-wizard .evz-link{margin-top:6px;padding:0;border:0;background:transparent;color:var(--accent);font:inherit;font-size:13px;
+  text-decoration:underline;cursor:pointer}
+.ev-wizard .evz-foot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.ev-wizard .evz-foot label{font-size:13px;display:flex;align-items:center;gap:6px}
+.ev-wizard .evz-foot .eg-spacer{flex:1 1 auto}
+.ev-wizard .evz-btn{padding:8px 16px;border:1px solid var(--line);border-radius:6px;background:#fafafa;font:inherit;font-size:14px;cursor:pointer}
+.ev-wizard .evz-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:bold}
+.ev-wizard .evz-btn:disabled{opacity:.45;cursor:not-allowed}
 .eg-ev-done{font-size:12px;padding:6px 10px;border:1px solid var(--accent);border-radius:5px;background:var(--accent);color:#fff;cursor:pointer}
 /* "⋯" menus (question and group actions). */
 .eg-menu{position:relative;flex:0 0 auto}
@@ -1104,6 +1258,11 @@ table.qtable th{background:var(--banner);font-weight:bold}
 .navpart-slot.other:hover .navpart-label{color:var(--accent)}
 .navpart-prog{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .navpart-nums{display:flex;align-items:center;gap:2px;flex-wrap:wrap}
+/* Review: every part open, its name above its numbers, so every red one shows. */
+#navparts.all-open{align-items:flex-start;justify-content:flex-start;gap:28px;padding:6px 18px}
+#navparts.all-open .navpart-slot{flex-direction:column;align-items:flex-start;gap:3px}
+#navparts.all-open .navpart-label{font-size:12px;max-width:30ch}
+#navparts.all-open .navpart-slot.other .navpart-label{cursor:pointer}
 .navnum{
   position:relative;min-width:24px;height:26px;padding:0 5px;
   display:inline-flex;align-items:center;justify-content:center;
@@ -1707,7 +1866,7 @@ const DEFAULTS = { time: 20 }; // minutes, if a test omits it
 // results). Bump APP_VERSION with each release: tools/publish.py refuses to
 // publish if it differs from the newest version in CHANGELOG.md. The author's
 // mark is APP_WATERMARK; empty shows the version alone.
-const APP_VERSION = "0.15.0";
+const APP_VERSION = "0.16.0";
 const APP_WATERMARK = "lightclaw014";
 // Minutes a test runs for. 0 is a real answer — an untimed file, handed out as
 // class work or homework — so it can't go through `test.time || DEFAULTS`.
@@ -2256,6 +2415,25 @@ function parseMarkdown(src){
     // confirmation + answer code instead of the score/answers (the teacher still
     // sees full results). Useful for real tests/exams.
     if((m = line.match(/^results:\s*(shown|hidden|on|off)$/i)) && !part){ test.showResults = /^(shown|on)$/i.test(m[1]); continue; }
+    // plays: 1 | 2 | unlimited — how many times a student may hear each part's
+    // recording before submitting. Unlimited is the default and is never stored.
+    if((m = line.match(/^plays:\s*(.*)$/i)) && !part){
+      const v = m[1].trim().toLowerCase();
+      if(v === "1" || v === "2") test.plays = parseInt(v, 10);
+      else if(v === "unlimited") delete test.plays;
+      else throw pErr(lineNo, "'plays:' must be 1, 2 or unlimited — found \""+m[1].trim()+"\".");
+      continue;
+    }
+    // review: relisten (the default for listening, never written) | reveal —
+    // whether a wrong listening answer must be listened to again, and tried
+    // once more, before its answer is shown. See relistenOn().
+    if((m = line.match(/^review:\s*(.*)$/i)) && !part){
+      const v = m[1].trim().toLowerCase();
+      if(v === "reveal" || v === "off") test.review = "reveal";
+      else if(v === "relisten" || v === "re-listen" || v === "on") delete test.review;
+      else throw pErr(lineNo, "'review:' must be relisten or reveal — found \""+m[1].trim()+"\".");
+      continue;
+    }
     // Where every passage title sits: "left" (the default, never written) or
     // "center"/"centre", which also sets it a size larger.
     if((m = line.match(/^title-align:\s*(left|center|centre)$/i)) && !part){
@@ -2301,6 +2479,14 @@ function parseMarkdown(src){
     if((m = line.match(/^figure:\s*(.+)$/i)) && part && mode === null){
       const fig = resolveFigureValue(test, m[1].trim(), "image");
       if(fig) part.figure = fig;
+      continue;
+    }
+    // audio: <asset id> — the recording this (listening) part plays. The sound
+    // itself is an entry in "## Assets", exactly like a picture. See AUDIO.
+    if((m = line.match(/^audio:\s*(.+)$/i)) && part && mode === null){
+      const id = m[1].trim();
+      if(!ASSET_ID_RE.test(id)) throw pErr(lineNo, "'audio:' names an asset id — letters, digits, . _ or -, starting with a letter or digit. Found \""+id+"\".");
+      part.audio = id;
       continue;
     }
     // glosses: on|off — the retired per-part switch. Older files carry it
@@ -2377,6 +2563,15 @@ function parseMarkdown(src){
       if((m = line.match(/^row:\s*(.*)$/i))){ (group.rows = group.rows || []).push(m[1].split("|").map(s=> toCell(s.trim()))); continue; }
       // flow_chart: one "step:" per step-box (in chain order); ___ marks a blank.
       if((m = line.match(/^step:\s*(.*)$/i))){ (group.steps = group.steps || []).push(m[1].trim()); continue; }
+      // evidence: the transcript/passage words each blank is answered from —
+      // one quote per blank, "|" between them, in the order of "answers:"; an
+      // empty one skips a blank. Only for the types whose blanks have no E.
+      // line of their own; handed out to the questions once the file is read.
+      if((m = line.match(/^evidence:\s*(.*)$/i))){
+        if(!evidenceEOnly(group)) throw pErr(lineNo, "'evidence:' is for summary_drag, table_completion and flow_chart groups. Give a '" + group.type + "' question its evidence with an E. line under it.");
+        group._evidence = { list: m[1].split("|").map(s=> s.trim()), lineNo };
+        continue;
+      }
       if((m = line.match(/^answers:\s*(.+)$/i))){
         // Typed blanks (table, or summary/labelling in "type" mode) store an
         // accepted-answers list per blank (alternatives with "/"); bank blanks
@@ -2504,6 +2699,15 @@ function parseMarkdown(src){
   flushPassage();
   if(!test.title) throw pErr(1, "Missing '# Test: <title>' header.");
   if(!test.parts.length) throw pErr(1, "No '## Part' sections found.");
+
+  // "evidence:" lines: one quote per blank, given to the blanks in order.
+  test.parts.forEach(p=> (p.groups || []).forEach(g=>{
+    if(!g._evidence) return;
+    const ev = g._evidence, qs = g.questions || [];
+    delete g._evidence;
+    if(ev.list.length > qs.length) throw pErr(ev.lineNo, "'evidence:' has " + ev.list.length + " quotes but this group has " + qs.length + " blank" + (qs.length === 1 ? "" : "s") + " — one quote per blank, \"|\" between them.");
+    ev.list.forEach((t, k)=>{ if(t) qs[k].evidence = t; });
+  }));
 
   numberQuestions(test);
   return test;
@@ -2787,12 +2991,22 @@ function validateTest(test){
   // student would see a plain "[missing image: id]" in its place. An asset
   // nothing refers to is dead weight, and a big one slows every download.
   const assets = testAssets(test) || {};
+  const sounds = audioIds(test);
   eachFigureRef(test, (id, where)=>{
     if(!assets[id]) warnings.push(where + ": there is no picture called '" + id + "' yet. Add one in 📷 Pictures, or fix the name.");
+    else if(isAudioSrc(assets[id].src)) warnings.push(where + ": '" + id + "' is a recording, not a picture — nothing will show there.");
+  });
+  // Recordings: same leniency as pictures (a draft may name one before it is
+  // added with tools/add_audio.py), and a reading test simply never plays one.
+  eachAudioRef(test, (id, where)=>{
+    if(!assets[id]) warnings.push(where + ": there is no recording called '" + id + "' yet. Add it with tools/add_audio.py, or fix the name.");
+    else if(assets[id].src && !isAudioSrc(assets[id].src)) warnings.push(where + ": '" + id + "' is a picture, not a recording — it will not play.");
+    if(!listening) warnings.push(where + ": a recording only plays in a listening test (add 'strand: listening').");
   });
   const used = assetUsage(test);
   Object.keys(assets).forEach(id=>{
     if(!used[id]) warnings.push("Asset '" + id + "' is never used — nothing shows it.");
+    if(sounds[id]) return; // a recording is megabytes by nature; the picture limit is not for it
     const bytes = assets[id].bytes || assetBytes(assets[id].src);
     if(bytes > ASSET_WARN_BYTES)
       warnings.push("Asset '" + id + "' is " + humanBytes(bytes) + ". It travels inside every student's file; a smaller image would be kinder.");
@@ -2822,6 +3036,8 @@ const State = {
   zoom:1,         // student text-zoom factor (view only; never mutates the test)
   submitted:false,
   reveal:{},      // key: partIndex → true while "Show answer words" is on (view only; never saved or exported)
+  audio:{},       // key: partIndex → { used, pos, done }: plays started, where it was left, whether that play finished
+  second:{},      // key: question number (or "g"+uid for mcq_multi) → { a, ok } a second try after re-listening, or { shown:true }; never changes the score
   figureOpen:{},  // key: partIndex → false when the listening figure panel is hidden (this attempt only)
   figureZoom:{},  // key: partIndex → that panel's zoom factor
   attemptNo:1,   // which attempt this is (1st, 2nd, …); persisted per test, bumped on each fresh start / start-over
@@ -2957,7 +3173,7 @@ function glossModel(part){
   if(cached && cached.sig === sig) return cached;
   const model = { sig, paras:[], items:[], keyCount:0, broken:0 }; // broken: tags shown as plain text
   (part.paragraphs||[]).forEach((t, pi)=>{
-    const html = sanitizePassage(t);
+    const html = sanitizePassage(stripStamps(t)); // time stamps are markers, never text
     if(html.indexOf("{{") === -1){ model.paras.push(html); return; } // untouched: identical to before
     const found = [];
     const marked = html.replace(GLOSS_RE, (whole, inner)=>{
@@ -3137,7 +3353,8 @@ function evidenceFor(q, part){
   // The needles to look for, best first: the E. line, then anything the note
   // put in quotes (longest first — the longest quote is the most specific).
   const needles = [];
-  if(q.evidence) needles.push(String(q.evidence));
+  const explicit = q.evidence ? String(q.evidence) : null;
+  if(explicit) needles.push(explicit);
   const quoted = [];
   let m;
   EV_QUOTE_RE.lastIndex = 0;
@@ -3146,7 +3363,9 @@ function evidenceFor(q, part){
 
   for(const needle of needles){
     const flatNeedle = evFlatten(needle.replace(/^[\s"“”']+|[\s"“”'.,;:]+$/g, "")).text.trim();
-    if(flatNeedle.length < 4) continue;
+    // A short quote lifted from a note is as likely to match by accident as on
+    // purpose; a short E. line is what the teacher asked for.
+    if(flatNeedle.length < (needle === explicit ? 2 : 4)) continue;
     for(const para of ordered){
       const flat = evFlatten(para.text);
       const at = flat.text.indexOf(flatNeedle);
@@ -3157,6 +3376,195 @@ function evidenceFor(q, part){
   // Nothing quotable matched, but the note named a paragraph: point at that.
   if(namedAt >= 0 && namedAt < paras.length) return { para: paras[namedAt].idx };
   return null;
+}
+
+// Where a question's own E. words sit in the passage, counted the way a reader
+// counts paragraphs: { n } (1-based), or null when they are not there. Only
+// the E. line is asked about — a note that merely names a paragraph is not
+// "found words".
+function evidenceWordsAt(q, part){
+  if(!q || !q.evidence || !part) return null;
+  const ev = evidenceFor({ evidence:q.evidence }, part);
+  if(!ev || ev.start == null) return null;
+  const at = evParagraphs(part).findIndex(p=> p.idx === ev.para);
+  return { n: at + 1 };
+}
+// The question types that carry evidence. Most keep a W./E. pair per question.
+// A summary, table or flow-chart blank is written on one "answers:" line, so it
+// keeps only its E. words — on the group's "evidence:" line, one per blank —
+// and has nowhere for a W. note (EVIDENCE_E_ONLY). An "open" question's W. is
+// the teacher's marking note, not evidence.
+const EVIDENCE_TYPES = ["tfng","ynng","mcq","mcq_multi","completion","form","note","matching","labelling","summary_drag","table_completion","flow_chart"];
+const EVIDENCE_E_ONLY = ["summary_drag","table_completion","flow_chart"];
+function evidenceEOnly(g){ return !!g && EVIDENCE_E_ONLY.indexOf(g.type) !== -1; }
+function evidenceQuestions(part){
+  const out = [];
+  (part.groups || []).forEach(g=>{
+    if(EVIDENCE_TYPES.indexOf(g.type) === -1) return;
+    (g.questions || []).forEach(q=>{
+      const n = g.type === "mcq_multi" ? g.startN : q.n;
+      if(n != null) out.push({ n, q, group:g });
+    });
+  });
+  return out;
+}
+// The correct answer in words, for the prompt: a letter comes with its option.
+function evidenceAnswerText(q, g){
+  if(q.accepted) return q.accepted.filter(Boolean).join(" / ");
+  const opts = g.type === "mcq" ? (q.options || []) : (g.options || []);
+  const withText = letter=>{ const o = opts.find(x=> x.letter === letter); return o && o.text ? letter + " (" + plainText(o.text) + ")" : letter; };
+  if(Array.isArray(q.answer)) return q.answer.map(withText).join(", ");
+  return opts.length ? withText(q.answer) : String(q.answer || "");
+}
+/* ---- "Evidence with AI": one part's notes, written by an AI and merged back --
+   The prompt carries this part's passage and its questions WITH their answers,
+   and asks for nothing but a W. and an E. line under each question number. The
+   reply is merged by number, so the AI never gets to hand back (and quietly
+   change) a question or an answer. ------------------------------------------ */
+// The questions of a part that can carry evidence and have none at all yet.
+// A summary/table/flow-chart blank has no stem: show the AI the line it sits
+// in, this blank marked [HERE] and the others left as ___.
+function evidenceBlankContext(g, q){
+  const qi = (g.questions || []).indexOf(q);
+  const mark = (text, first)=>{ let k = first; return String(text || "").replace(/(^|[^\\])_{3,}/g, (m, pre)=> pre + (k++ === qi ? "[HERE]" : "___")); };
+  if(g.type === "summary_drag") return "Blank in: " + plainText(mark(g.summary, 0)).replace(/\s+/g, " ").trim();
+  let seen = 0;
+  if(g.type === "flow_chart"){
+    for(const st of (g.steps || [])){
+      const n = (String(st).match(/(^|[^\\])_{3,}/g) || []).length;
+      if(qi < seen + n) return "Blank in the step: " + plainText(mark(st, seen)).trim();
+      seen += n;
+    }
+    return "";
+  }
+  for(const row of (g.rows || [])){
+    const n = row.reduce((a, c)=> a + cellBlankCount(c), 0);
+    if(qi < seen + n){
+      let k = seen;
+      const cells = row.map(c=>{ const t = mark(cellToText(c), k); k += cellBlankCount(c); return plainText(t).trim(); });
+      return "Blank in the table row: " + cells.join(" | ");
+    }
+    seen += n;
+  }
+  return "";
+}
+function evidenceLacking(part){ return evidenceQuestions(part).filter(i=> !i.q.evidence && (evidenceEOnly(i.group) || !i.q.why)); }
+// A part with nothing to quote from: no text, or the new-part placeholder.
+function evidenceSourceMissing(part){
+  const text = evParagraphs(part).map(x=> x.text).join(" ").replace(/\s+/g, " ").trim();
+  return !text || text === "Type the passage text here.";
+}
+// "Q3, Q5 and Q14"
+function qList(ns){
+  const a = ns.slice().sort((x, y)=> x - y).map(n=> "Q" + n);
+  return a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
+}
+// `only` (optional): the question numbers to ask about; all of them when absent.
+function buildEvidencePrompt(test, part, only){
+  const listening = test.strand === "listening";
+  const source = listening ? "transcript" : "passage";
+  const L = [];
+  L.push("You are helping a teacher add evidence notes to a " + (listening ? "listening" : "reading") + " test for English learners.");
+  L.push("The questions and their answers are FINAL. Do not change, correct or comment on them.");
+  L.push("");
+  L.push("For EVERY question listed under QUESTIONS, write exactly these lines:");
+  L.push("");
+  L.push("Q<number>");
+  L.push("W. <why this is the answer: one or two short, simple sentences a B1 learner can read>");
+  L.push("E. <the words in the " + source + " that give the answer>");
+  L.push("");
+  L.push("Rules for the E. line:");
+  L.push("- Copy the words from the " + source + " EXACTLY, character for character. Do not paraphrase, shorten with \"...\", or fix anything.");
+  L.push("- Take them from ONE paragraph, in one unbroken run: usually 4 to 25 words.");
+  L.push("- No quotation marks around them.");
+  L.push("- For a NOT GIVEN answer, copy the nearest sentence that shows the topic is mentioned without making the claim. If nothing in the " + source + " is close, leave the E. line out for that question.");
+  L.push("");
+  L.push("Rules for the W. line:");
+  L.push("- Say what in the " + source + " settles it. You may name the paragraph (\"Para 2\").");
+  L.push("- One field is one line: never press Enter inside it.");
+  L.push("");
+  L.push("A question marked (E. only) is a blank in a summary, table or flow chart: write the E. line for it and no W. line.");
+  L.push("");
+  L.push("Reply with ONE code block and nothing else, a blank line between questions, like this:");
+  L.push("");
+  L.push("Q1");
+  L.push("W. Para 1 says the study lasted eight years, not less than five.");
+  L.push("E. followed just over four hundred families for eight years");
+  L.push("");
+  L.push("Q2");
+  L.push("W. ...");
+  L.push("E. ...");
+  L.push("");
+  L.push("========== " + source.toUpperCase() + (part.passageTitle ? ": " + htmlToText(part.passageTitle) : "") + " ==========");
+  evParagraphs(part).forEach((para, i)=>{ L.push(""); L.push("[Para " + (i + 1) + "] " + para.text.replace(/\s+/g, " ").trim()); });
+  L.push("");
+  L.push("========== QUESTIONS ==========");
+  evidenceQuestions(part).filter(item=> !only || only.indexOf(item.n) !== -1).forEach(item=>{
+    const g = item.group, q = item.q;
+    L.push("");
+    const range = g.type === "mcq_multi" && g.endN !== g.startN ? " (answers questions " + g.startN + "–" + g.endN + ")" : "";
+    L.push("Q" + item.n + range + " [" + typeLabel(g.type) + "]" + (evidenceEOnly(g) ? " (E. only)" : "") + (g.instructions ? " " + plainText(g.instructions) : ""));
+    if(q.stem) L.push(plainText(q.stem));
+    if(evidenceEOnly(g)) L.push(evidenceBlankContext(g, q));
+    const opts = g.type === "mcq" ? q.options : (g.type === "mcq_multi" || g.type === "matching" ? g.options : null);
+    (opts || []).forEach(o=> L.push("  " + o.letter + ") " + plainText(o.text)));
+    L.push("Answer: " + evidenceAnswerText(q, g));
+  });
+  return L.join("\n");
+}
+// The AI's reply → { number: { why, evidence } }. Forgiving about what wraps
+// it: code fences, "**Q4**", "Question 4:", quotation marks round the E. words.
+function parseEvidenceReply(text){
+  const out = {};
+  let cur = null;
+  String(text || "").replace(/\r\n?/g, "\n").split("\n").forEach(raw=>{
+    const line = raw.replace(/^[\s>*#`-]+/, "").replace(/[*`]+$/, "").trim();
+    let m;
+    if((m = line.match(/^Q(?:uestion)?\s*\.?\s*(\d+)\b/i)) && !/^Q(?:uestion)?\s*\.?\s*\d+\s*\S*\s*[WE]\./i.test(line)){
+      cur = out[+m[1]] = out[+m[1]] || {};
+      return;
+    }
+    if(!cur) return;
+    if((m = line.match(/^W\.\s*(.+)$/i))){ cur.why = m[1].replace(/[*`]+/g, "").trim(); return; }
+    if((m = line.match(/^E\.\s*(.+)$/i))){
+      const words = m[1].replace(/[*`]+/g, "").trim().replace(/^["“”'‘’]+|["“”'‘’]+$/g, "").trim();
+      if(words && !/^(none|n\/a|-+)$/i.test(words)) cur.evidence = words;
+    }
+  });
+  return out;
+}
+// What merging a reply would do, without doing it. Field by field: a note the
+// teacher already has is kept unless `replace` is on.
+// `only` (optional): the numbers the prompt asked about, so a reply to a
+// follow-up prompt isn't reported as "missing" the questions it never covered.
+function evidencePlan(part, parsed, replace, only){
+  const plan = { changes:[], matched:0, added:0, kept:0, asked:0, notFound:[], unknown:[], missing:[] };
+  const byNumber = {};
+  evidenceQuestions(part).forEach(item=>{ byNumber[item.n] = item; });
+  Object.keys(parsed).forEach(n=>{ if(!byNumber[n]) plan.unknown.push(+n); });
+  Object.keys(byNumber).forEach(n=>{
+    const item = byNumber[n], got = parsed[n];
+    const asked = !only || only.indexOf(+n) !== -1;
+    if(asked) plan.asked++;
+    if(!got || (!got.why && !got.evidence)){ if(asked) plan.missing.push(+n); return; }
+    plan.matched++;
+    const change = { q:item.q, n:+n };
+    ["why", "evidence"].forEach(field=>{
+      if(!got[field]) return;
+      if(field === "why" && evidenceEOnly(item.group)) return; // a blank has nowhere to keep a note
+      if(item.q[field] && !replace){ plan.kept++; return; }
+      change[field] = got[field]; plan.added++;
+    });
+    if(change.evidence && !evidenceWordsAt({ evidence:change.evidence }, part)) plan.notFound.push(+n);
+    if(change.why || change.evidence) plan.changes.push(change);
+  });
+  return plan;
+}
+function applyEvidencePlan(plan){
+  plan.changes.forEach(c=>{
+    if(c.why) c.q.why = c.why;
+    if(c.evidence) c.q.evidence = c.evidence;
+  });
 }
 
 /* ============================================================================
@@ -3255,7 +3663,118 @@ function assetUsage(test){
   const counts = {};
   Object.keys(testAssets(test) || {}).forEach(id=>{ counts[id] = 0; });
   eachFigureRef(test, id=>{ counts[id] = (counts[id] || 0) + 1; });
+  eachAudioRef(test, id=>{ counts[id] = (counts[id] || 0) + 1; });
   return counts;
+}
+/* ---- AUDIO: a part's recording is an asset too --------------------------------
+   `part.audio` names an entry in test.assets whose src is a data:audio/… URI
+   (written by tools/add_audio.py). It shares the pictures' ids, Markdown
+   section and answer-code handling, but is kept out of every picture list. */
+function isAudioSrc(v){ return /^data:audio\//i.test(String(v || "")) || /\.(mp3|m4a|ogg|oga|wav)$/i.test(String(v || "")); }
+function eachAudioRef(test, fn){
+  (test.parts||[]).forEach((part, pi)=>{ if(part.audio) fn(part.audio, "Part " + (pi+1) + " audio", { part:pi }); });
+}
+// id → true for every asset that is a sound: by what it holds, or (when an
+// answer code arrived without its media) by a part naming it as its audio.
+function audioIds(test){
+  const out = {}, assets = testAssets(test) || {};
+  Object.keys(assets).forEach(id=>{ if(isAudioSrc(assets[id].src)) out[id] = true; });
+  eachAudioRef(test, id=>{ if(!assets[id] || !assets[id].src || isAudioSrc(assets[id].src)) out[id] = true; });
+  return out;
+}
+/* ---- TIMED TRANSCRIPTS: where each sentence sits in the recording -----------
+   In a listening transcript a sentence may start with a time range,
+       [0:39.3–0:47.2] So you need to make sure …
+   written by tools/align.py, one sentence per line. The stamp is a marker
+   inside the paragraph's text (as a gloss tag is): everything that draws or
+   searches the passage goes through glossModel, which drops it, so students
+   and the evidence finder never see one. A "?" before the "]" means the tool
+   was unsure of that sentence; the sync check clears it. ------------------- */
+const STAMP_SRC = "\\[\\s*(\\d+):(\\d\\d(?:\\.\\d+)?)\\s*[–—-]\\s*(\\d+):(\\d\\d(?:\\.\\d+)?)\\s*(\\?)?\\s*\\]";
+function stripStamps(t){ return String(t == null ? "" : t).replace(new RegExp(STAMP_SRC + "[ \\t]*", "g"), ""); }
+function hasStamps(t){ return new RegExp(STAMP_SRC).test(String(t || "")); }
+function stampText(sec){
+  sec = Math.max(0, Math.round(sec * 10) / 10);
+  const m = Math.floor(sec / 60), r = sec - m * 60;
+  return m + ":" + (r < 10 ? "0" : "") + r.toFixed(1);
+}
+// A paragraph → { lead, items:[{ start, end, weak, text }] }: `lead` is any text
+// before the first stamp; each item's text runs to the next stamp.
+function stampedPieces(t){
+  const src = String(t == null ? "" : t), re = new RegExp(STAMP_SRC, "g");
+  const out = { lead:"", items:[] };
+  let m, last = 0, cur = null;
+  while((m = re.exec(src))){
+    const before = src.slice(last, m.index);
+    if(cur) cur.text = before.trim(); else out.lead = before.trim();
+    cur = { start: parseInt(m[1],10)*60 + parseFloat(m[2]), end: parseInt(m[3],10)*60 + parseFloat(m[4]), weak: !!m[5], text:"" };
+    out.items.push(cur);
+    last = re.lastIndex;
+  }
+  if(cur) cur.text = src.slice(last).trim(); else out.lead = src.trim();
+  return out;
+}
+// …and back: one sentence per line, the way the file keeps it.
+function stampedText(pieces){
+  const lines = [];
+  if(pieces.lead) lines.push(pieces.lead);
+  pieces.items.forEach(it=>{
+    lines.push("[" + stampText(it.start) + "–" + stampText(it.end) + (it.weak ? "?" : "") + "] " + it.text);
+  });
+  return lines.join("\n");
+}
+// Every timed sentence of a part, in order: { para, k, start, end, weak, text }.
+function timedSentences(part){
+  const out = [];
+  (part.paragraphs||[]).forEach((t, para)=>{
+    if(!hasStamps(t)) return;
+    stampedPieces(t).items.forEach((it, k)=> out.push({ para, k, start:it.start, end:it.end, weak:it.weak, text:it.text }));
+  });
+  return out;
+}
+// Where each timed sentence sits in the transcript AS DRAWN — the same text
+// evidenceFor() measures in — so the review can wrap it for tapping and find
+// which sentence a question's evidence is in. Sentences are looked for in
+// order; one that can't be matched (an odd tag) takes the stretch after the
+// one before it rather than being dropped.
+// → [{ i, para, start, end, t0, t1 }]: start/end are characters, t0/t1 seconds.
+function sentenceSpans(part){
+  const texts = {};
+  evParagraphs(part).forEach(p=>{ texts[p.idx] = p.text; });
+  const out = [], flats = {}, cursor = {};
+  timedSentences(part).forEach((s, i)=>{
+    const text = texts[s.para];
+    if(text == null) return;
+    const flat = flats[s.para] || (flats[s.para] = evFlatten(text));
+    const at0 = cursor[s.para] || 0;
+    // The sentence the way it is drawn: gloss tags reduced to their words.
+    const shown = htmlToText(glossModel({ paragraphs:[s.text] }).paras[0] || "");
+    const needle = evFlatten(shown).text.trim();
+    if(!needle) return;
+    let at = flat.text.indexOf(needle, at0);
+    if(at === -1) at = Math.min(at0, flat.text.length);
+    const endAt = Math.min(flat.text.length, at + needle.length);
+    cursor[s.para] = endAt;
+    if(endAt <= at) return;
+    out.push({ i, para:s.para, start:flat.map[at], end:flat.map[endAt], t0:s.start, t1:s.end });
+  });
+  return out;
+}
+// The sentences an evidence span ({ para, start, end } from evidenceFor) falls
+// in: { from, to } as indexes into `spans`, or null when it gives no words.
+function spansForEvidence(spans, ev){
+  if(!ev || ev.start == null || !spans || !spans.length) return null;
+  let from = -1, to = -1;
+  spans.forEach((s, k)=>{
+    if(s.para !== ev.para || s.end <= ev.start || s.start >= ev.end) return;
+    if(from === -1) from = k;
+    to = k;
+  });
+  return from === -1 ? null : { from, to };
+}
+function pictureIds(test){
+  const sounds = audioIds(test);
+  return Object.keys(testAssets(test) || {}).filter(id=> !sounds[id]);
 }
 // Whichever test is on screen: the student's, or the editor's while previewing.
 function activeTest(){ return State.test || (typeof EditorState !== "undefined" ? EditorState.test : null); }
@@ -4567,6 +5086,16 @@ function editorIssues(test){
       : "this fitted no question type and became open-ended — rewrite it, then delete “UNCONVERTED:” from its note") });
   })));
 
+  // An E. line is a promise that those words are in the passage. When they
+  // are not, nothing can be painted from it after the test (a quote in the W.
+  // note may still be found instead, or the student sees "no evidence marked").
+  (test.parts || []).forEach((p, pi)=> (p.groups || []).forEach((g, gi)=> (g.questions || []).forEach((q, qi)=>{
+    if(!q.evidence || evidenceWordsAt(q, p)) return;
+    const label = "Q" + (g.type === "mcq_multi" ? (g.startN + "–" + g.endN) : q.n);
+    items.push({ target:{ pi, gi, qi }, text: label + " · its evidence words are not in the " +
+      (test.strand === "listening" ? "transcript" : "passage") + " as written — check them" });
+  })));
+
   const open = (test.parts || []).reduce((n,p)=> n + (p.groups||[]).filter(g=> g.type === "open").length, 0);
   if(open) items.push({ note:true, text: open + " written-answer group" + (open === 1 ? "" : "s") + " — not scored, you mark them yourself." });
   if(test.showResults === false) items.push({ note:true, text: "Results are hidden: students get an answer code to send you instead of a score." });
@@ -4663,7 +5192,7 @@ function renderEditorHub(){
     // Bullets, because a teacher reads this card to answer "what is in this
     // part?" — one line per thing, rather than a paragraph to parse.
     const list = el("ul", "hub-card-list", null, card);
-    const paras = (part.paragraphs||[]).filter(t=> !figureParagraph(t)).join(" ");
+    const paras = (part.paragraphs||[]).filter(t=> !figureParagraph(t)).map(stripStamps).join(" ");
     const words = paras.replace(/\{\{([^|}]*)[^}]*\}\}/g, "$1").trim().split(/\s+/).filter(Boolean).length;
     const isListening = test.strand === "listening";
     if(part.passageTitle || words){
@@ -5917,7 +6446,7 @@ function renderEditorAssets(pi, host){
   const el = (tag, cls, text, parent)=>{ const e = document.createElement(tag); if(cls) e.className = cls; if(text!=null) e.textContent = text; (parent||panel).appendChild(e); return e; };
 
   const assets = testAssets(test) || {};
-  const ids = Object.keys(assets);
+  const ids = pictureIds(test);
   const usage = {};
   ids.forEach(id=>{ usage[id] = []; });
   eachFigureRef(test, (id, where, at)=>{ (usage[id] = usage[id] || []).push({ where, at }); });
@@ -6210,7 +6739,164 @@ function updateEditorPartBanner(part, pi){
       updateEditorPartBanner(part, pi);
       refreshGlossViews();
     }, { compact:true, hint:"Pinned above the questions, where students can collapse or zoom it." }));
+    // The recording is attached by tools/add_audio.py (it shrinks the file
+    // first); here it is only named, so the teacher can see it travelled.
+    if(part.audio){
+      const a = assetById(EditorState.test, part.audio);
+      const tag = document.createElement("span");
+      tag.className = "audio-field";
+      tag.textContent = "🎧 Recording: " + part.audio + (a && a.src ? " · " + humanBytes(assetBytes(a.src)) : " · not in this file");
+      tag.title = "Students get a player pinned above the questions. Added with tools/add_audio.py.";
+      banner.appendChild(tag);
+      const timed = timedSentences(part);
+      if(a && a.src && timed.length){
+        const weak = timed.filter(x=> x.weak).length;
+        const sc = document.createElement("button");
+        sc.type = "button";
+        sc.className = "transcript-toggle";
+        sc.textContent = "⏱ Sync check" + (weak ? " · " + weak + " to check" : "");
+        sc.title = "Play each sentence of the transcript and adjust where it starts and ends in the recording.";
+        sc.onclick = ()=> openSyncCheck(pi);
+        banner.appendChild(sc);
+      }
+    }
   }
+}
+
+/* ---- Sync check (teacher): does each sentence play cleanly? ----------------
+   Lists every timed sentence of the part's transcript. ▶ plays exactly that
+   sentence; − / + move its start or end by 0.1 s and play the changed edge
+   again. Amber rows are the ones tools/align.py was unsure of, or whose times
+   look wrong (they overlap a neighbour, or run past the recording). Changes
+   are written straight into the transcript's time stamps. ------------------ */
+function openSyncCheck(pi){
+  serializeEditorPassages(); // the transcript box may hold edits not yet in the model
+  const test = EditorState.test, part = test.parts[pi];
+  const asset = assetById(test, part.audio);
+  if(!asset || !asset.src){ alert("This part's recording isn't in this file."); return; }
+
+  const overlay = document.createElement("div");
+  overlay.className = "modal-overlay asset-picker sync-check";
+  const panel = document.createElement("div");
+  panel.className = "modal-panel";
+  overlay.appendChild(panel);
+  const el = (tag, cls, text, parent)=>{ const e = document.createElement(tag); if(cls) e.className = cls; if(text!=null) e.textContent = text; (parent||panel).appendChild(e); return e; };
+  el("h3", null, "⏱ Sync check — " + (part.label || ("Part " + (pi+1))));
+  el("div", "sc-help", "▶ plays one sentence. If it starts late, clips a word or runs into the next sentence, move its start or end with − and + (0.1 s each). Amber rows are worth a listen.");
+  const list = el("div", "sc-list");
+  const foot = el("div", "sc-foot");
+  const status = el("small", null, "", foot);
+
+  const u = audioPlayableUrl(asset.src);
+  const audio = new Audio();
+  audio.preload = "auto";
+  audio.src = u.url;
+  let stopAt = null, raf = 0, playingRow = null;
+  function halt(){
+    audio.pause(); stopAt = null;
+    if(raf){ cancelAnimationFrame(raf); raf = 0; }
+    if(playingRow){ playingRow.classList.remove("playing"); playingRow = null; }
+  }
+  // currentTime is polled every frame: `timeupdate` fires only ~4 times a
+  // second, which would overrun a sentence's end by a syllable.
+  function watch(){
+    if(stopAt == null) return;
+    if(audio.currentTime >= stopAt || audio.ended){ halt(); return; }
+    raf = requestAnimationFrame(watch);
+  }
+  function playSpan(from, to, row){
+    halt();
+    try{ audio.currentTime = Math.max(0, from); }catch(e){}
+    stopAt = to; playingRow = row; row.classList.add("playing");
+    const pr = audio.play();
+    if(pr && pr.catch) pr.catch(()=> halt());
+    raf = requestAnimationFrame(watch);
+  }
+  // Write one sentence's times back into its paragraph, and redraw the editor
+  // underneath so its transcript box holds the same text as the model.
+  function save(s){
+    const pieces = stampedPieces(part.paragraphs[s.para]);
+    const it = pieces.items[s.k];
+    if(!it) return;
+    it.start = s.start; it.end = s.end; it.weak = s.weak;
+    part.paragraphs[s.para] = stampedText(pieces);
+    renderEditorPart(EditorState.partIndex);
+  }
+  function draw(){
+    const all = timedSentences(part);
+    const dur = Number.isFinite(audio.duration) ? audio.duration : 0;
+    const keep = list.scrollTop;
+    list.innerHTML = "";
+    let flagged = 0;
+    all.forEach((s, i)=>{
+      const prev = all[i-1], next = all[i+1];
+      const why = [];
+      if(s.weak) why.push("the aligner was unsure of this one");
+      if(s.end <= s.start) why.push("it ends before it starts");
+      if(prev && s.start < prev.end - 0.05) why.push("it starts before the sentence above has ended");
+      if(dur && s.end > dur + 0.2) why.push("it runs past the end of the recording");
+      const row = el("div", "sc-row" + (why.length ? " weak" : ""), null, list);
+      if(why.length) flagged++;
+      const play = el("button", "sc-play", "▶", row);
+      play.type = "button"; play.title = "Play this sentence"; play.setAttribute("aria-label", "Play sentence " + (i+1));
+      play.onclick = ()=>{ if(playingRow === row){ halt(); return; } playSpan(s.start, s.end, row); };
+      const times = el("div", "sc-times", null, row);
+      const edge = (label, key)=>{
+        const line = el("div", "sc-time", null, times);
+        el("span", null, label, line);
+        const minus = el("button", "sc-nudge", "−", line), val = el("b", null, stampText(s[key]), line), plus = el("button", "sc-nudge", "+", line);
+        minus.type = plus.type = "button";
+        minus.title = "0.1 s earlier"; plus.title = "0.1 s later";
+        minus.setAttribute("aria-label", label + " 0.1 seconds earlier, sentence " + (i+1));
+        plus.setAttribute("aria-label", label + " 0.1 seconds later, sentence " + (i+1));
+        const move = d=>{
+          let v = Math.round((s[key] + d) * 10) / 10;
+          if(key === "start") v = Math.max(0, Math.min(v, s.end - 0.2));
+          else v = Math.max(s.start + 0.2, dur ? Math.min(v, dur) : v);
+          if(v === s[key]) return;
+          s[key] = v; s.weak = false;   // a sentence you adjusted is one you checked
+          save(s); draw();
+          // Hear the edge that moved: the first second and a half, or the last.
+          const rows = list.querySelectorAll(".sc-row");
+          if(key === "start") playSpan(s.start, Math.min(s.end, s.start + 1.5), rows[i]);
+          else playSpan(Math.max(s.start, s.end - 1.5), s.end, rows[i]);
+        };
+        minus.onclick = ()=> move(-0.1);
+        plus.onclick = ()=> move(0.1);
+        void val;
+      };
+      edge("Start", "start");
+      edge("End", "end");
+      const text = el("div", "sc-text", htmlToText(sanitizePassage(s.text)), row);
+      if(why.length) el("span", "sc-flag", "⚠ " + why.join("; "), text);
+      if(s.weak){
+        const ok = el("button", "sc-ok", "✓ Sounds right", row);
+        ok.type = "button"; ok.title = "Clear the flag on this sentence";
+        ok.onclick = ()=>{ s.weak = false; save(s); draw(); };
+      }
+    });
+    list.scrollTop = keep;
+    status.textContent = all.length + " sentences" + (flagged ? " · " + flagged + " flagged" : " · none flagged") + ". Changes are saved into the transcript as you make them.";
+  }
+  audio.onloadedmetadata = draw;
+  audio.onerror = ()=>{ status.textContent = "The recording could not be loaded."; };
+
+  const close = ()=>{
+    halt();
+    audio.removeAttribute("src");
+    if(u.blob){ try{ URL.revokeObjectURL(u.blob); }catch(e){} }
+    document.removeEventListener("keydown", onKey, true);
+    closeOverlay(overlay);
+    updateEditorPartBanner(part, pi);
+  };
+  const done = smallBtn("Done", close);
+  done.className = "eg-btn xs-btn primary";
+  foot.appendChild(done);
+  const onKey = e=>{ if(e.key === "Escape"){ e.preventDefault(); close(); } };
+  document.addEventListener("keydown", onKey, true);
+  overlay.addEventListener("mousedown", e=>{ if(e.target === overlay) close(); });
+  document.body.appendChild(overlay);
+  draw();
 }
 
 // Structural edits redraw ONLY the right (question) pane — never the left
@@ -6770,6 +7456,99 @@ function aiFlagStrip(q){
   return strip;
 }
 
+/* ---- A question's evidence: the strip, opened into a panel ------------------
+   Closed, it is the one line it always was ("Evidence Para 2: …"), now with
+   the passage words beside it and a mark saying whether they are there. Open,
+   it is two boxes: Why (the W. line students read after the test) and Passage
+   words (the E. line — the exact words that are painted for them), which
+   "Take from passage" fills from whatever is selected in the passage pane. -- */
+function evidencePanel(q){
+  const wrap = document.createElement("div");
+  wrap.className = "eg-evidence";
+  const part = ()=> EditorState.test.parts[EditorState.partIndex];
+  const source = ()=> EditorState.test.strand === "listening" ? "transcript" : "passage";
+  const draw = (open)=>{
+    wrap.innerHTML = "";
+    wrap.classList.toggle("open", open);
+    if(!open){
+      if(!q.why && !q.evidence){
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "eg-ev-add"; b.textContent = "+ Add evidence";
+        b.onclick = ()=> draw(true);
+        wrap.appendChild(b);
+        return;
+      }
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "eg-ev-preview"; b.title = "Click to edit";
+      const tag = document.createElement("b"); tag.textContent = "Evidence ";
+      b.appendChild(tag);
+      if(q.why) b.appendChild(document.createTextNode(plainText(q.why)));
+      if(q.evidence){
+        const quote = document.createElement("span");
+        quote.className = "eg-ev-quote";
+        quote.textContent = (q.why ? "  ·  " : "") + "“" + plainText(q.evidence) + "”";
+        b.appendChild(quote);
+      }
+      b.onclick = ()=> draw(true);
+      wrap.appendChild(b);
+      if(q.evidence){
+        const found = evidenceWordsAt(q, part());
+        const mark = document.createElement("span");
+        mark.className = "eg-ev-mark " + (found ? "ok" : "bad");
+        mark.textContent = found ? "✓" : "✕ not in the " + source();
+        mark.title = found ? "These words are in paragraph " + found.n : "These words are not in the " + source() + " as written, so they can't be painted for students";
+        wrap.appendChild(mark);
+      }
+      return;
+    }
+    const why = lineInput(q.why, v=>{ if(v.trim()) q.why = v; else delete q.why; });
+    why.placeholder = "e.g. Para 2 says the study lasted eight years";
+    wrap.appendChild(egField("Why", why, "Why this is the answer. Students read it after the test."));
+
+    const words = lineInput(q.evidence, v=>{ if(v.trim()) q.evidence = v.trim(); else delete q.evidence; showState(); });
+    words.placeholder = "The exact words in the " + source();
+    wrap.appendChild(egField("Passage words", words, "The exact words that give the answer. After the test they are painted in the " + source() + " for the student."));
+
+    const row = document.createElement("div");
+    row.className = "eg-ev-row";
+    const take = document.createElement("button");
+    take.type = "button"; take.className = "eg-btn";
+    take.textContent = "Take from " + source();
+    take.title = "Select the words in the " + source() + " on the left, then click this";
+    take.onmousedown = e=> e.preventDefault(); // keep the selection in the passage
+    const state = document.createElement("span");
+    state.className = "eg-ev-state";
+    const showState = (hint)=>{
+      state.className = "eg-ev-state";
+      if(hint){ state.textContent = hint; return; }
+      if(!q.evidence){ state.textContent = ""; return; }
+      const found = evidenceWordsAt(q, part());
+      state.classList.add(found ? "ok" : "bad");
+      state.textContent = found ? "✓ Found in paragraph " + found.n : "✕ Not in the " + source() + " — check the spelling, or take the words from it";
+    };
+    take.onclick = ()=>{
+      const sel = window.getSelection();
+      const inPassage = sel && sel.rangeCount && !sel.isCollapsed &&
+        $("#editorLeftpane").contains(sel.anchorNode) && $("#editorLeftpane").contains(sel.focusNode);
+      const text = inPassage ? sel.toString().replace(/\s+/g, " ").trim() : "";
+      if(!text){ showState("Select the words in the " + source() + " first, then click here."); return; }
+      q.evidence = text;
+      words.value = text;
+      words.dispatchEvent(new Event("input"));
+    };
+    const done = document.createElement("button");
+    done.type = "button"; done.className = "eg-ev-done"; done.textContent = "Done";
+    done.onclick = ()=> draw(false);
+    row.appendChild(take); row.appendChild(state); row.appendChild(spacerEl()); row.appendChild(done);
+    wrap.appendChild(row);
+    [why, words].forEach(box=> box.addEventListener("keydown", e=>{ if(e.key === "Escape"){ e.preventDefault(); draw(false); } }));
+    showState();
+    setTimeout(()=> why.focus(), 0);
+  };
+  draw(false);
+  return wrap;
+}
+
 // The evidence note (or an "open" question's marking note) as one line:
 // a preview you click to edit, "+ Add …" when empty, or an input with Done.
 function evidenceLine(q, key, label){
@@ -6924,7 +7703,7 @@ function renderQuestionEditor(q, qi, group, onArm, armed){
   const flagStrip = aiFlagStrip(q);
   if(flagStrip) body.appendChild(flagStrip);
   if(group.type !== "open") body.appendChild(answerFieldFor(q, group, onArm, armed));
-  body.appendChild(group.type === "open" ? evidenceLine(q, "note", "Marking note") : evidenceLine(q, "why", "Evidence"));
+  body.appendChild(group.type === "open" ? evidenceLine(q, "note", "Marking note") : evidencePanel(q));
   box.appendChild(body);
   return box;
 }
@@ -6975,7 +7754,7 @@ function renderMcqMultiEditor(group){
     answer.appendChild(count);
   }
   body.appendChild(answer);
-  body.appendChild(evidenceLine(q, "why", "Evidence"));
+  body.appendChild(evidencePanel(q));
   box.appendChild(body);
   return box;
 }
@@ -7806,7 +8585,7 @@ function openFigureDialog(owner, title, onChange, opts){
       empty.className = "figure-empty";
       empty.innerHTML = "<b>Paste, drop or choose an image</b><span>Click here and press Ctrl+V, drag a file in, or</span>";
       empty.appendChild(smallBtn("📁 Choose file…", ()=> filePick.click()));
-      if(Object.keys(testAssets(test) || {}).length && !opts.hideReuse){
+      if(pictureIds(test).length && !opts.hideReuse){
         empty.appendChild(smallBtn("Use one already in this test…", ()=> pickExistingAsset(test, id=>{ setFigure(id); })));
       }
       // A figure naming a picture that isn't here (a draft): let it be cleared.
@@ -7821,7 +8600,7 @@ function openFigureDialog(owner, title, onChange, opts){
 // Choose an asset the test already has (so one picture can serve two places).
 function pickExistingAsset(test, onPick){
   const assets = testAssets(test) || {};
-  const ids = Object.keys(assets);
+  const ids = pictureIds(test);
   if(!ids.length){ alert("This test has no pictures yet."); return; }
   const dlg = document.createElement("div");
   dlg.className = "modal-overlay asset-picker";
@@ -8021,6 +8800,160 @@ function openAddGroupDialog(part, at){
   document.body.appendChild(overlay);
   const first = panel.querySelector(".ag-card");
   if(first) first.focus();
+}
+
+/* The wizard is written for someone who clicks what is put in front of them:
+   it says the passage is already in the prompt (so nobody pastes it twice, or
+   wonders whether to), refuses to run with nothing to quote from, narrows the
+   prompt to the questions an AI skipped, and — once a part is done — points at
+   the parts that still have none. `only` narrows it to some question numbers. */
+function openEvidenceWizard(part, only){
+  const test = EditorState.test;
+  const src = test.strand === "listening" ? "transcript" : "passage";
+  const partName = x=> x.label || ("Part " + (test.parts.indexOf(x) + 1));
+  const overlay = document.createElement("div");
+  overlay.className = "modal-overlay asset-picker ev-wizard";
+  const panel = document.createElement("div");
+  panel.className = "modal-panel";
+  panel.setAttribute("role", "dialog"); panel.setAttribute("aria-label", "Evidence with AI");
+  overlay.appendChild(panel);
+  const el = (tag, cls, text, parent)=>{ const e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; (parent || panel).appendChild(e); return e; };
+  const btn = (cls, text, parent, onClick)=>{ const b = el("button", cls, text, parent); b.type = "button"; b.onclick = onClick; return b; };
+  const onKey = e=>{ if(e.key === "Escape"){ e.stopPropagation(); close(); } };
+  const close = ()=>{ document.removeEventListener("keydown", onKey, true); closeOverlay(overlay); };
+  const heading = sub=>{
+    panel.innerHTML = "";
+    const head = el("div", "ag-head");
+    const headText = el("div", null, null, head);
+    el("h3", null, "Evidence with AI", headText);
+    el("p", null, sub, headText);
+    const x = btn("ag-close", "✕", head, close);
+    x.setAttribute("aria-label", "Close");
+  };
+  // The parts (other than this one) with questions that still have no evidence.
+  const others = ()=> test.parts.filter(x=> x !== part && evidenceLacking(x).length && !evidenceSourceMissing(x));
+  const goTo = x=>{
+    close();
+    EditorState.mode = "edit";
+    openEditorPart(test.parts.indexOf(x));
+    openEvidenceWizard(x);
+  };
+
+  // Nothing to quote from: say so, rather than hand out a prompt an AI would
+  // answer by making the quotes up.
+  function drawNoSource(){
+    heading(partName(part));
+    el("div", "evz-summary bad", "This part has no " + src + " yet, so there is nothing for the AI to take the evidence from. " +
+      (test.strand === "listening" ? "Add the transcript" : "Write or paste the passage") + " first, then come back.");
+    const foot = el("div", "evz-foot");
+    foot.appendChild(spacerEl());
+    btn("evz-btn primary", "OK", foot, close);
+  }
+
+  function drawWork(scope, banner){
+    const all = evidenceQuestions(part);
+    const asked = scope ? all.filter(i=> scope.indexOf(i.n) !== -1) : all;
+    heading(partName(part) + " · " + all.length + " question" + (all.length === 1 ? "" : "s") +
+      ". The AI writes a Why and the Passage words for each; nothing else in the test is touched.");
+    if(banner) el("div", "evz-summary ok", banner);
+
+    el("div", "evz-step", "1 · Copy this prompt into ChatGPT, Claude or Gemini");
+    const prompt = el("textarea");
+    prompt.readOnly = true; prompt.spellcheck = false;
+    prompt.value = buildEvidencePrompt(test, part, scope);
+    const copyRow = el("div", "evz-foot");
+    copyRow.style.marginTop = "6px";
+    const copy = btn("evz-btn", "Copy prompt", copyRow, ()=> copyToClipboard(prompt, copy));
+    el("div", "evz-info", scope
+      ? "This prompt asks only for " + qList(scope) + ", and already contains the " + src + ". Just copy it and paste it to the AI — there is nothing to add."
+      : "This prompt already contains " + partName(part) + "'s " + src + " and its " + all.length + " question" + (all.length === 1 ? "" : "s") +
+        " with their answers. Just copy it and paste it to the AI — there is nothing to add.");
+
+    el("div", "evz-step", "2 · Paste the AI's whole reply here");
+    const reply = el("textarea");
+    reply.spellcheck = false;
+    reply.placeholder = "Q1\nW. …\nE. …";
+    const summary = el("div", "evz-summary");
+
+    const foot = el("div", "evz-foot");
+    const repLabel = el("label", null, null, foot);
+    const rep = document.createElement("input"); rep.type = "checkbox";
+    repLabel.appendChild(rep);
+    repLabel.appendChild(document.createTextNode("Also replace the notes I already have"));
+    repLabel.title = "Off: a Why or Passage words you already wrote is kept, and only empty ones are filled";
+    foot.appendChild(spacerEl());
+    btn("evz-btn", "Cancel", foot, close);
+    const add = btn("evz-btn primary", "Add", foot, ()=>{
+      if(!plan) return;
+      const added = plan.added;
+      applyEvidencePlan(plan);
+      rerenderEdit();
+      const left = evidenceLacking(part).map(i=> i.n);
+      const said = "✓ Added " + added + " note" + (added === 1 ? "" : "s") + ".";
+      if(left.length) drawWork(left, said + " " + qList(left) + " still " + (left.length === 1 ? "has" : "have") +
+        " no evidence, so the prompt below now asks for just " + (left.length === 1 ? "that one" : "those") + ".");
+      else drawDone(said);
+    });
+
+    let plan = null;
+    const refresh = ()=>{
+      summary.innerHTML = ""; summary.className = "evz-summary";
+      plan = null; add.disabled = true; add.textContent = "Add";
+      if(!reply.value.trim()){ summary.textContent = "Nothing pasted yet."; return; }
+      plan = evidencePlan(part, parseEvidenceReply(reply.value), rep.checked, scope);
+      const line = t=> el("div", null, t, summary);
+      if(!plan.matched){
+        summary.classList.add("bad");
+        line("No question in this part was found in that reply. It should have a line like “Q1”, then “W. …” and “E. …”.");
+        plan = null; return;
+      }
+      summary.classList.add("ok");
+      line(plan.matched + " of " + (scope ? asked.length : all.length) + " question" + ((scope ? asked.length : all.length) === 1 ? "" : "s") + " matched. " +
+        plan.added + " note" + (plan.added === 1 ? "" : "s") + " to add" +
+        (plan.kept ? "; " + plan.kept + " you already have will be kept." : "."));
+      if(plan.missing.length){
+        const missing = plan.missing.slice();
+        line("The AI sent nothing for " + qList(missing) + ". Add what it did send, and the prompt will then ask for just " +
+          (missing.length === 1 ? "that one" : "those") + ".");
+        btn("evz-link", "Or copy a prompt for just " + (missing.length === 1 ? "that one" : "those") + " now", summary, ()=> drawWork(missing,
+          "The prompt below now asks only for " + qList(missing) + "."));
+      }
+      if(plan.notFound.length) line("⚠ The passage words for " + qList(plan.notFound) + " are not in the " + src +
+        " as written. They will be added, and listed under “Before you send it out” for you to fix.");
+      if(plan.unknown.length) line("Ignored: " + qList(plan.unknown) + " — not " + (plan.unknown.length === 1 ? "a question" : "questions") + " in this part that can carry evidence.");
+      add.disabled = !plan.added;
+      add.textContent = plan.added ? "Add " + plan.added + " note" + (plan.added === 1 ? "" : "s") : "Nothing to add";
+    };
+    reply.addEventListener("input", refresh);
+    rep.onchange = refresh;
+    refresh();
+  }
+
+  // Every question here that can carry evidence has some: say so, and say
+  // which parts are still waiting.
+  function drawDone(said){
+    heading(partName(part));
+    const box = el("div", "evz-done");
+    el("div", null, said + " Every question in " + partName(part) + " that can carry evidence now has some.", box);
+    const rest = others();
+    const foot = el("div", "evz-foot");
+    foot.appendChild(spacerEl());
+    if(rest.length){
+      el("div", null, rest.map(partName).join(rest.length === 2 ? " and " : ", ") + " still " + (rest.length === 1 ? "has" : "have") +
+        " questions with no evidence.", box);
+      btn("evz-btn", "Close", foot, close);
+      btn("evz-btn primary", "Go on to " + partName(rest[0]), foot, ()=> goTo(rest[0]));
+    } else {
+      btn("evz-btn primary", "Done", foot, close);
+    }
+  }
+
+  if(evidenceSourceMissing(part)) drawNoSource();
+  else drawWork(only || null, null);
+
+  overlay.addEventListener("mousedown", e=>{ if(e.target === overlay) close(); });
+  document.addEventListener("keydown", onKey, true);
+  document.body.appendChild(overlay);
 }
 
 function renderGroupEditor(group, gi, part){
@@ -8373,8 +9306,30 @@ function renderEditorRightEdit(pi){
   const right = $("#editorRightpane");
   right.innerHTML = "";
   right.classList.remove("locked");
-  right.appendChild(paneTools(paneToolButton("✓ Done", "Finish editing the questions",
-    ()=> setQuestionEdit(false), "done")));
+  // The pane's bar: Evidence with AI (when this part has questions that can
+  // carry it) and Done, in a row of their own.
+  const bar = document.createElement("div");
+  bar.className = "eg-bar";
+  const barTitle = document.createElement("span");
+  barTitle.className = "eg-bar-title";
+  barTitle.textContent = "Editing questions";
+  bar.appendChild(barTitle);
+  bar.appendChild(spacerEl());
+  if(evidenceQuestions(part).length){
+    const ai = document.createElement("button");
+    ai.type = "button"; ai.className = "eg-aibtn";
+    ai.textContent = "Evidence with AI";
+    ai.title = "Get a prompt for this part, and paste the AI's reply back to fill in each question's evidence";
+    ai.onclick = ()=> openEvidenceWizard(part);
+    bar.appendChild(ai);
+  }
+  const doneBtn = document.createElement("button");
+  doneBtn.type = "button"; doneBtn.className = "eg-donebtn";
+  doneBtn.textContent = "✓ Done";
+  doneBtn.title = "Finish editing the questions";
+  doneBtn.onclick = ()=> setQuestionEdit(false);
+  bar.appendChild(doneBtn);
+  right.appendChild(bar);
 
   // One group open at a time. Nothing chosen yet for this part (or the open
   // one belongs to another part)? Open its first group. null = the teacher
@@ -8558,6 +9513,15 @@ function exitStudentPreview(){
    verbatim — they may already contain the whitelisted inline HTML subset
    (Part 1 of this feature), which round-trips with no extra syntax because
    the parser treats paragraphs as opaque text blocks. --------------------- */
+// "evidence:" for a summary/table/flow-chart group: one quote per blank, in
+// order, empty where a blank has none; left out when no blank has any.
+function pushEvidenceLine(lines, g){
+  const qs = g.questions || [];
+  if(!qs.some(q=> q.evidence)) return;
+  let list = qs.map(q=> String(q.evidence || "").replace(/\s*\|\s*/g, " ").replace(/\s+/g, " ").trim());
+  while(list.length && !list[list.length - 1]) list.pop(); // trailing empties say nothing
+  lines.push("evidence: " + list.join(" | "));
+}
 function testToMarkdown(test){
   const lines = [];
   lines.push("# Test: " + (test.title||"Untitled test"));
@@ -8565,14 +9529,19 @@ function testToMarkdown(test){
   lines.push("time: " + testMinutes(test));
   if(test.strand === "listening") lines.push("strand: listening");
   if(test.showResults === false) lines.push("results: hidden");
+  if(test.plays === 1 || test.plays === 2) lines.push("plays: " + test.plays);
+  if(test.review === "reveal") lines.push("review: reveal");
   if(test.titleAlign === "center") lines.push("title-align: center");
   lines.push("");
 
   test.parts.forEach(part=>{
     lines.push("## " + (part.label || "Part"));
     if(part.figure && part.figure.id) lines.push("figure: " + figureRefText(part.figure));
+    if(part.audio) lines.push("audio: " + part.audio);
     lines.push("### Passage: " + (part.passageTitle || ""));
-    (part.paragraphs||[]).forEach(p=>{ lines.push(p); lines.push(""); });
+    // A timed transcript goes out one sentence per line (the editor's text
+    // box folds a paragraph onto one line; the file should stay readable).
+    (part.paragraphs||[]).forEach(p=>{ lines.push(hasStamps(p) ? stampedText(stampedPieces(p)) : p); lines.push(""); });
 
     (part.groups||[]).forEach(g=>{
       lines.push("### Questions: " + g.type);
@@ -8604,6 +9573,7 @@ function testToMarkdown(test){
           lines.push("summary: " + sum);
           lines.push("answers: " + (g.questions||[]).map(q=> q.answer || "").join(" | "));
         }
+        pushEvidenceLine(lines, g);
         lines.push("");
         return;
       }
@@ -8613,6 +9583,7 @@ function testToMarkdown(test){
         lines.push("columns: " + (g.columns||[]).join(" | "));
         (g.rows||[]).forEach(r=> lines.push("row: " + (r||[]).map(c=> cellToText(c)).join(" | ")));
         lines.push("answers: " + (g.questions||[]).map(q=> (q.accepted||[]).join(" / ")).join(" | "));
+        pushEvidenceLine(lines, g);
         lines.push("");
         return;
       }
@@ -8625,6 +9596,7 @@ function testToMarkdown(test){
         } else {
           lines.push("answers: " + (g.questions||[]).map(q=> q.answer || "").join(" | "));
         }
+        pushEvidenceLine(lines, g);
         lines.push("");
         return;
       }
@@ -8744,7 +9716,8 @@ function saveState(){
       answers:State.answers, flags:State.flags, highlights:State.highlights,
       rightHighlights:State.rightHighlights, annotations:State.annotations,
       notes:State.notes, remaining:State.remaining, split:State.split, zoom:State.zoom,
-      currentN:State.currentN, submitted:State.submitted, attemptNo:State.attemptNo
+      currentN:State.currentN, submitted:State.submitted, attemptNo:State.attemptNo,
+      audio:State.audio, second:State.second
     }));
   }catch(e){ /* storage may be unavailable; app still runs in-memory */ }
 }
@@ -8767,6 +9740,8 @@ function loadState(){
     State.currentN = s.currentN||1;
     State.submitted = !!s.submitted;
     State.attemptNo = s.attemptNo || 0; // 0 = an old save with no attempt number yet
+    State.audio = s.audio || {};        // plays used + where each recording was left
+    State.second = s.second || {};      // second tries after re-listening
     return true;
   }catch(e){ return false; }
 }
@@ -9318,7 +10293,7 @@ function startTest(test, presetName, preview){
   State.answers={}; State.flags={}; State.highlights={}; State.rightHighlights={}; State.annotations=[]; State.notes="";
   State.remaining = testMinutes(test)*60;
   State.split=50; State.zoom=1; State.currentN=1; State.submitted=false; State.partIndex=0; State.attemptNo=0; State.reveal={};
-  State.figureOpen={}; State.figureZoom={};
+  State.figureOpen={}; State.figureZoom={}; State.audio={}; State.second={};
   resultsAreTeacherView = false; // a fresh live attempt is the student's own
   returnedFileHeld = false;
   if(presetName) State.studentName = presetName;
@@ -9379,7 +10354,8 @@ function loadCompletedAttempt(test, attempt, fromFile){
   State.attemptNo = attempt.attemptNo || 1;
   State.submitted = true;
   State.reveal = {};
-  State.figureOpen = {}; State.figureZoom = {};
+  State.figureOpen = {}; State.figureZoom = {}; State.audio = {};
+  State.second = attempt.second || {};
   State.partIndex = 0;
 
   $("#namegate").classList.add("hidden");
@@ -9432,16 +10408,20 @@ function renderPart(pi){
   const listening = State.test.strand === "listening" && !State.submitted;
   const transcriptReview = State.test.strand === "listening" && State.submitted
     && (State.test.parts[pi].paragraphs || []).join("").trim() !== "";
+  // Re-listen before reveal: while wrong answers in this part wait for their
+  // second try, the transcript would give them away — it is there, blurred,
+  // and only the places a student asked to see come clear (holdTranscript).
+  const held = transcriptReview && scriptBlurred(pi);
 
   // Layout mode: listening drops the passage pane (single column).
   $("#panes").classList.toggle("listening", listening);
+  $("#panes").classList.toggle("ts-review", transcriptReview); // 40/60, no divider
   $("#leftpane").classList.toggle("title-center", State.test.titleAlign === "center");
 
   // Part banner — reading tells the student to read the text; listening doesn't.
   const nums = partQuestionRange(part);
   $("#partbanner").innerHTML = "<b>"+ (part.label||("Part "+(pi+1))) +"</b> — "+
     (State.test.strand === "listening" ? "Answer questions " : "Read the text and answer questions ")+nums.first+"–"+nums.last+".";
-  addReviewBanner(part, pi);   // after submission: this part's tally, and the table
 
   // Left pane: passage (reading only). In listening there is no passage pane —
   // any passage text stays in the model as a hidden transcript, never rendered.
@@ -9457,7 +10437,8 @@ function renderPart(pi){
     left.innerHTML = "";
     const div = document.createElement("div");
     div.className = "passage";
-    if(part.passageTitle){ const h=document.createElement("h3"); h.textContent=part.passageTitle; div.appendChild(h); }
+    // (A transcript in review drops its title: the script toggle sits there.)
+    if(part.passageTitle && !transcriptReview){ const h=document.createElement("h3"); h.textContent=part.passageTitle; div.appendChild(h); }
     if(part.figure && part.figure.id) div.appendChild(figureEl(part.figure));
     // Gloss tags are reduced to their surface text here (same HTML as before for
     // paragraphs without tags); applyGlosses below adds any active ones. A
@@ -9476,9 +10457,17 @@ function renderPart(pi){
   }
   left.scrollTop = 0;
   closeGloss(false);
-  if(!listening){
+  if(!listening && !held){
     applyPassageOverlays(left, part, pi);
     addRevealToggle(part, pi);
+  }
+  left.classList.remove("ts-ready", "ts-held", "ts-anim-clear", "ts-anim-blur");
+  SentRig.spans = null; SentRig.pi = -1; SentRig.stopAt = null;
+  if(transcriptReview){
+    wireTranscript(left, part, pi);           // tap a sentence to hear it
+    if(!SentRig.spans){ SentRig.spans = sentenceSpans(part); SentRig.pi = pi; } // Play still works
+    if(held) holdTranscript(left, part, pi);  // blurred, bar the places shown
+    scriptToggle(left, pi, held);              // Show full script / Blur script
   }
 
   // Right pane: question groups. In a listening test the part's figure has no
@@ -9486,7 +10475,23 @@ function renderPart(pi){
   // stays put while the questions scroll (see figurePanel).
   const right = $("#rightpane");
   right.innerHTML = "";
+  right.classList.toggle("reviewing", !!State.submitted); // after Submit: no Flag buttons
   if(listening && part.figure && part.figure.id) right.appendChild(figurePanel(part, pi));
+  // The recording rides in the same pinned wrapper, above the figure. It stays
+  // after submitting too (no play limit then), so answers can be checked by ear.
+  if(transcriptReview && part.audio){
+    // Review: the player sits under the script it plays.
+    const dock = document.createElement("div");
+    dock.className = "figure-panel ts-dock";
+    dock.appendChild(audioCard(part, pi));
+    left.appendChild(dock);
+  } else if(State.test.strand === "listening" && part.audio){
+    let pin = right.querySelector(".figure-panel");
+    if(!pin){ pin = document.createElement("div"); pin.className = "figure-panel"; right.appendChild(pin); }
+    pin.insertBefore(audioCard(part, pi), pin.firstChild);
+  } else {
+    stopPartAudio();
+  }
   part.groups.forEach(g=>{
     right.appendChild(RENDERERS[g.type](g, part));
   });
@@ -9499,6 +10504,7 @@ function renderPart(pi){
     ta.style.height = ta.scrollHeight + "px";
   });
   applyRightHighlights(); // re-apply the student's saved answer-panel highlights
+  if(transcriptReview) hookSentenceFollow(); // the card's own ▶ lights sentences too
   annotateReview(pi);     // after submission: the verdicts and the evidence buttons
 
   highlightCurrent();
@@ -9561,6 +10567,357 @@ function figurePanel(part, pi){
   return wrap;
 }
 
+/* ---- Listening: the part's recording ---------------------------------------
+   One <audio> element at a time, kept across re-renders of the same part so a
+   redraw never cuts the sound. Before submitting, `plays: 1|2` limits how many
+   times it may be heard: a play is used when it starts, may be paused and
+   resumed (also after a refresh — the place is saved with the attempt), and
+   cannot be wound back. With no limit there is a seek bar and ±5 s. -------- */
+const AudioRig = { key:"", el:null, url:"", lastSave:0 };
+function stopPartAudio(){
+  if(AudioRig.el){ try{ AudioRig.el.pause(); }catch(e){} }
+}
+function dropPartAudio(){
+  stopPartAudio();
+  if(AudioRig.el){
+    AudioRig.el.onplay = AudioRig.el.onpause = AudioRig.el.onended = null;
+    AudioRig.el.ontimeupdate = AudioRig.el.onloadedmetadata = AudioRig.el.onerror = null;
+    AudioRig.el.removeAttribute("src");
+  }
+  if(AudioRig.url){ try{ URL.revokeObjectURL(AudioRig.url); }catch(e){} }
+  AudioRig.key = ""; AudioRig.el = null; AudioRig.url = "";
+}
+// A data: URI plays, but a Blob URL seeks more reliably (tablet browsers).
+function audioPlayableUrl(src){
+  const m = /^data:([^;,]+);base64,/i.exec(String(src).slice(0, 80));
+  if(!m) return { url: src, blob: "" };
+  try{
+    const bin = atob(String(src).slice(m[0].length));
+    const bytes = new Uint8Array(bin.length);
+    for(let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const url = URL.createObjectURL(new Blob([bytes], { type: m[1] }));
+    return { url: url, blob: url };
+  }catch(e){ return { url: src, blob: "" }; }
+}
+function clockTime(sec){
+  if(!Number.isFinite(sec) || sec < 0) sec = 0;
+  const s = Math.floor(sec % 60);
+  return Math.floor(sec / 60) + ":" + (s < 10 ? "0" : "") + s;
+}
+function audioCard(part, pi){
+  const card = document.createElement("div");
+  card.className = "ap-card";
+  const asset = assetById(State.test, part.audio);
+  const note = document.createElement("div");
+  note.className = "ap-note";
+  if(!asset || !asset.src){
+    dropPartAudio();
+    note.classList.add("warn");
+    note.textContent = "🎧 The recording for this part isn't in this copy of the test.";
+    card.appendChild(note);
+    return card;
+  }
+  // Reuse the element while it is the same recording of the same attempt.
+  const key = State.test.id + "|" + pi + "|" + part.audio + "|" + asset.src.length;
+  if(AudioRig.key !== key || !AudioRig.el){
+    dropPartAudio();
+    const u = audioPlayableUrl(asset.src);
+    const fresh = new Audio();
+    fresh.preload = "metadata";
+    fresh.src = u.url;
+    AudioRig.key = key; AudioRig.el = fresh; AudioRig.url = u.blob;
+  }
+  const el = AudioRig.el;
+  const st = State.audio[pi] || (State.audio[pi] = { used:0, pos:0, done:false });
+  const limit = (!State.submitted && (State.test.plays === 1 || State.test.plays === 2)) ? State.test.plays : 0;
+  const mk = (cls, text, label)=>{
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "ap-btn " + cls; b.textContent = text;
+    b.setAttribute("aria-label", label); b.title = label;
+    return b;
+  };
+  const play = mk("ap-play", "▶", "Play the recording");
+  const back = mk("ap-skip", "−5s", "Go back 5 seconds");
+  const fwd = mk("ap-skip", "+5s", "Go forward 5 seconds");
+  const seek = document.createElement("input");
+  seek.type = "range"; seek.className = "ap-seek"; seek.min = "0"; seek.max = "0"; seek.step = "0.1"; seek.value = "0";
+  seek.setAttribute("aria-label", "Position in the recording");
+  const time = document.createElement("span");
+  time.className = "ap-time";
+  card.appendChild(play);
+  if(!limit){ card.appendChild(back); card.appendChild(fwd); }
+  card.appendChild(seek); card.appendChild(time); card.appendChild(note);
+  if(limit) seek.disabled = true; // a progress bar only: a limited play can't be wound back
+
+  let dragging = false;
+  const playsLeft = ()=> limit ? Math.max(0, limit - st.used) : Infinity;
+  const midPlay = ()=> st.used > 0 && !st.done;
+  function draw(){
+    const dur = Number.isFinite(el.duration) ? el.duration : 0;
+    seek.max = String(dur || 0);
+    if(!dragging) seek.value = String(Math.min(el.currentTime || 0, dur || 0));
+    time.textContent = clockTime(el.currentTime) + " / " + clockTime(dur);
+    const playing = !el.paused && !el.ended;
+    play.textContent = playing ? "⏸" : "▶";
+    const lbl = playing ? "Pause" : "Play the recording";
+    play.setAttribute("aria-label", lbl); play.title = lbl;
+    const spent = !!limit && !midPlay() && playsLeft() === 0;
+    play.disabled = spent;
+    if(limit){
+      note.classList.toggle("warn", spent);
+      note.textContent = spent ? "You have used " + (limit === 1 ? "your one play" : "both plays") + " of this recording."
+        : midPlay() ? "Play " + st.used + " of " + limit + " — you can pause, but not go back."
+        : "You can listen " + (playsLeft() === 1 ? (limit === 1 ? "once" : "one more time") : playsLeft() + " times") + ". Each play runs from start to finish.";
+    }
+  }
+  function remember(force){
+    const now = Date.now();
+    if(!force && now - AudioRig.lastSave < 3000) return;
+    AudioRig.lastSave = now;
+    saveState();
+  }
+  play.onclick = ()=>{
+    if(!el.paused){ el.pause(); return; }
+    if(!midPlay()){
+      if(limit && playsLeft() === 0){ draw(); return; }
+      st.used += 1; st.done = false;
+      const atEnd = el.ended || (Number.isFinite(el.duration) && el.currentTime >= el.duration - 0.3);
+      if(limit || atEnd){ try{ el.currentTime = 0; }catch(e){} }
+      remember(true);
+    }
+    const p = el.play();
+    if(p && p.catch) p.catch(()=>{ note.classList.add("warn"); note.textContent = "The recording could not start. Tap ▶ again."; });
+  };
+  const jump = d=>{
+    const dur = Number.isFinite(el.duration) ? el.duration : 0;
+    try{ el.currentTime = Math.max(0, Math.min(dur, (el.currentTime || 0) + d)); }catch(e){}
+    st.pos = el.currentTime; draw();
+  };
+  back.onclick = ()=> jump(-5);
+  fwd.onclick = ()=> jump(5);
+  seek.oninput = ()=>{ dragging = true; time.textContent = clockTime(parseFloat(seek.value)) + " / " + clockTime(el.duration); };
+  seek.onchange = ()=>{
+    dragging = false;
+    try{ el.currentTime = parseFloat(seek.value) || 0; }catch(e){}
+    st.pos = el.currentTime; remember(true); draw();
+  };
+
+  el.onloadedmetadata = ()=>{
+    // Back to where this attempt left it (a refresh, or returning to the part).
+    if(midPlay() && st.pos > 0 && Math.abs(el.currentTime - st.pos) > 0.5 && el.paused){
+      try{ el.currentTime = Math.min(st.pos, el.duration || st.pos); }catch(e){}
+    }
+    draw();
+  };
+  el.onplay = draw;
+  el.onpause = ()=>{ if(!el.ended) st.pos = el.currentTime; remember(true); draw(); };
+  el.onended = ()=>{ st.done = true; st.pos = 0; remember(true); draw(); };
+  el.ontimeupdate = ()=>{
+    // The card has gone (another screen, results, the editor): stop the sound.
+    if(!el.paused && (!card.isConnected || $("#app").classList.contains("hidden"))){ el.pause(); return; }
+    if(!el.paused) st.pos = el.currentTime;
+    remember(false);
+    draw();
+  };
+  el.onerror = ()=>{ note.classList.add("warn"); note.textContent = "🎧 This recording could not be loaded."; play.disabled = true; };
+  if(el.readyState >= 1) el.onloadedmetadata(); else draw();
+  return card;
+}
+
+/* ---- Review: the transcript as sentences you can hear ----------------------
+   After submitting, a timed transcript's sentences are wrapped (.ts) so a tap
+   plays exactly that one. Whatever is playing — a sentence, a question's Play,
+   or the whole recording from the card — the sentence being spoken is lit
+   (.ts-on) and the transcript keeps it in view. Playback runs on the part's
+   own <audio> (AudioRig.el), so the card above shows the same position.
+   A sentence stops on its end time, checked every frame: `timeupdate` comes
+   only ~4 times a second and would run into the next sentence. ----------- */
+const SentRig = { stopAt:null, raf:0, lit:-1, spans:null, pi:-1 };
+function wireTranscript(left, part, pi){
+  SentRig.spans = sentenceSpans(part); SentRig.pi = pi; SentRig.lit = -1;
+  if(!SentRig.spans.length || !part.audio) return;
+  const byPara = {};
+  left.querySelectorAll(".passage > p[data-para]").forEach(p=>{ byPara[p.dataset.para] = p; });
+  // Last first: wrapping a later sentence never moves an earlier one's offsets.
+  SentRig.spans.slice().reverse().forEach((s, r)=>{
+    const p = byPara[s.para];
+    if(!p) return;
+    const k = SentRig.spans.length - 1 - r;
+    wrapTextRange(p, s.start, s.end, "ts", (span, j)=>{
+      span.dataset.ts = k;
+      if(j === 0){ span.tabIndex = 0; span.setAttribute("role", "button"); span.title = "Play this sentence"; }
+    });
+  });
+  left.classList.add("ts-ready");
+  if(!left._tsWired){
+    left._tsWired = true;
+    const go = e=>{
+      const s = e.target.closest && e.target.closest(".ts");
+      if(!s || !left.contains(s) || e.target.closest(".gloss")) return;
+      if(left.classList.contains("ts-held") && !s.classList.contains("ts-shown")) return; // still blurred
+      const sel = window.getSelection && window.getSelection();
+      if(sel && !sel.isCollapsed && String(sel).trim()) return; // they were highlighting
+      const k = +s.dataset.ts;
+      playSentences(k, k);
+    };
+    left.addEventListener("click", go);
+    left.addEventListener("keydown", e=>{ if((e.key === "Enter" || e.key === " ") && e.target.classList && e.target.classList.contains("ts")){ e.preventDefault(); go(e); } });
+  }
+  hookSentenceFollow();
+}
+// Play sentences from..to (indexes into SentRig.spans) and stop at the end.
+// A question's ▶ Listen / ▶ Play starts one sentence early, so the lead-in
+// ("…but actually, it's changed to…") is heard too; a tapped sentence plays alone.
+function playSentences(from, to){
+  const el = AudioRig.el, spans = SentRig.spans;
+  if(!el || !spans || !spans[from] || !spans[to]) return;
+  hookSentenceFollow();
+  try{ el.currentTime = Math.max(0, spans[from].t0); }catch(e){}
+  SentRig.stopAt = spans[to].t1;
+  const pr = el.play();
+  if(pr && pr.catch) pr.catch(()=>{ SentRig.stopAt = null; });
+  sentenceTick();
+}
+function hookSentenceFollow(){
+  const el = AudioRig.el;
+  if(!el || el._tsHooked) return;
+  el._tsHooked = true;
+  el.addEventListener("play", sentenceTick);
+  el.addEventListener("seeked", ()=> litSentence(el.currentTime, false));
+  el.addEventListener("pause", ()=>{ SentRig.stopAt = null; });
+  // Backstop: a browser stops animation frames for a hidden page, but not sound.
+  el.addEventListener("timeupdate", sentenceCheck);
+}
+// One look at the clock: stop at the sentence end, light what is being said.
+// Returns false once there is nothing left to watch.
+function sentenceCheck(){
+  const el = AudioRig.el;
+  if(!el) return false;
+  if(SentRig.stopAt != null && el.currentTime >= SentRig.stopAt){
+    el.pause();
+    litSentence(SentRig.stopAt - 0.05, false); // the one just played, not the next
+    SentRig.stopAt = null;
+    return false;
+  }
+  litSentence(el.currentTime, true);
+  return !el.paused && !el.ended;
+}
+function sentenceTick(){
+  if(SentRig.raf){ cancelAnimationFrame(SentRig.raf); SentRig.raf = 0; }
+  if(sentenceCheck()) SentRig.raf = requestAnimationFrame(sentenceTick);
+}
+// Light the sentence spoken at time t (none between sentences keeps the last).
+function litSentence(t, follow){
+  const left = $("#leftpane");
+  if(!left || !left.classList.contains("ts-ready") || SentRig.pi !== State.partIndex) return;
+  const spans = SentRig.spans || [];
+  let k = -1;
+  for(let j = 0; j < spans.length; j++){ if(t >= spans[j].t0 && t < spans[j].t1){ k = j; break; } }
+  if(k === -1 || k === SentRig.lit) return;
+  left.querySelectorAll(".ts.ts-on").forEach(s=> s.classList.remove("ts-on"));
+  const now = left.querySelectorAll('.ts[data-ts="' + k + '"]');
+  now.forEach(s=> s.classList.add("ts-on"));
+  SentRig.lit = k;
+  if(follow && now[0]){
+    const a = now[0].getBoundingClientRect(), p = left.getBoundingClientRect();
+    if(a.top < p.top + 20 || a.bottom > p.bottom - 20) now[0].scrollIntoView({ block:"center", behavior:"smooth" });
+  }
+}
+// A question's evidence as sentences, for its Play button: { from, to } or null.
+// Only for the part on screen: the indexes are into its SentRig.spans.
+function questionSentences(q, part){
+  if(SentRig.pi !== State.partIndex || !SentRig.spans || !AudioRig.el) return null;
+  return spansForEvidence(SentRig.spans, evidenceFor(q, part));
+}
+
+// Held: the whole script is there but blurred (CSS .ts-held). Each question
+// whose location was shown has its sentence(s) clear and lit; nothing else can
+// be read, selected or tapped.
+function holdTranscript(left, part, pi){
+  const passage = left.querySelector(".passage");
+  if(!passage) return;
+  left.classList.add("ts-held");
+  relistenItems(pi).forEach(it=>{
+    const sec = State.second && State.second[it.key];
+    if(sec && sec.located) unveilLocation(left, it.q, part, pi);
+  });
+  passage.querySelectorAll(".ts").forEach(s=>{ if(!s.classList.contains("ts-shown")) s.tabIndex = -1; });
+  passage.querySelectorAll("p").forEach(p=>{ if(!p.querySelector(".ts-shown") && !p.classList.contains("ts-shown-para")) p.setAttribute("aria-hidden", "true"); });
+}
+// Is the script blurred? While a part has open questions it starts blurred and
+// opens by itself once they are all settled — unless the student has used the
+// toggle, which wins (view only, kept until the page is reloaded).
+const TS_BLUR = {};
+function scriptBlurred(pi){
+  if(!relistenOn() || !(State.test.parts[pi] || {}).audio) return false;
+  if(TS_BLUR[pi] != null) return TS_BLUR[pi];
+  return relistenWaiting(pi).length > 0;
+}
+// The toggle at the top of the transcript, where the track title was. It is
+// there whenever the part has answers to retry. Opening the script settles
+// every open question (they have seen it all); blurring it again hides all
+// but the locations asked for one by one.
+function scriptToggle(left, pi, held){
+  const passage = left.querySelector(".passage");
+  if(!passage || !relistenItems(pi).length) return;
+  const bar = document.createElement("div");
+  bar.className = "ts-unblur";
+  const b = document.createElement("button");
+  b.type = "button";
+  b.textContent = held ? "Show full script" : "Blur script";
+  b.setAttribute("aria-pressed", String(!held));
+  b.onclick = ()=>{
+    if(held){
+      relistenWaiting(pi).forEach(it=>{ const s2 = State.second[it.key] || (State.second[it.key] = {}); s2.shown = true; });
+      saveState();
+    }
+    TS_BLUR[pi] = !held;
+    refreshReview(pi);
+    $("#leftpane").classList.add(held ? "ts-anim-clear" : "ts-anim-blur");
+  };
+  bar.appendChild(b);
+  left.insertBefore(bar, passage);
+}
+// Show one question's location: settle it, mark it as located (so it stays
+// clear when the script is blurred), and light it in the script.
+function locateQuestion(g, q, pi){
+  const key = secondKey(g, q);
+  const s2 = State.second[key] || (State.second[key] = {});
+  if(!s2.shown || !s2.located){
+    const before = {};
+    document.querySelectorAll("#leftpane .ts-shown[data-ts]").forEach(x=>{ before[x.dataset.ts] = 1; });
+    s2.shown = true; s2.located = true; saveState(); refreshReview(pi);
+    // Only what has just come clear fades in.
+    document.querySelectorAll("#leftpane .ts-shown[data-ts]").forEach(x=>{ if(!before[x.dataset.ts]) x.classList.add("ts-anim-clear"); });
+  }
+  paintEvidenceInPlace(q, pi);
+}
+// Bring one question's sentence(s) out of the blur: the timed sentences when
+// there are some, else just the evidence words.
+function unveilLocation(left, q, part, pi){
+  const ev = evidenceFor(q, part);
+  if(!ev) return;
+  const at = SentRig.pi === pi ? spansForEvidence(SentRig.spans, ev) : null;
+  if(at && left.classList.contains("ts-ready")){
+    // The sentence(s) with the answer, lit, and one either side for context.
+    const last = (SentRig.spans || []).length - 1;
+    for(let k = Math.max(0, at.from - 1); k <= Math.min(last, at.to + 1); k++){
+      const core = k >= at.from && k <= at.to;
+      left.querySelectorAll('.ts[data-ts="' + k + '"]').forEach(s=>{ s.classList.add("ts-shown"); if(core) s.classList.add("ts-core"); s.tabIndex = 0; });
+    }
+    return;
+  }
+  const p = left.querySelector('.passage > p[data-para="' + ev.para + '"]');
+  if(!p) return;
+  p.classList.add("ts-shown-para");        // untimed: the whole paragraph comes clear
+  if(ev.start != null) wrapTextRange(p, ev.start, ev.end, "ts-shown ts-core");
+}
+// Can a question's place in the transcript be shown? (Else Show answer.)
+function canLocate(q, pi){
+  const part = State.test.parts[pi];
+  return !!(part && (part.paragraphs || []).join("").trim() && evidenceFor(q, part));
+}
+
 function partQuestionRange(part){
   let all=[];
   part.groups.forEach(g=> all = all.concat(groupNumbers(g)));
@@ -9606,9 +10963,9 @@ function makeNavNum(label, n, nums, g){
   // In review the strip shows how it went: correct, wrong, or never answered.
   if(State.submitted && !studentPreview && g.type !== "open"){
     const marks = nums.map(x=> navVerdict(x));
-    const worst = marks.includes("bad") ? "bad" : (marks.includes("skip") ? "skip" : "ok");
+    const worst = marks.includes("bad") ? "bad" : (marks.includes("skip") ? "skip" : (marks.includes("fixed") ? "fixed" : "ok"));
     b.classList.add("rev-" + worst);
-    b.title = worst === "ok" ? "Correct" : (worst === "bad" ? "Not correct" : "Skipped");
+    b.title = worst === "ok" ? "Correct" : (worst === "fixed" ? "Put right on a second try" : (worst === "bad" ? "Not correct" : "Skipped"));
   }
   b.onclick = ()=> goToQuestion(n);
   return b;
@@ -9623,7 +10980,10 @@ function navVerdict(n){
       (g.questions||[]).forEach(q=>{
         if(q.n == null) return;
         let r; try{ r = gradeQuestion(g, q); }catch(e){ return; }
-        _navVerdicts[q.n] = r.correct ? "ok" : ((r.your && r.your !== "—") ? "bad" : "skip");
+        let v = r.correct ? "ok" : ((r.your && r.your !== "—") ? "bad" : "skip");
+        // Put right on a retry: green on the strip (the score keeps the first try).
+        if(v !== "ok" && relistenOn()){ const sec = State.second && State.second[secondKey(g, q)]; if(sec && (sec.ok || sec.lastOk)) v = "fixed"; }
+        _navVerdicts[q.n] = v;
       });
     }));
   }
@@ -9678,6 +11038,9 @@ function renderNav(){
   _navVerdicts = null;   // re-graded once per render, not once per number
   nav.innerHTML = "";
   const curPart = partOf(State.currentN);
+  // In review every part is open, so every red number is in sight.
+  const allOpen = !!(State.submitted && !studentPreview);
+  nav.classList.toggle("all-open", allOpen);
 
   State.test.parts.forEach((part, pi)=>{
     const slot = document.createElement("div");
@@ -9689,7 +11052,8 @@ function renderNav(){
     label.textContent = part.label || ("Part "+(pi+1));
     slot.appendChild(label);
 
-    if(isCur){
+    if(isCur || allOpen){
+      if(!isCur) label.onclick = ()=> goToQuestion(partQuestionRange(part).first);
       const nums = document.createElement("div");
       nums.className = "navpart-nums";
       partNumberTiles(part, nums);
@@ -9843,43 +11207,347 @@ function step(delta){
    without touching this code. Questions whose answer is a blank inside a
    sentence (summary, flow chart, table, typed labelling) have nowhere to put
    a strip mid-sentence, so theirs are collected at the end of the group. -- */
-function revVerdict(r, answered){
-  if(r.correct) return { cls:"ok", mark:"✓" };
-  return answered ? { cls:"bad", mark:"✗" } : { cls:"skip", mark:"○" };
+/* ---- Reviewing a finished test: colour does the talking ----------------------
+   Right is green and wrong is red: the question's number badge and, for a
+   typed answer, its box. A right answer gets nothing else. A wrong one gets a
+   single quiet row under it: the right answer and one way to the evidence
+   (▶ Play in listening — it also marks the words in the transcript — or
+   "Show in text" in reading). Blanks inside a table or summary have no room
+   for a row, so theirs are listed under the group, each with its number. -- */
+// The typed box a question was answered in, or null (letters, tiles, lists).
+function reviewAnswerBox(q){
+  if(q.n == null) return null;
+  const a = $("#rightpane").querySelector('[id="q-anchor-' + q.n + '"]');
+  if(!a) return null;
+  const el = a.matches("input,textarea") ? a : a.querySelector('input[type="text"], input:not([type]), textarea');
+  return el && el.type !== "radio" && el.type !== "checkbox" ? el : null;
 }
-function revStrip(g, q, r, pi){
-  const answered = !!(r.your && r.your !== "—");
-  const v = revVerdict(r, answered);
-  const strip = document.createElement("div");
-  strip.className = "rev-strip " + v.cls;
-  const mark = document.createElement("b");
-  mark.className = "rev-mark";
-  mark.textContent = v.mark + " " + (r.correct ? "Correct" : (answered ? "Not correct" : "Skipped"));
-  strip.appendChild(mark);
-  if(q.n != null){
+// Paint a question right or wrong: its number badge, and its box when typed.
+function paintVerdict(q, host, ok){
+  const cls = ok ? "rv-ok" : "rv-bad";
+  const num = host && host.querySelector(".qnum");
+  if(num){ num.classList.remove("rv-ok", "rv-bad"); num.classList.add(cls); }
+  const box = reviewAnswerBox(q);
+  if(box){ box.classList.remove("rv-ok", "rv-bad", "rv-edit"); box.classList.add(cls); }
+  return box;
+}
+function revRow(g, q, loose){
+  const row = document.createElement("div");
+  row.className = "rev-strip";
+  row.dataset.rl = secondKey(g, q);
+  if(loose && q.n != null){
     const num = document.createElement("span");
     num.className = "rev-n";
-    num.textContent = "Q" + q.n;
-    strip.insertBefore(num, mark);
+    num.textContent = relistenLabel(g, q);
+    row.appendChild(num);
   }
-  if(!r.correct){
-    const said = document.createElement("span");
-    said.className = "rev-said";
-    said.textContent = answered ? ("you: " + r.your + (r.overLimit ? " (over the word limit)" : "")) : "no answer";
-    strip.appendChild(said);
-    const key = document.createElement("span");
-    key.className = "rev-key";
-    key.textContent = "answer: " + r.key;
-    strip.appendChild(key);
+  return row;
+}
+// The wrong answer's row once its answer may be seen: the answer, then the
+// evidence. (A teacher's view adds what the second try was.)
+function revAnswerRow(g, q, r, pi, loose){
+  const row = revRow(g, q, loose);
+  row.classList.add("bad");
+  const key = document.createElement("span");
+  key.className = "rev-key";
+  key.textContent = "Answer: " + r.key + (r.overLimit ? " (yours was over the word limit)" : "");
+  row.appendChild(key);
+  const second = State.second && State.second[secondKey(g, q)];
+  if(second && second.a != null && !relistenOn()){
+    const st = document.createElement("span");
+    st.className = "rev-second " + (second.ok ? "ok" : "bad");
+    st.textContent = "2nd try: " + second.a + (second.last != null && second.last !== second.a ? " · last: " + second.last : "");
+    st.title = "Tried again after listening — the score stays as it was";
+    row.appendChild(st);
   }
+  const tool = revPlayButton(q, pi) || (State.test.strand === "listening" ? null : revFindButton(q, pi));
+  if(tool){ const t = document.createElement("span"); t.className = "rev-tools"; t.appendChild(tool); row.appendChild(t); }
+  return row;
+}
+
+/* ---- Re-listen before reveal ------------------------------------------------
+   In a listening test (unless it says `review: reveal`) a wrong or skipped
+   answer stays open: its own box can be typed in again, with ▶ Listen (the
+   sentences the answer is in), Check, and Show location — which brings that
+   sentence out of the blurred script (or, with no transcript to point at,
+   Show answer) without ending anything. A wrong Check just turns the
+   box red again; the student can keep trying. The FIRST retry is kept apart in
+   State.second as the second try ({ a, ok }); the latest one too ({ last,
+   lastOk }), and whether the answer was ever shown ({ shown }). The score is
+   always the first try's. A question is finished when a retry is right or its
+   answer has been shown; when every one in a part is, its transcript opens.
+   A teacher looking at a returned attempt sees everything. ------------------ */
+function relistenOn(){
+  return !!(State.test && State.test.strand === "listening" && State.test.review !== "reveal"
+    && State.submitted && !studentPreview && !reviewingAttempt && !resultsAreTeacherView);
+}
+function secondKey(g, q){ return g.type === "mcq_multi" ? "g" + g.uid : String(q.n); }
+function relistenSettled(sec){ return !!(sec && (sec.ok || sec.lastOk || sec.shown)); }
+// Is this wrong answer still open for re-listening (not settled yet)?
+function relistenPending(g, q, r, pi){
+  if(!relistenOn() || g.type === "open" || r.correct) return false;
+  const part = State.test.parts[pi];
+  if(!part || !part.audio) return false;            // nothing to listen to again
+  return !relistenSettled(State.second && State.second[secondKey(g, q)]);
+}
+// Did this question get full marks the first time? (mcq_multi is marked as a
+// group: every letter right.)
+function firstTryCorrect(g, q){
+  if(g.type === "mcq_multi"){
+    const key = (q.answer || []).map(x=> String(x).toUpperCase());
+    const got = (State.answers[g.uid] || []).map(x=> String(x).toUpperCase());
+    return key.length === got.length && key.every(k=> got.indexOf(k) !== -1);
+  }
+  try{ return !!gradeQuestion(g, q).correct; }catch(e){ return true; }
+}
+// Every question in part `pi` that takes part in re-listening (wrong the
+// first time, with a recording to go back to), and whether it is settled.
+function relistenItems(pi){
+  const out = [];
+  if(!relistenOn()) return out;
+  const part = State.test.parts[pi];
+  if(!part || !part.audio) return out;
+  (part.groups || []).forEach(g=> (g.questions || []).forEach(q=>{
+    if(g.type === "open" || firstTryCorrect(g, q)) return;
+    const key = secondKey(g, q), sec = State.second && State.second[key];
+    out.push({ g, q, key, state: relistenSettled(sec) ? "done" : "wait" });
+  }));
+  return out;
+}
+// The questions of part `pi` not settled yet.
+function relistenWaiting(pi){
+  return relistenItems(pi).filter(it=> it.state === "wait");
+}
+// Is this answer-key row still waiting? (The results table hides its answer.)
+function relistenRowWaiting(row){
+  if(!row.grp || !row.q || row.correct) return false;
+  return relistenPending(row.grp, row.q, { correct:false }, row.part);
+}
+// A retry, graded the way the first try was. Letters, TRUE/FALSE and the
+// like come from a list; typed answers go through gradeQuestion itself.
+function gradeSecondTry(g, q, text){
+  const t = String(text == null ? "" : text).trim();
+  if(g.type === "mcq_multi"){
+    const got = (t.toUpperCase().match(/[A-Z]/g) || []).filter((x, i, a)=> a.indexOf(x) === i);
+    const key = (q.answer || []).map(x=> String(x).toUpperCase());
+    return got.length === key.length && key.every(k=> got.indexOf(k) !== -1);
+  }
+  const had = Object.prototype.hasOwnProperty.call(State.answers, q.n), keep = State.answers[q.n];
+  State.answers[q.n] = t;
+  try{ return !!gradeQuestion(g, q).correct; }
+  finally{ if(had) State.answers[q.n] = keep; else delete State.answers[q.n]; }
+}
+// The choices for a letter answer, or null when the answer is typed.
+function secondTryChoices(g, q){
+  if(g.type === "tfng") return ["TRUE", "FALSE", "NOT GIVEN"].map(v=> ({ v, t:v }));
+  if(g.type === "ynng") return ["YES", "NO", "NOT GIVEN"].map(v=> ({ v, t:v }));
+  if(g.type === "mcq_multi" || isCompletionType(g.type) || g.type === "table_completion" || isTypedMode(g)) return null;
+  const opts = (g.type === "mcq" ? q.options : g.options) || [];
+  if(!opts.length) return null;
+  return opts.map(o=>{ const txt = plainText(o.text || ""); return { v:o.letter, t:o.letter + (txt ? " — " + (txt.length > 50 ? txt.slice(0, 47) + "…" : txt) : "") }; });
+}
+// Redraw the part after a retry, keeping the questions where they were and
+// letting a sentence that is playing run to its end. `after`: a question just
+// got right — the next open one is brought into view.
+function refreshReview(pi, after){
+  const rp = $("#rightpane"), keep = rp.scrollTop, stopAt = SentRig.stopAt;
+  const lp = $("#leftpane"), keepL = lp.scrollTop;
+  renderPart(pi);
+  rp.scrollTop = keep; lp.scrollTop = keepL;
+  if(stopAt != null && AudioRig.el && !AudioRig.el.paused){ SentRig.stopAt = stopAt; sentenceTick(); }
+  renderNav();
+  if(after == null) return;
+  const rows = Array.prototype.slice.call(rp.querySelectorAll(".rev-strip[data-rl]"));
+  const at = rows.findIndex(x=> x.dataset.rl === after);
+  const next = rows.slice(at + 1).concat(rows.slice(0, at + 1)).find(x=> x.classList.contains("relisten"));
+  if(next) setTimeout(()=> revealStrip(next.dataset.rl), 600);
+}
+function relistenLabel(g, q){
+  if(q.n == null) return "";
+  return g.type === "mcq_multi" && g.endN !== g.startN ? "Q" + g.startN + "–" + g.endN : "Q" + q.n;
+}
+// Bring a question into view in the question pane (clear of the pinned player).
+function revealStrip(key){
+  const pane = $("#rightpane");
+  const el = pane && pane.querySelector('[data-rl="' + (window.CSS && CSS.escape ? CSS.escape(key) : key) + '"]');
+  if(!el) return;
+  const target = el.closest(".question") || el;
+  const panel = pane.querySelector(".figure-panel");
+  const under = panel ? panel.getBoundingClientRect().height : 0;
+  const delta = target.getBoundingClientRect().top - pane.getBoundingClientRect().top;
+  pane.scrollTo({ top: Math.max(0, pane.scrollTop + delta - under - 24), behavior:"smooth" });
+}
+// View only, kept while the part is redrawn: what is being typed but not
+// checked yet.
+const RL_DRAFT = {};
+// The question's own box, opened again — one box, where the answer belongs.
+// A fresh copy: the original's handlers (which write the first answer) don't
+// come with it, so typing here can never change the score.
+function reopenAnswerBox(g, q, key){
+  if(g.type === "mcq_multi" || secondTryChoices(g, q)) return null;
+  const el = reviewAnswerBox(q);
+  if(!el) return null;
+  const sec = State.second[key] || {};
+  const live = el.cloneNode(false);
+  live.disabled = false; live.readOnly = false;
+  live.removeAttribute("disabled"); live.removeAttribute("readonly");
+  const drafting = RL_DRAFT[key] != null;
+  live.value = drafting ? RL_DRAFT[key] : (sec.last != null ? sec.last : (State.answers[q.n] || ""));
+  live.placeholder = "type again";
+  live.autocomplete = "off"; live.spellcheck = false; live.setAttribute("autocapitalize", "off");
+  live.classList.remove("rv-ok", "rv-bad", "rv-edit");
+  live.classList.add("rl-live", drafting ? "rv-edit" : "rv-bad");
+  live.setAttribute("aria-label", "Question " + q.n + ", try again");
+  live.addEventListener("input", ()=>{
+    RL_DRAFT[key] = live.value;
+    live.classList.remove("rv-bad"); live.classList.add("rv-edit");
+  });
+  el.replaceWith(live);
+  return live;
+}
+function relistenStrip(g, q, pi, loose){
+  const key = secondKey(g, q);
+  const row = revRow(g, q, loose);
+  row.classList.add("relisten");
+  const sec = State.second[key] || {};
+  const at = questionSentences(q, State.test.parts[pi]);
+  const listen = document.createElement("button");
+  listen.type = "button"; listen.className = "rl-listen";
+  listen.textContent = "▶ Listen";
+  if(at){
+    listen.title = "Hear the part of the recording with the answer";
+    // Only a place already shown is marked: a blurred one would give itself away.
+    listen.onclick = e=>{ e.stopPropagation(); if((State.second[key] || {}).shown) paintEvidenceInPlace(q, pi); playSentences(Math.max(0, at.from - 1), at.to); }; // from the sentence before: the lead-in
+  } else {
+    listen.title = "Play the recording from the player at the top";
+    listen.onclick = e=>{ e.stopPropagation(); const b = document.querySelector("#panes .ap-play"); if(b){ b.scrollIntoView({ block:"nearest" }); if(AudioRig.el && AudioRig.el.paused) b.click(); } };
+  }
+  row.appendChild(listen);
+
+  // One place to answer: the question's own box when it has one.
+  let box = reopenAnswerBox(g, q, key);
+  if(!box){
+    const choices = secondTryChoices(g, q);
+    if(choices){
+      box = document.createElement("select");
+      const none = document.createElement("option"); none.value = ""; none.textContent = "Choose again…"; box.appendChild(none);
+      choices.forEach(c=>{ const o = document.createElement("option"); o.value = c.v; o.textContent = c.t; box.appendChild(o); });
+    } else {
+      box = document.createElement("input");
+      box.type = "text";
+      box.autocomplete = "off"; box.spellcheck = false; box.setAttribute("autocapitalize", "off");
+      box.placeholder = g.type === "mcq_multi" ? "letters, e.g. A, C" : "type again";
+    }
+    box.className = "rl-box";
+    box.setAttribute("aria-label", (q.n != null ? "Question " + relistenLabel(g, q).slice(1) + ", " : "") + "try again");
+    box.value = RL_DRAFT[key] != null ? RL_DRAFT[key] : (sec.last || "");
+    if(RL_DRAFT[key] == null && sec.last != null) box.classList.add("rv-bad");
+    const keepDraft = ()=>{ RL_DRAFT[key] = box.value; box.classList.remove("rv-bad"); };
+    box.addEventListener("input", keepDraft); box.addEventListener("change", keepDraft);
+    row.appendChild(box);
+  }
+  const check = document.createElement("button");
+  check.type = "button"; check.className = "rl-check"; check.textContent = "Check";
+  const sync = ()=>{ check.disabled = !String(box.value || "").trim(); };
+  sync();
+  box.addEventListener("input", sync); box.addEventListener("change", sync);
+  check.onclick = e=>{
+    e.stopPropagation();
+    const v = String(box.value || "").trim();
+    if(!v){ box.focus(); return; }
+    const ok = gradeSecondTry(g, q, v);
+    const s2 = State.second[key] || (State.second[key] = {});
+    if(s2.a == null){ s2.a = v; s2.ok = ok; }   // the second try, kept as it was
+    s2.last = v; s2.lastOk = ok;
+    delete RL_DRAFT[key];
+    saveState();
+    if(ok){ refreshReview(pi, key); return; }    // right: settled, on to the next
+    // Still wrong: say so with the colour, and leave everything open.
+    box.classList.remove("rv-edit"); box.classList.add("rv-bad");
+    box.classList.remove("rl-nudge"); void box.offsetWidth; box.classList.add("rl-nudge");
+  };
+  box.addEventListener("keydown", e=>{ if(e.key === "Enter" && !check.disabled){ e.preventDefault(); check.click(); } });
+  row.appendChild(check);
+
+  // Show location: the sentence(s) come out of the blur, lit, and the script
+  // scrolls to them. It settles the question (so the transcript can open) but
+  // the box stays open. With no transcript to point at, it shows the answer.
+  const locate = canLocate(q, pi);
+  const show = document.createElement("button");
+  show.type = "button"; show.className = "rl-show";
+  show.textContent = locate ? "Show location" : "Show answer";
+  show.setAttribute("aria-pressed", String(!!(locate ? sec.located : sec.shown)));
+  show.onclick = e=>{
+    e.stopPropagation();
+    if(locate){ locateQuestion(g, q, pi); return; }
+    const s2 = State.second[key] || (State.second[key] = {});
+    if(!s2.shown){ s2.shown = true; saveState(); refreshReview(pi); }
+  };
+  row.appendChild(show);
+  if(sec.shown && !locate){
+    const ans = document.createElement("span");
+    ans.className = "rl-answer";
+    let r; try{ r = gradeQuestion(g, q); }catch(err){ r = { key:"" }; }
+    ans.textContent = g.type === "mcq_multi" ? (q.answer || []).join(", ") : r.key;
+    row.appendChild(ans);
+  }
+  return row;
+}
+// A question put right on a retry: just its Show location, out of the way
+// until the pointer is over the question. Null when there is nowhere to point.
+function fixedStrip(g, q, pi, loose){
+  if(!canLocate(q, pi)) return null;
+  const sec = State.second[secondKey(g, q)] || {};
+  const row = revRow(g, q, loose);
+  row.classList.add("rl-fixed");
+  const show = document.createElement("button");
+  show.type = "button"; show.className = "rl-show";
+  show.textContent = "Show location";
+  show.setAttribute("aria-pressed", String(!!sec.located));
+  show.onclick = e=>{ e.stopPropagation(); locateQuestion(g, q, pi); };
+  row.appendChild(show);
+  return row;
+}
+// "Show in text" (reading): scroll the passage to the evidence and light it.
+function revFindButton(q, pi){
   const ev = document.createElement("button");
   ev.type = "button";
   ev.className = "rev-ev";
-  ev.textContent = "Evidence";
+  ev.textContent = State.test.strand === "listening" ? "📍 Show in transcript" : "📍 Show in text";
   ev.title = "Show where this is answered in the " + (State.test.strand === "listening" ? "transcript" : "passage");
   ev.onclick = e=>{ e.stopPropagation(); showEvidence({ part: pi, q: q, numLabel: String(q.n != null ? q.n : "") }); };
-  strip.appendChild(ev);
-  return strip;
+  return ev;
+}
+// "Play" (listening only): the sentence(s) the evidence is in, and no more —
+// marked in the transcript too. Absent when there is nothing to place.
+function revPlayButton(q, pi){
+  const at = questionSentences(q, State.test.parts[pi]);
+  if(!at) return null;
+  const b = document.createElement("button");
+  b.type = "button";
+  b.className = "rev-ev rev-play";
+  b.textContent = "▶ Play";
+  b.title = "Hear the part of the recording with the answer";
+  b.onclick = e=>{ e.stopPropagation(); paintEvidenceInPlace(q, pi); playSentences(Math.max(0, at.from - 1), at.to); }; // from the sentence before: the lead-in
+  return b;
+}
+// Mark a question's evidence in the transcript on screen — the words, and the
+// sentence(s) round them — without redrawing the part (which would cut the
+// sound), and bring it into view. Untimed text gets the words, or the paragraph.
+function paintEvidenceInPlace(q, pi){
+  const left = $("#leftpane");
+  if(!left || !left.querySelector(".passage") || State.partIndex !== pi) return;
+  clearEvidence();
+  const ev = evidenceFor(q, State.test.parts[pi]);
+  if(!ev) return;
+  const p = left.querySelector('.passage > p[data-para="' + ev.para + '"]');
+  if(!p) return;
+  let first = null;
+  if(ev.start != null) first = wrapTextRange(p, ev.start, ev.end, "ev-hit")[0] || null;
+  const at = SentRig.pi === pi && left.classList.contains("ts-ready") ? spansForEvidence(SentRig.spans, ev) : null;
+  if(at) for(let k = at.from; k <= at.to; k++) left.querySelectorAll('.ts[data-ts="' + k + '"]').forEach(s=>{ s.classList.add("ts-hit"); first = first || s; });
+  if(!first){ p.classList.add("ev-para"); first = p; }
+  first.scrollIntoView({ block:"center", behavior:"smooth" });
 }
 function annotateReview(pi){
   const right = $("#rightpane");
@@ -9894,10 +11562,29 @@ function annotateReview(pi){
     (g.questions || []).forEach(q=>{
       let r;
       try{ r = gradeQuestion(g, q); }catch(e){ return; }
+      if(g.type === "mcq_multi") r = Object.assign({}, r, { correct: firstTryCorrect(g, q) });
       const anchor = q.n != null ? right.querySelector('[id="q-anchor-' + q.n + '"]') : null;
       const host = anchor && (anchor.classList.contains("question") ? anchor : anchor.closest(".question"));
-      const strip = revStrip(g, q, r, pi);
-      if(host) host.appendChild(strip); else loose.push(strip);
+      const key = secondKey(g, q), sec = State.second && State.second[key];
+      let row = null;
+      if(r.correct){
+        paintVerdict(q, host, true);
+      } else if(relistenPending(g, q, r, pi) || (relistenOn() && State.test.parts[pi].audio && !(sec && (sec.ok || sec.lastOk)))){
+        // Still open for trying (or shown but not yet got right): the box stays live.
+        paintVerdict(q, host, false);
+        row = relistenStrip(g, q, pi, !host);
+      } else if(relistenOn() && sec && (sec.ok || sec.lastOk)){
+        // Got it right on a retry: green, showing the right retry. Its location
+        // stays a tap away, shown on hover (always, faintly, on a tablet).
+        const box = paintVerdict(q, host, true);
+        if(box) box.value = sec.lastOk ? sec.last : sec.a;
+        row = fixedStrip(g, q, pi, !host);
+      } else {
+        paintVerdict(q, host, false);
+        row = revAnswerRow(g, q, r, pi, !host);
+      }
+      if(!row) return;
+      if(host) host.appendChild(row); else loose.push(row);
     });
     if(loose.length && groupEl){
       const box = document.createElement("div");
@@ -9984,6 +11671,7 @@ function clearEvidence(){
     sp.remove();
   });
   document.querySelectorAll("#leftpane .ev-para").forEach(p=> p.classList.remove("ev-para"));
+  document.querySelectorAll("#leftpane .ts-hit").forEach(s=> s.classList.remove("ts-hit"));
   const chip = document.getElementById("evChip");
   if(chip) chip.remove();
 }
@@ -10012,6 +11700,15 @@ function showEvidence(row){
   renderNav();
   clearEvidence();
   const label = "Q" + (row.numLabel || "");
+  // Listening: back at the question, the transcript beside it. No chip — the
+  // bottom bar has Results. The place is marked only where it may be seen.
+  if(State.test.strand === "listening"){
+    const n0 = parseInt(String(row.numLabel), 10) || 1;
+    goToQuestion(n0);
+    const sec = row.grp && row.q && State.second ? State.second[secondKey(row.grp, row.q)] : null;
+    if(!$("#leftpane").classList.contains("ts-held") || (sec && sec.shown)) paintEvidenceInPlace(row.q, row.part);
+    return;
+  }
 
   // Line the question up only if it isn't already on screen. Pressing a
   // question's own Evidence button should move the passage, not the pane the
@@ -10027,18 +11724,21 @@ function showEvidence(row){
   if(!onScreen) goToQuestion(n); else { State.currentN = n; highlightCurrent(); renderNav(); }
 
   if(!ev){
-    evidenceChip(label + " — no evidence marked for this one", true);
+    evidenceChip(label + " — no place marked for this one", true);
     return;
   }
   const p = document.querySelector('#leftpane .passage > p[data-para="' + ev.para + '"]')
          || document.querySelectorAll("#leftpane .passage > p")[ev.para];
-  if(!p){ evidenceChip(label + " — the passage isn't shown here", true); return; }
+  if(!p){ evidenceChip(label + (State.test.strand === "listening" && relistenWaiting(row.part).length ? " — the transcript opens when you have tried the others again" : " — the passage isn't shown here"), true); return; }
 
   if(ev.start != null){
     const made = wrapTextRange(p, ev.start, ev.end, "ev-hit");
+    // Listening: outline the whole sentence(s) too — the unit a tap plays.
+    const at = spansForEvidence(SentRig.pi === row.part ? SentRig.spans : null, ev);
+    if(at) for(let k = at.from; k <= at.to; k++) document.querySelectorAll('#leftpane .ts[data-ts="' + k + '"]').forEach(s=> s.classList.add("ts-hit"));
     if(made.length){
       made[0].scrollIntoView({ block:"center", behavior:"smooth" });
-      evidenceChip("Evidence for " + label);
+      evidenceChip(label + " — the answer is marked in the " + (State.test.strand === "listening" ? "transcript" : "text"));
       return;
     }
   }
@@ -10169,9 +11869,10 @@ function persistPassageHighlights(){
   // Save the passage without gloss spans (re-applied on render) and without the
   // figures' image data (re-filled from the test on render), so neither the
   // saved state nor the answer code carries them.
-  if(left.querySelector("span.gloss") || left.querySelector("figure.test-figure")){
+  if(left.querySelector("span.gloss") || left.querySelector("figure.test-figure") || left.querySelector("span.ts")){
     const c = left.cloneNode(true);
     stripGlossSpans(c);
+    c.querySelectorAll("span.ts").forEach(s=>{ while(s.firstChild) s.parentNode.insertBefore(s.firstChild, s); s.remove(); });
     stripFigureImages(c);
     html = c.innerHTML;
   }
@@ -10552,23 +12253,6 @@ function applyPassageOverlays(left, part, pi){
   const reveal = answerRevealOn(pi);
   applyGlosses(left, part, reveal);
   REVEAL_LAYERS.forEach(l=>{ if(l.apply) l.apply(left, part, reveal); });
-}
-// While reviewing: how this part went, and the way to the table view.
-function addReviewBanner(part, pi){
-  if(!State.submitted || studentPreview) return;
-  const banner = $("#partbanner");
-  let ok = 0, bad = 0, skip = 0;
-  (part.groups || []).forEach(g=>{
-    if(g.type === "open") return;
-    (g.questions || []).forEach(q=>{
-      let r; try{ r = gradeQuestion(g, q); }catch(e){ return; }
-      if(r.correct) ok++; else if(r.your && r.your !== "—") bad++; else skip++;
-    });
-  });
-  const tally = document.createElement("span");
-  tally.className = "rev-tally";
-  tally.innerHTML = "<b class='ok'>✓ " + ok + "</b><b class='bad'>✗ " + bad + "</b><b class='skip'>○ " + skip + "</b>";
-  banner.appendChild(tally);
 }
 function addRevealToggle(part, pi){
   if(!State.submitted || !REVEAL_LAYERS.some(l=> l.has(part))) return;
@@ -11053,14 +12737,28 @@ function showResults(){
     const ans = document.createElement("span");
     ans.className = "akey-ans";
     const keySpan = document.createElement("b");
-    keySpan.textContent = row.key;
-    ans.appendChild(keySpan);
-    ans.appendChild(document.createTextNode(": "));
+    const waiting = relistenRowWaiting(row); // re-listen first: the answer stays hidden
+    if(waiting){
+      // Still to be retried: only what was written, in red. No answer yet.
+      item.classList.add("waiting");
+    } else {
+      keySpan.textContent = row.key;
+      ans.appendChild(keySpan);
+      ans.appendChild(document.createTextNode(": "));
+    }
     const yours = document.createElement("i");
     yours.className = row.correct ? "" : "wrong";
-    yours.textContent = answered ? row.your : "—";
+    yours.textContent = answered ? row.your : (waiting ? "no answer" : "—");
+    if(waiting) yours.className = answered ? "akey-wait" : "";
     ans.appendChild(yours);
     if(row.overLimit) ans.appendChild(document.createTextNode(" (over the word limit)"));
+    const second = row.grp && row.q && State.second ? State.second[secondKey(row.grp, row.q)] : null;
+    if(second && second.a != null){
+      const st = document.createElement("span");
+      st.className = "akey-second " + (second.ok ? "ok" : "bad");
+      st.textContent = " · 2nd try: " + second.a;
+      ans.appendChild(st);
+    }
     item.appendChild(ans);
 
     const mark = document.createElement("span");
@@ -11072,8 +12770,15 @@ function showResults(){
     const ev = document.createElement("button");
     ev.type = "button";
     ev.className = "akey-ev";
-    ev.textContent = "Evidence";
-    ev.onclick = ()=> openEvidenceWindow(row);
+    // Listening: every row leads back into the review at that question, where
+    // ▶ Play and the transcript are (and Results is a tap away again). A
+    // reading row keeps its Evidence window.
+    const listeningKey = State.test.strand === "listening";
+    ev.textContent = waiting ? "Listen again" : (listeningKey ? "Go to question" : "Evidence");
+    if(waiting) ev.classList.add("akey-try");
+    ev.onclick = waiting
+      ? ()=>{ r.classList.add("hidden"); $("#app").classList.remove("hidden"); renderPart(row.part); goToQuestion(parseInt(row.numLabel, 10) || 1); }
+      : listeningKey ? ()=> showEvidence(row) : ()=> openEvidenceWindow(row);
     item.appendChild(ev);
 
     partBox.appendChild(item);
@@ -11217,6 +12922,8 @@ function shapedForExport(test, opts){
   const copy = cloneTest(test);
   copy.time = opts.timed ? Math.max(1, opts.minutes || testMinutes(test) || DEFAULTS.time) : 0;
   copy.showResults = !!opts.results;
+  if(opts.plays === 1 || opts.plays === 2) copy.plays = opts.plays;
+  else if(opts.plays === 0) delete copy.plays;   // "unlimited", chosen in the window
   (copy.parts||[]).forEach(part=>{
     delete part.glosses;                     // the retired switch, from older files
     if(opts.glosses) delete part.glossesOff; else part.glossesOff = true;
@@ -11330,6 +13037,23 @@ function openExportShapeDialog(test){
   rows.appendChild(timeRow);
   rows.appendChild(toggleRow("Show results", "the score and the answers, right after submitting",
     ()=> opts.results, v=>{ opts.results = v; }));
+  // Only where it means something: a listening test that carries a recording.
+  if(test.strand === "listening" && (test.parts||[]).some(p=> p.audio)){
+    opts.plays = (test.plays === 1 || test.plays === 2) ? test.plays : 0;
+    const row = document.createElement("label");
+    row.className = "xs-row";
+    row.title = "how many times a student may hear each recording before submitting";
+    el("b", null, "🎧 Plays of each recording", row);
+    const sel = document.createElement("select");
+    sel.className = "xs-plays";
+    [[0, "Unlimited"], [1, "1"], [2, "2"]].forEach(o=>{
+      const op = document.createElement("option"); op.value = String(o[0]); op.textContent = o[1]; sel.appendChild(op);
+    });
+    sel.value = String(opts.plays);
+    sel.onchange = ()=>{ opts.plays = parseInt(sel.value, 10) || 0; };
+    row.appendChild(sel);
+    rows.appendChild(row);
+  }
   minsWrap.classList.toggle("hidden", !opts.timed);
   drawCards();
 
@@ -11399,7 +13123,7 @@ function buildAttempt(){
     rightHighlights: State.rightHighlights, annotations: State.annotations,
     notes: State.notes, remaining: State.remaining, currentN: State.currentN,
     split: State.split, zoom: State.zoom, submitted: State.submitted,
-    attemptNo: State.attemptNo || 1
+    attemptNo: State.attemptNo || 1, second: State.second || {}
   };
 }
 
@@ -11811,7 +13535,10 @@ const AI_PROMPT_BASE = [
 "        notes, summary or diagram; omit it if the task has no heading>",
 "<question lines — see below>",
 "(Under any Q. line you may add  E. <the exact words from the passage that give the",
-"answer, copied word for word>  — optional, after the W. line. Never on an open question.)",
+"answer, copied word for word>  — optional, after the W. line. Never on an open question.",
+"A summary_drag, table_completion or flow_chart group has no Q. lines: give it one line",
+"evidence: <words for blank 1> | <words for blank 2> | ...  after its answers: line,",
+"one exact quote per blank in the same order, left empty for a blank with none.)",
 "",
 "LINE BREAKS: every field is ONE line of the file — never press Enter inside a field.",
 "To break a line INSIDE a text field (instructions, title, limit, a question, an option,",
@@ -12109,7 +13836,7 @@ function aiGlossBlock(mode, level){
 function aiRulesBlock(glossMode){
   return [
     "RULES:",
-    "- Keep the labels exactly: ### Questions:, instructions:, title:, options:, summary:, answers:, Q., A., W., E., H., T., at:, limit:, count:, input:, reusable:, display:, step:, columns:, row:, figure:",
+    "- Keep the labels exactly: ### Questions:, instructions:, title:, options:, summary:, answers:, evidence:, Q., A., W., E., H., T., at:, limit:, count:, input:, reusable:, display:, step:, columns:, row:, figure:",
     "- Every line inside a Questions block must start with one of those labels (or be an option",
     "  line like \"A. text\" / \"A) text\", or blank). No comments, no notes, no extra text.",
     "- Never press Enter inside a field: use \\n for a line break (see LINE BREAKS above).",
@@ -12530,6 +14257,113 @@ function selfCheckCases(){
     });
     const left = parseMarkdown(SC_MD.replace(/^(time: .*)$/m, "$1\ntitle-align: left"));
     if("titleAlign" in left) throw new Error("title-align: left should leave the model as it is");
+  });
+
+  test("An AI's evidence reply is merged by question number, and keeps the teacher's notes", ()=>{
+    const t = parseMarkdown([
+      "# Test: Evidence", "time: 10", "", "## Part 1", "### Passage: P",
+      "The study followed four hundred families for eight years.", "",
+      "Prices declined after the holiday.", "",
+      "### Questions: tfng",
+      "Q. The study lasted less than five years.", "A. FALSE", "W. My own note.", "",
+      "Q. Prices fell.", "A. TRUE", "",
+      "### Questions: summary_drag", "input: type", "summary: Prices ___ later.", "answers: declined", "evidence: declined after the holiday"
+    ].join("\n"));
+    assignUids(t); numberQuestions(t);
+    const part = t.parts[0];
+    if(evidenceQuestions(part).map(i=> i.n).join() !== "1,2,3") throw new Error("a summary blank was not offered for evidence");
+    const prompt = buildEvidencePrompt(t, part);
+    ["[Para 2] Prices declined after the holiday.", "Q1 [True / False / Not Given]", "Answer: FALSE"].forEach(x=>{
+      if(prompt.indexOf(x) === -1) throw new Error("the prompt is missing: " + x);
+    });
+    if(prompt.indexOf("Q3 [") === -1 || prompt.indexOf("(E. only)") === -1 || prompt.indexOf("Blank in: Prices [HERE] later.") === -1) throw new Error("the summary blank is not asked about as an E.-only blank");
+    if(evidencePlan(part, { 3:{ why:"a note", evidence:"declined" } }, true).changes.some(c=> c.why)) throw new Error("a W. note was merged into a blank, which cannot keep one");
+    const reply = "Sure!\n```\n**Q1**\nW. Para 1 says eight years.\nE. \"followed four hundred families for eight years\"\n\nQuestion 2:\nW. Declined means fell.\nE. Prices went down\n\nQ9\nW. x\n```";
+    const parsed = parseEvidenceReply(reply);
+    if(parsed[1].evidence !== "followed four hundred families for eight years") throw new Error("the E. words kept their quotation marks: " + parsed[1].evidence);
+    if(!parsed[2] || parsed[2].why !== "Declined means fell.") throw new Error("“Question 2:” was not read as Q2");
+    let plan = evidencePlan(part, parsed, false);
+    if(plan.matched !== 2 || plan.added !== 3 || plan.kept !== 1) throw new Error("the plan counted " + JSON.stringify([plan.matched, plan.added, plan.kept]));
+    if(plan.notFound.join() !== "2" || plan.unknown.join() !== "9") throw new Error("not-found or unknown questions were miscounted");
+    applyEvidencePlan(plan);
+    const q1 = part.groups[0].questions[0], q2 = part.groups[0].questions[1];
+    if(q1.why !== "My own note.") throw new Error("the teacher's note was overwritten");
+    if(!evidenceWordsAt(q1, part) || evidenceWordsAt(q1, part).n !== 1) throw new Error("Q1's words were not found in paragraph 1");
+    if(evidenceWordsAt(q2, part)) throw new Error("words that are not in the passage were reported as found");
+    if(!editorIssues(t).some(i=> /evidence words are not in the passage/.test(i.text) && i.target.qi === 1)) throw new Error("the missing words are not listed before sending");
+    plan = evidencePlan(part, parsed, true);
+    applyEvidencePlan(plan);
+    if(q1.why !== "Para 1 says eight years.") throw new Error("replace did not replace");
+    // A follow-up prompt for one question asks about that one only, and its
+    // reply is not told off for leaving the others out.
+    const only2 = buildEvidencePrompt(t, part, [2]);
+    if(only2.indexOf("Q2 [") === -1 || only2.indexOf("Q1 [") !== -1) throw new Error("a prompt narrowed to Q2 asks about the wrong questions");
+    if(only2.indexOf("[Para 1]") === -1) throw new Error("a narrowed prompt lost the passage");
+    const narrow = evidencePlan(part, { 2:{ why:"x" } }, false, [2]);
+    if(narrow.missing.length || narrow.asked !== 1) throw new Error("a narrowed reply was told Q1 is missing");
+    if(evidenceLacking(part).length) throw new Error("questions with notes are still reported as lacking evidence");
+    delete q2.why; delete q2.evidence;
+    if(evidenceLacking(part).map(i=> i.n).join() !== "2") throw new Error("a question with no notes is not reported as lacking evidence");
+    if(qList([14, 3, 5]) !== "Q3, Q5 and Q14" || qList([4]) !== "Q4") throw new Error("question lists read wrongly");
+    if(evidenceSourceMissing(part)) throw new Error("a part with a passage was said to have none");
+    if(!evidenceSourceMissing({ paragraphs:["Type the passage text here."], groups:[] })) throw new Error("the new-part placeholder counted as a passage");
+    if(!evidenceSourceMissing({ paragraphs:[], groups:[] })) throw new Error("an empty part counted as having a passage");
+    if(parseMarkdown(testToMarkdown(t)).parts[0].groups[0].questions[0].evidence !== q1.evidence) throw new Error("the E. line did not survive the file");
+  });
+
+  test("An evidence: line gives each table, summary and flow-chart blank its words, and round-trips", ()=>{
+    const md = [
+      "# Test: Blank evidence", "time: 10", "", "## Part 1", "### Passage: P",
+      "The first journey along the river Nile. Life at the bottom of the sea.", "",
+      "### Questions: table_completion", "columns: film | what", "row: Nile | The first ___", "row: Ocean | Life at the ___ of the sea",
+      "answers: journey | bottom", "evidence: The first journey along the river Nile | Life at the bottom of the sea", "",
+      "### Questions: flow_chart", "input: type", "step: A ___.", "step: B ___.", "step: C ___.", "answers: one | two | three", "evidence:  | Life at the bottom", ""
+    ].join("\n");
+    const t = parseMarkdown(md);
+    assignUids(t); numberQuestions(t);
+    const tab = t.parts[0].groups[0], flow = t.parts[0].groups[1];
+    if(tab.questions[1].evidence !== "Life at the bottom of the sea") throw new Error("the second table blank did not get its words");
+    if(flow.questions[0].evidence || flow.questions[1].evidence !== "Life at the bottom" || flow.questions[2].evidence) throw new Error("an empty quote did not skip its blank");
+    if("_evidence" in tab) throw new Error("the parser left its working copy on the group");
+    const out = testToMarkdown(t);
+    if(out.indexOf("evidence: The first journey along the river Nile | Life at the bottom of the sea") === -1) throw new Error("the table's evidence: line was not written back");
+    if(out.indexOf("evidence:  | Life at the bottom\n") === -1) throw new Error("the flow chart's evidence: line was not written back as it was");
+    if(testToMarkdown(parseMarkdown(out)) !== out) throw new Error("evidence: lines do not round-trip");
+    const ev = evidenceFor(tab.questions[0], t.parts[0]);
+    if(!ev || ev.start !== 0) throw new Error("a table blank's evidence was not found in the passage");
+    let threw = "";
+    try{ parseMarkdown(md.replace("evidence:  | Life", "evidence: a | b | c | d")); }catch(e){ threw = e.message; }
+    if(!/4 quotes but this group has 3 blanks/.test(threw)) throw new Error("too many quotes were not refused: " + threw);
+    threw = "";
+    try{ parseMarkdown("# Test: x\ntime: 5\n\n## Part 1\n### Passage: P\nText.\n\n### Questions: tfng\nevidence: Text\nQ. S\nA. TRUE\n"); }catch(e){ threw = e.message; }
+    if(!/E\. line/.test(threw)) throw new Error("evidence: on a tfng group was not refused: " + threw);
+  });
+
+  test("A timed transcript maps evidence to the sentence it is in", ()=>{
+    const part = { paragraphs:[
+      "[0:01.0–0:03.0] Good {{morning|buổi sáng}}, everyone.\n[0:03.0–0:06.5] Put the ticket somewhere that is secure.\n[0:06.5–0:09.0] Then go in.",
+      "[0:10.0–0:12.0] Keep your wallet with you."
+    ], groups:[] };
+    const spans = sentenceSpans(part);
+    if(spans.length !== 4) throw new Error("expected 4 sentences, found " + spans.length);
+    const text = evParagraphs(part)[0].text;
+    if(text.slice(spans[0].start, spans[0].end) !== "Good morning, everyone.") throw new Error("a sentence with a gloss was mislocated: " + text.slice(spans[0].start, spans[0].end));
+    if(text.slice(spans[1].start, spans[1].end) !== "Put the ticket somewhere that is secure.") throw new Error("the second sentence was mislocated");
+    if(spans[3].para !== 1 || spans[3].t0 !== 10) throw new Error("the second paragraph's sentence lost its place or time");
+    const at = spansForEvidence(spans, evidenceFor({ evidence:"somewhere that is secure. Then go" }, part));
+    if(!at || at.from !== 1 || at.to !== 2) throw new Error("evidence across two sentences should play both: " + JSON.stringify(at));
+    if(spansForEvidence(spans, { para:0 })) throw new Error("a paragraph-only pointer has no sentence to play");
+  });
+
+  test("review: reveal is kept; relisten is the default and never written", ()=>{
+    const md = "# Test: R\ntime: 5\nstrand: listening\nREVIEW\n\n## Part 1\n### Passage: P\nText.\n\n### Questions: completion\nQ. A ___.\nA. b\n";
+    const off = parseMarkdown(md.replace("REVIEW", "review: reveal"));
+    if(off.review !== "reveal" || testToMarkdown(off).indexOf("review: reveal\n") === -1) throw new Error("review: reveal did not survive the file");
+    const on = parseMarkdown(md.replace("REVIEW", "review: relisten"));
+    if("review" in on || testToMarkdown(on).indexOf("review:") !== -1) throw new Error("the default was stored or written");
+    let threw = "";
+    try{ parseMarkdown(md.replace("REVIEW", "review: later")); }catch(e){ threw = e.message; }
+    if(!/relisten or reveal/.test(threw)) throw new Error("a wrong review: value was not refused: " + threw);
   });
 
   test("A picture used in three places is stored once", ()=>{
@@ -13067,7 +14901,7 @@ function selfCheckCases(){
   test("The AI prompt names every label the parser reads, and cues \\n and reusable", ()=>{
     const p = buildAiPrompt({ glossList:true });
     ["### Questions:", "strand:", "title-align:", "instructions:", "title:", "limit:", "count:", "options:", "reusable:", "display:", "input:", "figure:",
-     "summary:", "answers:", "columns:", "row:", "step:", "at:", "Q.", "A.", "W.", "E.", "H.", "T."].forEach(l=>{
+     "summary:", "answers:", "evidence:", "columns:", "row:", "step:", "at:", "Q.", "A.", "W.", "E.", "H.", "T."].forEach(l=>{
       if(p.indexOf(l) === -1) throw new Error("the prompt never mentions " + l);
     });
     if(p.indexOf("LINE BREAKS") === -1 || p.indexOf("\\n where the text should break") === -1) throw new Error("the line-break rule is missing");

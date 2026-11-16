@@ -57,8 +57,10 @@ A. <answer>
 | `id: custom-id` | before first `## Part` | Overrides the auto-generated id (used as the localStorage key) |
 | `time: 20` | before first `## Part` | Time limit in minutes (default 20) |
 | `strand: listening` | before first `## Part` | Switches the test to the **listening** layout (default `reading`). See "Strands" below. |
+| `plays: 1` | before first `## Part` | Listening only: how many times a student may hear each part's recording before submitting — `1`, `2` or `unlimited` (the default; never written back). A play is used when it starts; it can be paused and resumed (also after a page refresh), but not wound back. After submitting there is no limit. The export window has the same choice (**🎧 Plays of each recording**), which changes the downloaded file only. See "Recordings" below. |
 | `time: 0` | before first `## Part` | No time limit: no clock, and nothing submits itself. What **Class work / homework** sets when you export. |
 | `results: hidden` | before first `## Part` | Hides results from students (default is shown). On submit they see a confirmation + an answer code to send you; you still see full results via **View a student's answers** or a returned file. In the editor this is the **📊 Show results** checkbox. |
+| `review: reveal` | before first `## Part` | Listening only: after submitting, show every answer at once. Without the line a listening test **re-listens before revealing** (`review: relisten`, the default, never written back): a question the student got wrong keeps its box open to try again, with ▶ Listen and Show location, and the transcript stays blurred until it is settled. See "Re-listen before reveal" below. Reading tests ignore it. |
 | `title-align: center` | before first `## Part` | Centres every passage title and sets it a size larger, the way a printed paper does. Leave the line out for the usual left-aligned title (`centre` is read too; `left` is accepted and never written back). One setting for the whole test: in the editor it is the **Left | Centre** switch at the end of the title box when you edit a passage, and setting it on one part sets it for all. Not shown for a listening test, which has no passage on screen. |
 
 ### Strands — Reading vs Listening
@@ -161,6 +163,7 @@ Group-level meta lines (all optional except where noted):
 | `options:` block | `matching`, `labelling`, `summary_drag`, `flow_chart` — **omit when `input: type` is set** (typed mode has no word bank) | The lettered list of options (see below) |
 | `summary: ...` | `summary_drag` only | The summary paragraph; mark each gap with `___` (three or more underscores). See below. |
 | `step: ...` | `flow_chart` only | One step-box's text, in chain order (one `step:` line per box); mark a gap with `___`. See below. |
+| `evidence: words \| words` | `summary_drag` / `flow_chart` / `table_completion` | The passage or transcript words each blank is answered from — one exact quote per blank, `\|` between them, in the same order as `answers:`. Leave a quote empty (`evidence:  \| words`) to skip a blank; trailing ones may be left off. These blanks have no `E.` line of their own, so this is their `E.` line. See "Evidence review" below. |
 | `answers: A \| B \| C` | `summary_drag` / `flow_chart` / `table_completion` | Word-bank mode: one option letter per blank. Typed mode (`summary_drag`/`flow_chart` with `input: type`, or `table_completion`, which is always typed): one accepted-answer entry per blank, alternatives separated by `/`. In all cases, order is reading order and this replaces `Q.`/`A.` lines. See below. |
 | `columns: A \| B \| C` | `table_completion` only | The table's header row (cells split by `\|`). See below. |
 | `row: cell \| ___ \| cell` | `table_completion` only | One line per table row (cells split by `\|`). Each `___` inside a cell is a blank — any number, anywhere in the text; `\___` is a literal. See below. |
@@ -354,6 +357,115 @@ E. the finding does not establish causation
 
 Quotes are matched loosely — curly or straight, any spacing, any case — but the
 words themselves must appear in the passage.
+
+**In the editor**, the Evidence line under a question opens into a panel with
+two boxes: **Why** (the `W.` note) and **Passage words** (the `E.` line). Select
+the words in the passage on the left and press **Take from passage** to fill
+the second one. A ✓ says which paragraph they were found in; a ✕ means they are
+not in the passage as written, and the question is then listed under "Before
+you send it out".
+
+**Evidence with AI**, at the top of a part's questions, does this for the whole
+part. It gives you a prompt holding that part's passage and its questions with
+their answers; you paste the AI's reply back, and the app shows what it would
+add before adding it. Notes are merged by question number, so nothing else in
+the test can change. A Why or Passage words you already wrote is kept unless you
+tick **Also replace the notes I already have**. The passage is already inside
+the prompt, so there is nothing to add to it — and a part with no passage yet
+gets a message saying so, not a prompt. If the AI skips some questions, add what
+it did send: the prompt then narrows to the ones still without evidence. When a
+part is finished, the window names the parts that still have none and offers
+to go on to the next. Summary, table and flow-chart blanks are asked for their
+words only (marked "(E. only)" in the prompt, with the blank shown in its
+sentence or table row): their answers share one `answers:` line, which has
+nowhere to keep a `W.` note, so a note the AI sends for one is not added.
+Open-ended questions are left out, since their `W.` is your marking note.
+
+**Summary, table and flow-chart blanks** keep their words on one group line,
+`evidence:`, written after `answers:` — one quote per blank, in the same order,
+`|` between them, empty for a blank that has none:
+
+```
+### Questions: table_completion
+columns: name of film | time | what you will see
+row: The Secrets of the Nile | 10.00 a.m. | The first ___ along the river Nile
+row: ___ Ocean | 11.45 a.m. | Life at the bottom of the sea
+answers: journey | wild
+evidence: the first journey along the Nile | Wild Ocean
+```
+
+A quote must not contain `|`. More quotes than blanks is an error naming the
+line; words that are not in the passage are listed under "Before you send it
+out", as an `E.` line's are.
+
+#### The review screen
+
+After submitting, colour shows how each question went: the question number and
+the answer box are a soft **green** when right and a soft **red** when wrong or
+skipped. There are no ✓ or ✗ marks and no instructions on the screen. Nothing
+is added to a right answer. Under a wrong one there is a single row: the right
+answer and one way to the evidence:
+
+- **▶ Play** (listening, when the transcript is timed — see "Timed transcripts")
+  plays the sentence the evidence is in (or the sentences, when the quote runs
+  across more than one), starting one sentence earlier so the lead-in is heard
+  too, stops at its end, and marks the words in the transcript. **▶ Listen** in
+  re-listening starts one sentence early in the same way. A sentence tapped in
+  the transcript plays on its own.
+- **📍 Show in text** (reading) scrolls the passage to the evidence and
+  paints it.
+
+In a listening test the screen is split 40/60: the transcript on the left (no
+divider to drag), the questions on the right, and the player docked under the
+transcript. The transcript is made of **sentences you can tap**: a tap plays exactly that sentence. A sentence is underlined when
+the pointer is over it (on a tablet, a faint dotted line is always there).
+Whatever is playing — a sentence, a question's Play, or the whole recording
+from the player — the sentence being spoken has a pale green background and
+the transcript keeps it in view. The number strip at the bottom shows every
+part at once, each part's name above its numbers, so every red number is in
+sight.
+In the answer key, **Go to question** takes the student back to that question
+with its place marked in the transcript; **Results** in the bottom bar goes
+back. A teacher opening a returned attempt sees the same screen, plus each
+second try.
+
+#### Re-listen before reveal
+
+A listening test, unless it says `review: reveal`, makes a student listen
+again before seeing what they missed. After submitting, each question they got
+wrong (or skipped) keeps its own answer box open, in red, with **▶ Listen**,
+**Check** and **Show location** under it. A letter answer is chosen again from
+a list in the same place. A wrong Check turns the box red again and leaves it
+open — the student can keep trying. A right Check turns the question green and
+moves on to the next red one. Its **Show location** is still there: it
+appears when the pointer is over the question (on a tablet it is always there,
+faintly).
+
+While a part still has open questions, the whole transcript is on the left but
+**blurred**: it can't be read, selected or tapped. **Show location** brings
+that question's sentence (or sentences) out of the blur, with a pale green
+background, plus one sentence either side for context, and scrolls to it — the location shows the answer. The box stays
+open, so the student can still type the answer in. At the top of the
+transcript, where the track title used to be, a toggle switches between
+**Show full script** and **Blur script**: a student can open the script, then
+blur it again before the next question. The blur fades in and out. Playing a
+sentence that is still blurred lights nothing. Blurred, only the locations they asked
+for one by one stay clear. Opening the full script counts as seeing every
+answer in the part. Once a part has no open questions the script opens by
+itself, unless the student chose to keep it blurred. (A question with no transcript to
+point at — a part without one, or no evidence for it — has **Show answer**
+instead, which shows the answer word.)
+
+The first retry is kept separately as the second try (and the latest one too):
+**the first score is the score**, and the results never change. A question is
+finished when a retry is right or its location (or answer) has been shown; when
+every question in a part is finished, its transcript opens fully. The numbers
+along the bottom are green for right and red for wrong or skipped; a number
+turns green once a retry is right (the score still counts the first try). The
+Flag buttons are gone once the test is over. In the answer key a waiting
+question shows only what the student wrote, in red, with **Listen again** to go
+back to it. A teacher opening a returned attempt sees everything,
+including each second try.
 
 ### `CHECK:` and `UNCONVERTED:` — flags left by the AI wizard
 
@@ -588,6 +700,94 @@ went from 323 KB to 165 KB simply by being loaded and saved again.
 - **A plain URL** (`https://example.com/chart.png`). Convenient while drafting,
   but the student's browser fetches it live, so it needs internet and the link
   must stay reachable. Swap it for an embedded file before sending the test out.
+
+### Recordings — audio inside a listening test
+
+A listening part can carry its own recording. Students get a player pinned
+above that part's questions: play/pause, a seek bar, the time, and −5 s / +5 s.
+It never starts by itself.
+
+```
+## Part 1
+audio: audio-1
+### Passage: (transcript, hidden from students)
+…
+
+## Assets
+
+### Asset: audio-1
+src: data:audio/mpeg;base64,SUQzBAAAAA…
+```
+
+| Line | Meaning |
+|---|---|
+| `audio: <asset id>` | Directly under `## Part` (before `### Passage` / `### Questions`). Names the asset this part plays. One recording per part. |
+| `### Asset: <id>` + `src: data:audio/…` | The recording itself, in the same `## Assets` section as the pictures and with the same id rules. |
+
+You don't write these by hand — a recording is far too long to paste. Use the tool:
+
+```
+python tools/add_audio.py library/tests/my-test.md 1 "Track 13.wav"
+```
+
+It shrinks the recording to a mono MP3 (64 kbps — about 0.5 MB a minute), puts
+it in `## Assets` and adds the `audio:` line to part 1. Run it again to replace
+a recording. It needs ffmpeg (`pip install imageio-ffmpeg` is the easy way);
+`--keep` embeds a small MP3 exactly as it is, with no ffmpeg.
+
+Good to know:
+
+- Recordings stay out of **📷 View pictures** and the picture pickers; the editor
+  names a part's recording beside its transcript toggle.
+- Like pictures, a recording is left out of an **answer code** (it would make the
+  code enormous) and travels inside a standalone file.
+- `plays:` (top of the file) limits how often it may be heard — see the table of
+  top-level fields.
+- A part that names a recording which isn't in the file loads with a warning, and
+  the student sees a line saying the recording is missing.
+- A big recording makes a big test file, so the editor's autosaved draft may not
+  fit in the browser's storage. Save the test as a file as usual.
+
+### Timed transcripts — where each sentence is in the recording
+
+A listening transcript can say when each sentence is spoken. A sentence then
+starts with a time range, one sentence per line:
+
+```
+### Passage: CD2 Track 13
+[0:12.2–0:16.3] Good morning, everyone, and welcome to the museum.
+[0:16.4–0:24.2] Um ... there are a few points that you need to remember, so, before you go in, I'll just run through them.
+
+[0:26.8–0:39.3] So, first of all, you've all paid and you all have a ticket ...
+```
+
+- Times are `minutes:seconds.tenths`, start then end, joined by a dash.
+- A blank line still separates paragraphs. Lines without a time stay legal, so
+  older tests and half-timed transcripts load as before.
+- A `?` before the `]` (`[0:24.2–0:26.8?]`) marks a sentence the aligner was
+  unsure of.
+- Students never see a time stamp: it is a marker, like a gloss tag, and is
+  dropped wherever the transcript is shown or searched.
+
+You don't type the times. The tool listens to the recording and writes them:
+
+```
+python tools/align.py library/tests/my-test.md --part 1 --audio "Track 13.wav"
+```
+
+It keeps the transcript's wording exactly and takes only the timing from the
+audio, skips a spoken introduction that isn't in the transcript ("Track
+thirteen ..."), and prints a match score per sentence. `--dry-run` shows the
+result without changing the file; `--labels file.txt` uses an Audacity label
+export instead of listening. It needs `pip install faster-whisper` (the speech
+model downloads itself on first use) and ffmpeg (`pip install imageio-ffmpeg`).
+
+**⏱ Sync check.** In the editor, a listening part that has a recording and a
+timed transcript shows **⏱ Sync check** beside the recording's name. It lists
+every sentence: ▶ plays exactly that one, and − / + move its start or end by
+0.1 s and replay the edge you moved. Amber rows are the ones to listen to — the
+aligner was unsure, or the times overlap a neighbour or run past the end of the
+recording. Changes go straight into the transcript.
 
 ### Adding pictures in the editor
 
