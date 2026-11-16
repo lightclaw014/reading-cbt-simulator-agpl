@@ -352,9 +352,12 @@ input.rl-live:focus, .rev-strip .rl-box:focus{outline:none;box-shadow:0 0 0 3px 
 .rl-check:not(:disabled):hover,.rl-show:hover{background:#eef4fb}
 .rl-show{font-weight:normal;border-color:var(--line);color:var(--ink)}
 .rl-show[aria-pressed="true"]{border-color:#a8d5b5;background:#eef7f1;color:#2d6a41}
-@keyframes rlNudge{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-.rl-nudge{animation:rlNudge .25s ease-in-out 2}
-@media (prefers-reduced-motion:reduce){ .rl-nudge{animation:none} }
+@keyframes rlNudge{0%,100%{transform:none}20%{transform:translateX(-3px)}45%{transform:translateX(3px)}70%{transform:translateX(-2px)}88%{transform:translateX(1px)}}
+.rl-nudge{animation:rlNudge .45s ease-out 1}
+/* The next open question, arrived at after a right retry: a soft glow that fades. */
+@keyframes rlArrive{0%{background-color:#eef4fb}100%{background-color:transparent}}
+.rl-arrive{animation:rlArrive 1.2s ease-out}
+@media (prefers-reduced-motion:reduce){ .rl-nudge,.rl-arrive{animation:none} }
 /* ---- The transcript in review: sentences you can tap to hear ---- */
 #leftpane.ts-ready .ts[role="button"], #leftpane.ts-ready .ts{cursor:pointer;border-radius:3px;transition:background-color .15s}
 #leftpane.ts-ready .ts:hover{text-decoration:underline dotted #8fb79b;text-underline-offset:3px}
@@ -1136,6 +1139,15 @@ mark.hl[data-note-id]{border-bottom:2px dotted rgba(0,0,0,.55)}
 }
 .question{margin:0 0 16px;padding:8px;border-radius:6px}
 .question.current{outline:2px solid var(--accent);outline-offset:2px}
+/* Smooth state changes: the current-question frame, answer boxes turning
+   green or red, the number strip, and the small review buttons. */
+.question{outline:2px solid transparent;outline-offset:2px;transition:outline-color .25s ease}
+.question input,.question textarea,.question select,.rl-box{transition:border-color .2s ease,background-color .25s ease,box-shadow .2s ease,color .2s ease}
+.navnum{transition:background-color .25s ease,border-color .25s ease,color .25s ease}
+.rl-listen,.rl-check,.rl-show,.ts-unblur button,.rev-ev{transition:background-color .15s ease,border-color .15s ease,color .15s ease,filter .15s ease}
+@media (prefers-reduced-motion:reduce){ .question,.question input,.question textarea,.question select,.rl-box,.navnum,.rl-listen,.rl-check,.rl-show,.ts-unblur button,.rev-ev{transition:none} }
+/* One frame at a time: while typing in a box, the box's own focus ring is enough. */
+.question.current:has(input[type="text"]:focus, input:not([type]):focus, textarea:focus, select:focus){outline-color:transparent}
 .qhead{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px}
 .qnum{
   flex:0 0 auto;min-width:26px;height:26px;padding:0 4px;border-radius:4px;
@@ -1866,7 +1878,7 @@ const DEFAULTS = { time: 20 }; // minutes, if a test omits it
 // results). Bump APP_VERSION with each release: tools/publish.py refuses to
 // publish if it differs from the newest version in CHANGELOG.md. The author's
 // mark is APP_WATERMARK; empty shows the version alone.
-const APP_VERSION = "0.16.0";
+const APP_VERSION = "0.16.1";
 const APP_WATERMARK = "lightclaw014";
 // Minutes a test runs for. 0 is a real answer — an untimed file, handed out as
 // class work or homework — so it can't go through `test.time || DEFAULTS`.
@@ -11360,7 +11372,12 @@ function refreshReview(pi, after){
   const rows = Array.prototype.slice.call(rp.querySelectorAll(".rev-strip[data-rl]"));
   const at = rows.findIndex(x=> x.dataset.rl === after);
   const next = rows.slice(at + 1).concat(rows.slice(0, at + 1)).find(x=> x.classList.contains("relisten"));
-  if(next) setTimeout(()=> revealStrip(next.dataset.rl), 600);
+  if(next) setTimeout(()=>{
+    revealStrip(next.dataset.rl);
+    const q = next.closest(".question") || next;
+    q.classList.remove("rl-arrive"); void q.offsetWidth; q.classList.add("rl-arrive");
+    setTimeout(()=> q.classList.remove("rl-arrive"), 1300);
+  }, 600);
 }
 function relistenLabel(g, q){
   if(q.n == null) return "";

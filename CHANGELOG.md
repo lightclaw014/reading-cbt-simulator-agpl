@@ -4,6 +4,17 @@ All notable changes to the IELTS Reading Simulator, newest first.
 Each version is also a **tag** on GitHub — open the repository's **"Tags"**
 page to view or restore any of them.
 
+## v0.16.1 — "Smoother" — 2026-11-16
+
+### Changed
+- **One frame at a time.** While typing in a blank, only the box's own blue ring
+  shows; the question's outer frame comes back when you click elsewhere on it.
+- **Smooth changes.** The question frame fades between questions; answer boxes,
+  the number strip and the review buttons fade between colours.
+- **Self-correcting feels calmer.** A wrong Check gives one gentle wobble, and
+  after a right retry the next open question glows softly as the page glides to
+  it. Devices set to reduce motion get no movement.
+
 ## v0.16.0 — "Listen again" — 2026-11-16
 
 ### Added
