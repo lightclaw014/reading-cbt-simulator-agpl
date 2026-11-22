@@ -4,6 +4,25 @@ All notable changes to the IELTS Reading Simulator, newest first.
 Each version is also a **tag** on GitHub — open the repository's **"Tags"**
 page to view or restore any of them.
 
+## v0.17.0 — "Homework" — 2026-11-22
+
+### Added
+- **Pick your initials.** A `roster:` line (e.g. `roster: BTs, TT, QD`) turns
+  the name step of a student file into large buttons to tap instead of a box
+  to type in.
+- **Results to the teacher's Google Sheet — opt-in.** A `submit:` line holding
+  the address of the teacher's own Sheet script makes the file send each
+  attempt on Submit: the score, every answer, and later the second tries after
+  re-listening. A short "Sending to your teacher…" screen waits for the Sheet
+  to confirm; if it can't (no internet) it says so, offers Try again, and the
+  answer code works as before. Leaving with something unsent asks first.
+  **Only a file with a `submit:` line sends anything.** The Sheet script
+  (Submissions, Answers, Item analysis, and who-has-handed-in without scores)
+  is not part of the public app.
+- **Homework pages.** A student file can carry its test as plain Markdown, which
+  the app reads when it opens and sets up as class work / homework (no clock,
+  results shown, glosses on).
+
 ## v0.16.1 — "Smoother" — 2026-11-16
 
 ### Changed

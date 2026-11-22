@@ -1416,6 +1416,24 @@ tr.incorrect{background:#fdf3f2}
 .results-actions.quiet .danger{color:var(--danger)}
 .results-actions.quiet .danger:hover{background:#fdecea}
 .results-actions .spacer{flex:1 1 auto}
+/* Homework results going to the teacher's Sheet (SECTION: SEND). */
+.send-status{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:10px 0 0;padding:8px 12px;border-radius:6px;font-size:15px;background:#f3f6fa;color:var(--muted)}
+.send-status.sent{background:#eaf5ec;color:#1f6b33}
+.send-status.failed{background:#fdecea;color:#8a1f17}
+#sendGate{position:fixed;inset:0;z-index:2100;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35)}
+.send-gate{width:min(420px,92vw);padding:26px 24px 22px;border-radius:12px;background:var(--panel);box-shadow:0 8px 30px rgba(0,0,0,.3);text-align:center}
+.send-gate .sg-icon{width:44px;height:44px;margin:0 auto 12px;border-radius:50%;font-size:26px;line-height:44px;font-weight:700}
+.send-gate .sg-icon.sg-spin{border:4px solid #dbe4ee;border-top-color:var(--accent);box-sizing:border-box;animation:sgSpin .9s linear infinite}
+@keyframes sgSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){ .send-gate .sg-icon.sg-spin{animation-duration:2.5s} }
+.send-gate.sent .sg-icon{background:#eaf5ec;color:#1f6b33}
+.send-gate.failed .sg-icon{background:#fdecea;color:#8a1f17}
+.send-gate .sg-msg{font-size:18px;font-weight:600}
+.send-gate .sg-sub{margin-top:8px;color:var(--muted);line-height:1.45}
+.send-gate .rowbtns{justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.send-gate .rowbtns button{padding:9px 16px;border:1px solid var(--line);border-radius:6px;background:#fafafa;font:inherit;cursor:pointer}
+.send-gate .rowbtns .primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.send-status button{padding:6px 14px;border:1px solid currentColor;border-radius:5px;background:#fff;color:inherit;font:inherit;cursor:pointer}
 .open-answers{display:flex;flex-direction:column;gap:12px;margin-top:10px}
 .open-answer-card{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--panel)}
 .oa-q{font-weight:bold;margin-bottom:8px}
@@ -1502,6 +1520,11 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
 .modal-overlay:not(.hidden){animation:modal-backdrop-in .18s ease both}
 .modal-overlay:not(.hidden) > .modal-panel,
 #namegate:not(.hidden) > .modal-panel{animation:modal-panel-in .2s cubic-bezier(.2,.7,.3,1) both}
+/* roster: initials to tap instead of a name to type — tablet-sized targets. */
+.roster-pick{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.roster-pick button{min-width:72px;min-height:52px;padding:10px 16px;font:inherit;font-size:18px;font-weight:600;border:1px solid var(--line);border-radius:8px;background:#fafafa;cursor:pointer}
+.roster-pick button:hover{background:#eef3f8}
+.roster-pick button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 /* The same two motions everywhere else a panel or a popover appears: the
    editor's Glosses and Pictures windows, the picture window, the asset
    picker, the gloss form and its right-click menu. Only appearing is
@@ -1566,7 +1589,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
   /* The app shell is one screen tall with its own scrolling; on paper it has to flow. */
   html,body{height:auto !important;overflow:visible !important}
   body.previewing #results,body.reviewing #results{margin-top:0}
-  .akey-ev,.results-actions,#appMark{display:none !important}
+  .akey-ev,.results-actions,.send-status,#appMark{display:none !important}
   .results-headline,.part-block,.akey-item,.open-answer-card{break-inside:avoid}
   .akey-part,.akey-head{break-after:avoid}
   .results-headline,.part-block,.akey-n,.akey-mark{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -1639,7 +1662,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible,
 <div id="namegate" class="hidden">
   <div class="modal-panel" style="max-width:480px;margin:60px auto;padding:28px;border:1px solid var(--line);border-radius:8px;background:var(--panel)">
     <h2 id="namegateTitle" style="margin-bottom:6px"></h2>
-    <p class="sub" style="color:var(--muted);margin-bottom:16px">Enter your name before starting. It will be saved with your answers and results.</p>
+    <p id="namegateSub" class="sub" style="color:var(--muted);margin-bottom:16px">Enter your name before starting. It will be saved with your answers and results.</p>
+    <div id="namegatePick" class="roster-pick hidden" role="group" aria-label="Your initials"></div>
     <input id="namegateInput" type="text" placeholder="Your full name" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:5px;font-size:15px;margin-bottom:14px">
     <div class="rowbtns"><button class="primary" id="namegateBegin">Begin test</button></div>
     <div id="namegateErr" class="hidden" style="color:var(--danger);margin-top:8px">Please enter your name.</div>
@@ -1878,7 +1902,7 @@ const DEFAULTS = { time: 20 }; // minutes, if a test omits it
 // results). Bump APP_VERSION with each release: tools/publish.py refuses to
 // publish if it differs from the newest version in CHANGELOG.md. The author's
 // mark is APP_WATERMARK; empty shows the version alone.
-const APP_VERSION = "0.16.1";
+const APP_VERSION = "0.17.0";
 const APP_WATERMARK = "lightclaw014";
 // Minutes a test runs for. 0 is a real answer — an untimed file, handed out as
 // class work or homework — so it can't go through `test.time || DEFAULTS`.
@@ -1903,7 +1927,11 @@ try{
   console.error("Could not parse baked-config — falling back to the test picker.", e);
 }
 const STANDALONE = !!BAKED.standalone;
-const BAKED_TEST = BAKED.test || null;
+let BAKED_TEST = BAKED.test || null;
+// A homework page written by tools/publish_homework.py carries its test as
+// Markdown instead (Python can't run the parser). boot() parses it with the
+// app's own parser and shapes it as homework — see homeworkFromMd().
+const BAKED_HOMEWORK_MD = typeof BAKED.homework === "string" ? BAKED.homework : "";
 // A baked-in attempt (student name + answers + score) — present only in a
 // completed file a student has exported and sent back to the teacher.
 const BAKED_ATTEMPT = BAKED.attempt || null;
@@ -2358,6 +2386,14 @@ function pErr(line, msg){
   e.isParse = true;
   return e;
 }
+// "BTs, TT,QD" (or an array, from JSON) → ["BTs","TT","QD"]: trimmed, no
+// empties, no repeats. The roster: line and validateTest share it.
+function rosterList(v){
+  const raw = Array.isArray(v) ? v : String(v == null ? "" : v).split(/[,;]/);
+  const out = [];
+  raw.forEach(s=>{ s = String(s).trim(); if(s && out.indexOf(s) === -1) out.push(s); });
+  return out;
+}
 
 const TYPES_WITH_OPTIONS = ["matching","labelling","mcq_multi","summary_drag","flow_chart"];
 // Typed fill-in-the-blank family: stem + a typed answer graded against an
@@ -2444,6 +2480,22 @@ function parseMarkdown(src){
       if(v === "reveal" || v === "off") test.review = "reveal";
       else if(v === "relisten" || v === "re-listen" || v === "on") delete test.review;
       else throw pErr(lineNo, "'review:' must be relisten or reveal — found \""+m[1].trim()+"\".");
+      continue;
+    }
+    // roster: BTs, TT, QD — the class's initials. The name step becomes a row
+    // of buttons to pick from instead of a box to type in.
+    if((m = line.match(/^roster:\s*(.*)$/i)) && !part){
+      const names = rosterList(m[1]);
+      if(!names.length) throw pErr(lineNo, "'roster:' needs at least one name, e.g. roster: BTs, TT, QD");
+      test.roster = names;
+      continue;
+    }
+    // submit: <web app address> — a homework file sends each attempt there
+    // (the teacher's results Sheet, tools/sheet/). Without it nothing is sent.
+    if((m = line.match(/^submit:\s*(.*)$/i)) && !part){
+      const url = m[1].trim();
+      if(!/^https:\/\/\S+$/i.test(url)) throw pErr(lineNo, "'submit:' must be a web address starting with https:// — found \""+url+"\".");
+      test.submit = url;
       continue;
     }
     // Where every passage title sits: "left" (the default, never written) or
@@ -2868,6 +2920,9 @@ function validateTest(test){
   const warnings = [];
   if(!test.title) errs.push("Test has no title.");
   if(!test.parts || !test.parts.length) errs.push("Test has no parts.");
+  // Homework settings (JSON can carry them too): a list of names, an https address.
+  if(test.roster != null && (!Array.isArray(test.roster) || !rosterList(test.roster).length)) errs.push("'roster' must be a list of names, e.g. roster: BTs, TT, QD.");
+  if(test.submit != null && !/^https:\/\/\S+$/i.test(String(test.submit))) errs.push("'submit' must be a web address starting with https://.");
   let expected = 1;
   const listening = test.strand === "listening";
   (test.parts||[]).forEach((part, pi)=>{
@@ -3053,6 +3108,8 @@ const State = {
   figureOpen:{},  // key: partIndex → false when the listening figure panel is hidden (this attempt only)
   figureZoom:{},  // key: partIndex → that panel's zoom factor
   attemptNo:1,   // which attempt this is (1st, 2nd, …); persisted per test, bumped on each fresh start / start-over
+  attemptId:"",  // random id for this attempt: the results Sheet updates its row instead of adding another
+  sentKey:"",    // what the Sheet last confirmed receiving (see resultsKey); "" = nothing yet
   timerId:null
 };
 
@@ -9543,6 +9600,8 @@ function testToMarkdown(test){
   if(test.showResults === false) lines.push("results: hidden");
   if(test.plays === 1 || test.plays === 2) lines.push("plays: " + test.plays);
   if(test.review === "reveal") lines.push("review: reveal");
+  if(Array.isArray(test.roster) && test.roster.length) lines.push("roster: " + test.roster.join(", "));
+  if(test.submit) lines.push("submit: " + test.submit);
   if(test.titleAlign === "center") lines.push("title-align: center");
   lines.push("");
 
@@ -9729,9 +9788,11 @@ function saveState(){
       rightHighlights:State.rightHighlights, annotations:State.annotations,
       notes:State.notes, remaining:State.remaining, split:State.split, zoom:State.zoom,
       currentN:State.currentN, submitted:State.submitted, attemptNo:State.attemptNo,
-      audio:State.audio, second:State.second
+      audio:State.audio, second:State.second, attemptId:State.attemptId, sentKey:State.sentKey
     }));
   }catch(e){ /* storage may be unavailable; app still runs in-memory */ }
+  // After Submit, a change (a second try, Show location) goes on to the Sheet.
+  if(State.submitted) sendResultsSoon(SEND_SETTLE_MS);
 }
 
 function loadState(){
@@ -9754,6 +9815,8 @@ function loadState(){
     State.attemptNo = s.attemptNo || 0; // 0 = an old save with no attempt number yet
     State.audio = s.audio || {};        // plays used + where each recording was left
     State.second = s.second || {};      // second tries after re-listening
+    State.attemptId = s.attemptId || ""; // older saves have none: startTest makes one
+    State.sentKey = s.sentKey || "";
     return true;
   }catch(e){ return false; }
 }
@@ -10306,6 +10369,7 @@ function startTest(test, presetName, preview){
   State.remaining = testMinutes(test)*60;
   State.split=50; State.zoom=1; State.currentN=1; State.submitted=false; State.partIndex=0; State.attemptNo=0; State.reveal={};
   State.figureOpen={}; State.figureZoom={}; State.audio={}; State.second={};
+  State.attemptId = ""; State.sentKey = ""; sendState = "";
   resultsAreTeacherView = false; // a fresh live attempt is the student's own
   returnedFileHeld = false;
   if(presetName) State.studentName = presetName;
@@ -10314,6 +10378,7 @@ function startTest(test, presetName, preview){
     // A brand-new attempt (first run, or after "Start over") gets the next
     // number; a resumed one keeps the number saved with it.
     if(!resumed || !State.attemptNo) State.attemptNo = nextAttemptNo(test.id);
+    if(!State.attemptId) State.attemptId = newAttemptId();
     saveState(); // persist name + attempt number immediately
   } else {
     State.attemptNo = 1; // throwaway teacher preview
@@ -10369,6 +10434,7 @@ function loadCompletedAttempt(test, attempt, fromFile){
   State.figureOpen = {}; State.figureZoom = {}; State.audio = {};
   State.second = attempt.second || {};
   State.partIndex = 0;
+  State.attemptId = ""; State.sentKey = ""; // someone else's finished work: never sent on from here
 
   $("#namegate").classList.add("hidden");
   $("#start").classList.add("hidden");
@@ -12521,6 +12587,166 @@ function bandFor(score){
 }
 
 /* ============================================================================
+   SECTION: SEND  (homework results → the teacher's Sheet; opt-in)
+   Only a test with a `submit:` address ever sends, and only a student's own
+   live attempt: never a teacher preview, a returned file or a pasted code.
+   The body is text/plain with no custom headers, so the browser sends it
+   straight away (no CORS preflight); the Sheet script (tools/sheet/Code.gs)
+   answers {ok:true}. The whole attempt goes each time, under its attemptId,
+   and the Sheet replaces that attempt's rows — so retries and later second
+   tries never count twice. Offline, it says so and the answer code remains.
+   ========================================================================== */
+const SEND_TRIES = 3;            // attempts per send, a little apart
+const SEND_SETTLE_MS = 2500;     // after a review change, wait for the next one
+const SEND_TIMEOUT_MS = 15000;
+let sendState = "";              // "" | "sending" | "sent" | "failed" — view only
+let sendTimer = null, sendBusy = false;
+
+function newAttemptId(){
+  return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+}
+function homeworkSends(){
+  return !!(State.test && State.test.submit && State.submitted && State.attemptId &&
+            !studentPreview && !reviewingAttempt && !resultsAreTeacherView && !EDITOR_PREVIEW);
+}
+// Everything the Sheet stores about this attempt, first tries and second.
+function resultsPayload(){
+  const graded = gradeTest();
+  const items = graded.rows.map(row=>{
+    const s = (row.grp && row.q && State.second[secondKey(row.grp, row.q)]) || {};
+    const it = { q:row.numLabel, type:row.type, answer:row.your, key:row.key, ok:!!row.correct, points:row.points, max:row.max };
+    if(s.a != null){ it.second = s.a; it.secondOk = !!s.ok; }
+    if(s.last != null && s.last !== s.a) it.last = s.last;
+    if(s.located) it.located = true;
+    if(s.shown) it.shown = true;
+    return it;
+  });
+  return { kind:"ielts-sim-result", v:1, app:APP_VERSION,
+           attemptId:State.attemptId, testId:State.test.id || "test", testTitle:State.test.title || "",
+           student:State.studentName || "", attemptNo:State.attemptNo || 1,
+           score:graded.score, total:graded.total, items };
+}
+// What has to reach the Sheet; the same key twice means nothing new to send.
+function resultsKey(p){ return JSON.stringify([p.attemptId, p.student, p.score, p.items]); }
+function resultsUnsent(){ return homeworkSends() && resultsKey(resultsPayload()) !== State.sentKey; }
+
+function sendResultsSoon(ms){
+  if(!homeworkSends()) return;
+  clearTimeout(sendTimer);
+  sendTimer = setTimeout(sendResults, ms || 0);
+}
+async function sendResults(){
+  clearTimeout(sendTimer); sendTimer = null;
+  if(!homeworkSends()) return;
+  if(sendBusy){ sendResultsSoon(SEND_SETTLE_MS); return; } // one at a time; this change follows
+  const payload = resultsPayload(), key = resultsKey(payload);
+  if(key === State.sentKey){ if(sendState !== "sent"){ sendState = "sent"; paintSendStatus(); } return; }
+  sendBusy = true;
+  sendState = "sending"; paintSendStatus();
+  let ok = false;
+  for(let i = 0; i < SEND_TRIES && !ok; i++){
+    if(i) await new Promise(r=> setTimeout(r, 1500 * i));
+    ok = await postResults(State.test.submit, payload);
+  }
+  sendBusy = false;
+  if(ok){ State.sentKey = key; saveState(); } // saveState may queue the next change, if any
+  sendState = ok ? "sent" : "failed";
+  paintSendStatus();
+}
+// One POST. True only when the Sheet says it has the attempt.
+async function postResults(url, payload){
+  const ctl = typeof AbortController === "function" ? new AbortController() : null;
+  const timer = ctl ? setTimeout(()=> ctl.abort(), SEND_TIMEOUT_MS) : null;
+  try{
+    const res = await fetch(url, { method:"POST", body:JSON.stringify(payload),
+      headers:{ "Content-Type":"text/plain;charset=utf-8" }, redirect:"follow", signal:ctl ? ctl.signal : undefined });
+    if(!res.ok) return false;
+    const data = await res.json();
+    return !!(data && data.ok && data.attemptId === payload.attemptId);
+  }catch(e){
+    return false;
+  }finally{ if(timer) clearTimeout(timer); }
+}
+// Leaving the page with a change still waiting: one last unconfirmed send.
+function sendResultsOnLeave(){
+  if(!resultsUnsent() || sendBusy || !navigator.sendBeacon) return;
+  try{ navigator.sendBeacon(State.test.submit, new Blob([JSON.stringify(resultsPayload())], { type:"text/plain;charset=utf-8" })); }catch(e){}
+}
+// The line on the results / submitted screen that says where the answers went.
+function sendStatusEl(){
+  if(!homeworkSends()) return null;
+  const box = document.createElement("div");
+  box.id = "sendStatus";
+  box.className = "send-status";
+  box.setAttribute("role", "status");
+  if(!sendState) sendState = resultsUnsent() ? "sending" : "sent";
+  return box;
+}
+function paintSendStatus(){
+  paintSendGate();
+  const box = document.getElementById("sendStatus");
+  if(!box) return;
+  box.innerHTML = "";
+  box.className = "send-status " + sendState;
+  const msg = document.createElement("span");
+  msg.textContent = sendState === "sent" ? "✓ Sent to your teacher"
+    : sendState === "failed" ? "Your answers could not be sent to your teacher (is the internet on?). Try again, or use 📋 Export answer code below and send your teacher the code."
+    : "Sending your answers to your teacher…";
+  box.appendChild(msg);
+  if(sendState === "failed"){
+    const again = document.createElement("button");
+    again.type = "button"; again.textContent = "Try again";
+    again.onclick = ()=> sendResults();
+    box.appendChild(again);
+  }
+}
+// Straight after Submit, a small screen holds the student until the Sheet has
+// the attempt — so closing the tab at once can't lose it. It goes by itself
+// once sent; if sending fails it says so and lets them carry on (the answer
+// code is on the page behind). Never shown again once the Sheet has it.
+function showSendGate(){
+  if(!homeworkSends() || State.sentKey || $("#sendGate")) return;
+  const gate = document.createElement("div");
+  gate.id = "sendGate";
+  gate.className = "modal-overlay";
+  gate.setAttribute("role", "alertdialog");
+  gate.setAttribute("aria-live", "polite");
+  gate.innerHTML = "<div class='modal-panel send-gate'><div class='sg-icon'></div><div class='sg-msg'></div><div class='sg-sub'></div><div class='rowbtns'></div></div>";
+  document.body.appendChild(gate);
+  paintSendGate();
+}
+function paintSendGate(){
+  const gate = $("#sendGate");
+  if(!gate) return;
+  const icon = gate.querySelector(".sg-icon"), msg = gate.querySelector(".sg-msg");
+  const sub = gate.querySelector(".sg-sub"), btns = gate.querySelector(".rowbtns");
+  btns.innerHTML = "";
+  icon.classList.remove("sg-spin");
+  gate.querySelector(".send-gate").className = "modal-panel send-gate " + (sendState || "sending");
+  if(sendState === "sent"){
+    icon.textContent = "✓"; msg.textContent = "Sent to your teacher"; sub.textContent = "";
+    setTimeout(()=>{ const g = $("#sendGate"); if(g) g.remove(); }, 1000);
+    return;
+  }
+  if(sendState === "failed"){
+    icon.textContent = "!";
+    msg.textContent = "Your answers could not be sent to your teacher.";
+    sub.textContent = "Check the internet and try again. Or continue, and send your teacher the answer code instead (📋 Export answer code).";
+    const again = document.createElement("button");
+    again.type = "button"; again.className = "primary"; again.textContent = "Try again";
+    again.onclick = ()=> sendResults();
+    const go = document.createElement("button");
+    go.type = "button"; go.textContent = "Continue without sending";
+    go.onclick = ()=> gate.remove();
+    btns.appendChild(again); btns.appendChild(go);
+    return;
+  }
+  icon.textContent = ""; icon.classList.add("sg-spin");
+  msg.textContent = "Sending your answers to your teacher…";
+  sub.textContent = "Please don't close this page yet.";
+}
+
+/* ============================================================================
    SECTION: RESULTS
    ========================================================================== */
 
@@ -12544,6 +12770,8 @@ function resultsHiddenForStudent(){
 function presentResults(){
   if(resultsHiddenForStudent()) showSubmissionConfirmation();
   else showResults();
+  showSendGate();     // a homework file not yet in the Sheet: wait here for it
+  sendResultsSoon(0); // a homework file: on to the teacher's Sheet (no-op otherwise)
 }
 // Results-off view: confirm the submission and offer the answer code, nothing else.
 function showSubmissionConfirmation(){
@@ -12560,12 +12788,15 @@ function showSubmissionConfirmation(){
     who.textContent = "Student: " + State.studentName;
     r.appendChild(who);
   }
+  const sent = sendStatusEl();
+  if(sent){ r.appendChild(sent); paintSendStatus(); }
   const card = document.createElement("div");
   card.style.cssText = "margin:32px auto;max-width:560px;text-align:center;padding:28px;border:1px solid var(--line);border-radius:12px;background:var(--panel)";
   card.innerHTML = "<div style='font-size:44px;color:var(--ok,#2e7d32)'>✓</div>"+
     "<div style='font-size:20px;font-weight:bold;margin-top:8px'>Your answers have been submitted.</div>"+
     "<div style='color:var(--muted);margin-top:10px;line-height:1.5'>" + (returnedFileHeld
       ? "Results are not shown for this test. Teachers can open the marked work with the button below."
+      : sent ? "Results are not shown for this test. Your answers go to your teacher automatically."
       : "Results are not shown for this test. Send your teacher your answer code or the completed file so they can mark your work.") + "</div>";
   r.appendChild(card);
   const actions = document.createElement("div");
@@ -12617,6 +12848,8 @@ function showResults(){
     who.textContent = "Student: " + State.studentName;
     r.appendChild(who);
   }
+  const sent = sendStatusEl();
+  if(sent){ r.appendChild(sent); paintSendStatus(); }
 
   // Two views live side by side; only one is shown at a time (both are forced
   // visible for printing — see the print @media rule).
@@ -12946,6 +13179,18 @@ function shapedForExport(test, opts){
     if(opts.glosses) delete part.glossesOff; else part.glossesOff = true;
   });
   return copy;
+}
+// A homework page's test (BAKED_HOMEWORK_MD): parsed and checked exactly as an
+// import would be, then given the Class work / homework shape — no clock,
+// results shown, glosses on, its own plays: kept. Throws with the reasons.
+function homeworkFromMd(md){
+  const test = migrateTest(parseMarkdown(String(md).trim()));
+  assignUids(test);
+  const { errors } = validateTest(test);
+  if(errors.length) throw new Error(errors.join(" "));
+  const shape = EXPORT_SHAPES.classwork;
+  return shapedForExport(test, { timed:shape.timed, results:shape.results, glosses:shape.glosses,
+                                 plays:(test.plays === 1 || test.plays === 2) ? test.plays : 0 });
 }
 function exportStandalone(test){
   if(!test){ alert("Load a test first."); return; }
@@ -14383,6 +14628,47 @@ function selfCheckCases(){
     if(!/relisten or reveal/.test(threw)) throw new Error("a wrong review: value was not refused: " + threw);
   });
 
+  test("roster: and submit: are read, kept and refused when wrong", ()=>{
+    const md = "# Test: H\ntime: 5\nEXTRA\n\n## Part 1\n### Passage: P\nText.\n\n### Questions: completion\nQ. A ___.\nA. b\n";
+    const t = parseMarkdown(md.replace("EXTRA", "roster: BTs, TT ,QD,, TT\nsubmit: https://script.google.com/macros/s/abc/exec"));
+    if(JSON.stringify(t.roster) !== '["BTs","TT","QD"]') throw new Error("roster read as " + JSON.stringify(t.roster));
+    if(t.submit !== "https://script.google.com/macros/s/abc/exec") throw new Error("submit read as " + t.submit);
+    const back = parseMarkdown(testToMarkdown(t));
+    if(JSON.stringify(back.roster) !== JSON.stringify(t.roster) || back.submit !== t.submit) throw new Error("roster/submit did not survive the file");
+    if(validateTest(t).errors.length) throw new Error("a good homework test was refused: " + validateTest(t).errors.join("; "));
+    const plain = parseMarkdown(md.replace("EXTRA", ""));
+    if("roster" in plain || "submit" in plain || /roster:|submit:/.test(testToMarkdown(plain))) throw new Error("a test without them gained them");
+    let threw = "";
+    try{ parseMarkdown(md.replace("EXTRA", "submit: http://example.com")); }catch(e){ threw = e.message; }
+    if(!/https:\/\//.test(threw)) throw new Error("an http:// submit address was not refused: " + threw);
+  });
+
+  test("A homework result carries first and second tries, and only from a live attempt", ()=>{
+    const md = "# Test: H\nid: hw\ntime: 5\nsubmit: https://example.com/exec\n\n## Part 1\n### Passage: P\nText.\n\n### Questions: completion\nQ. A ___.\nA. bee\nQ. C ___.\nA. dee\n";
+    const keep = { test:State.test, answers:State.answers, second:State.second, submitted:State.submitted, attemptId:State.attemptId, studentName:State.studentName };
+    try{
+      const t = parseMarkdown(md); assignUids(t);
+      Object.assign(State, { test:t, answers:{ 1:"bee", 2:"see" }, second:{ 2:{ a:"dee", ok:true, last:"dee", located:true } }, submitted:true, attemptId:"x1", studentName:"QD" });
+      const p = resultsPayload();
+      if(p.score !== 1 || p.total !== 2 || p.student !== "QD" || p.attemptId !== "x1") throw new Error("header wrong: " + JSON.stringify(p));
+      const q2 = p.items[1];
+      if(q2.ok || q2.answer !== "see" || q2.second !== "dee" || !q2.secondOk || !q2.located || "last" in q2) throw new Error("question 2 wrong: " + JSON.stringify(q2));
+      if(!homeworkSends()) throw new Error("a live homework attempt would not send");
+      State.attemptId = "";
+      if(homeworkSends()) throw new Error("an attempt with no id (a returned file) would send");
+    } finally { Object.assign(State, keep); }
+  });
+
+  test("A homework page's Markdown becomes the homework shape", ()=>{
+    const md = "# Test: H\nid: dc1-1\ntime: 30\nresults: hidden\nplays: 2\nroster: QD\nsubmit: https://example.com/exec\n\n## Part 1\n### Passage: P\nText.\n\n### Questions: completion\nQ. A ___.\nA. b\n";
+    const t = homeworkFromMd(md);
+    if(t.id !== "dc1-1" || testMinutes(t) !== 0 || t.showResults !== true || t.plays !== 2) throw new Error("shape wrong: " + JSON.stringify({ id:t.id, time:t.time, results:t.showResults, plays:t.plays }));
+    if(JSON.stringify(t.roster) !== '["QD"]' || t.submit !== "https://example.com/exec") throw new Error("roster/submit lost");
+    let threw = "";
+    try{ homeworkFromMd("# Test: Broken\n\n## Part 1\n"); }catch(e){ threw = e.message; }
+    if(!threw) throw new Error("a broken homework test was accepted");
+  });
+
   test("A picture used in three places is stored once", ()=>{
     const t = parseMarkdown(SC_MD);
     const used = assetUsage(t);   // part figure + inline paragraph + group figure
@@ -15048,6 +15334,16 @@ function setupFileDrop(){
 }
 
 function wireEvents(){
+  // A homework change still waiting to reach the Sheet goes as the page closes
+  // or the tablet switches away (pagehide alone is unreliable on tablets).
+  window.addEventListener("pagehide", sendResultsOnLeave);
+  // …and before that, the browser's own "Leave site?" while anything is unsent.
+  window.addEventListener("beforeunload", e=>{
+    if(!resultsUnsent()) return;
+    sendResultsOnLeave();
+    e.preventDefault(); e.returnValue = "";
+  });
+  document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState === "hidden") sendResultsOnLeave(); });
   $("#zoomIn").onclick = ()=> changeZoom(ZOOM_STEP);
   $("#zoomOut").onclick = ()=> changeZoom(-ZOOM_STEP);
   $("#hlClear").onclick = clearHighlights;
@@ -15132,6 +15428,7 @@ function boot(){
   else mark.textContent = ["v" + APP_VERSION, APP_WATERMARK].filter(Boolean).join(" · ");
   if(SELF_CHECK){ $("#start").classList.add("hidden"); runSelfCheck(); return; }
   try{
+    if(STANDALONE && !BAKED_TEST && BAKED_HOMEWORK_MD) BAKED_TEST = homeworkFromMd(BAKED_HOMEWORK_MD);
     if(STANDALONE && BAKED_TEST){
       // Exported single-file test: skip the picker entirely.
       $("#start").classList.add("hidden");
@@ -15169,12 +15466,34 @@ function showNameGate(test){
   $("#namegateTitle").textContent = test.title;
   const input = $("#namegateInput");
   const err = $("#namegateErr");
+  const pick = $("#namegatePick");
   input.value = "";
   err.classList.add("hidden");
-  input.focus();
+  // roster: a button per name to tap (and tap again to change) instead of typing.
+  const roster = rosterList(test.roster);
+  let chosen = "";
+  pick.innerHTML = "";
+  pick.classList.toggle("hidden", !roster.length);
+  input.classList.toggle("hidden", !!roster.length);
+  $("#namegateSub").textContent = roster.length
+    ? "Tap your initials, then Begin. They will be saved with your answers and results."
+    : "Enter your name before starting. It will be saved with your answers and results.";
+  err.textContent = roster.length ? "Please tap your initials." : "Please enter your name.";
+  roster.forEach(n=>{
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = n;
+    b.setAttribute("aria-pressed", "false");
+    b.onclick = ()=>{
+      chosen = n;
+      pick.querySelectorAll("button").forEach(x=> x.setAttribute("aria-pressed", String(x === b)));
+      err.classList.add("hidden");
+    };
+    pick.appendChild(b);
+  });
+  if(!roster.length) input.focus();
   const begin = ()=>{
-    const name = input.value.trim();
-    if(!name){ err.classList.remove("hidden"); input.focus(); return; }
+    const name = roster.length ? chosen : input.value.trim();
+    if(!name){ err.classList.remove("hidden"); if(!roster.length) input.focus(); return; }
     startTest(test, name);
   };
   $("#namegateBegin").onclick = begin;
