@@ -8,18 +8,21 @@ everything is marked on the spot.
 **Try it:** open the hosted page, or download `index.html` and double-click it.
 
 Nothing is uploaded. Tests, answers and progress stay in the browser on the
-computer they were typed on.
+computer they were typed on. The one exception is a homework file a teacher
+has set up with a `submit:` address: it sends that student's results to the
+teacher's own Google Sheet, and says so on screen.
 
 ## What's new
 
-**v0.16.1 — "Smoother"** (16 Nov 2026)
-- Listening tests carry their own recordings, with an optional play limit and
-  a transcript timed sentence by sentence.
-- After a listening test, students retry what they got wrong: the transcript
-  stays blurred, ▶ Listen replays the answer with its lead-in, and **Show
-  location** brings out just the right sentences. The first try is the score.
-- Calmer, smoother screens: soft colours, one focus frame at a time, gentle
-  transitions.
+**v0.17.0 — "Homework"** (22 Nov 2026)
+- Students pick their initials from the class list (`roster:`) instead of
+  typing a name.
+- Opt-in results for homework: a file with a `submit:` line sends each
+  attempt — score, answers and second tries — to the teacher's own Google
+  Sheet, waits for it to arrive, and falls back to the answer code if it
+  can't. Files without the line send nothing, as before.
+- Earlier, in v0.16: recordings inside listening tests, timed transcripts, and
+  a review where students listen again and retry before the answer is shown.
 
 Every version and what changed: **[CHANGELOG.md](CHANGELOG.md)**.
 
